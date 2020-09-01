@@ -19,6 +19,8 @@
                 font-weight: 200;
                 height: 100vh;
                 margin: 0;
+
+                background-image: url('https://img.pngio.com/technology-blue-background-information-png-and-background-image-technology-background-png-1920_1000.jpg');
             }
 
             .full-height {
@@ -77,11 +79,11 @@
             @component('components.header')
             @endcomponent
     
-            <div class="container text-center mt-5">
+            <div class="container text-center mt-5 text-warning">
     
-                <h1>Welcome to the Cs Cannon Test</h1>
+                <h1 class='font-weight-bold'>Welcome to the Cs Cannon Test</h1>
             
-                <h3>Here you can determine which Datasource you can use</h3>
+                <h3 class='font-weight-bold'>Here you can determine which Datasource you can use</h3>
             
             </div>
     
