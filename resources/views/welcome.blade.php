@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>CsCannon Test</title>
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -77,7 +77,7 @@
             @component('components.header')
             @endcomponent
     
-            <div class="container text-center mt-3">
+            <div class="container text-center mt-5">
     
                 <h1>Welcome to the Cs Cannon Test</h1>
             

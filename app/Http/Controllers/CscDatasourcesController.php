@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 use CsCannon\AssetCollectionFactory;
 use CsCannon\AssetFactory;
 use CsCannon\BlockchainRouting;
-use CsCannon\Blockchains\BlockchainAddress;
 use CsCannon\Blockchains\Counterparty\DataSource\XchainDataSource;
 use CsCannon\Blockchains\Counterparty\DataSource\XchainOnBcy;
 use CsCannon\Blockchains\DataSource\CrystalSuiteDataSource;
@@ -67,13 +66,85 @@ class CscDatasourcesController extends Controller
 
         foreach($datasources as $datasource){
 
-            $addressToQuery->setDataSource(new $datasource['name']);
+            $myDatasource = $this->getDatasourceClass($datasource['name']);
 
-            $results[] = $address->$function();
+            $addressToQuery->setDataSource($myDatasource);
+
+            $results[] = $addressToQuery->$function();
 
         }
 
         dd($results);
+
+    }
+
+
+    private function getDatasourceClass(string $datasource){
+
+        switch($datasource){
+
+            case 'CrystalSuiteDataSource':
+
+                return new CrystalSuiteDataSource;
+            break;
+
+            case 'XchainDataSource':
+
+                return new XchainDataSource;
+            break;
+
+            case 'XchainOnBcy':
+
+                return new XchainOnBcy;
+            break;
+
+            case 'BlockscoutAPI':
+
+                return new BlockscoutAPI;
+            break;
+
+            case 'InfuraProvider':
+                
+                return new InfuraProvider;
+            break;
+
+            case 'InfuraProviderRinkeby':
+
+                return new InfuraProviderRinkeby;
+            break;
+
+            case 'InfuraRopstenProvider':
+
+                return new InfuraRopstenProvider;
+            break;
+
+            case 'OpenSeaImporter':
+
+                return new OpenSeaImporter;
+            break;
+
+            case 'OpenSeaRinkebyDatasource':
+
+                return new OpenSeaRinkebyDatasource;
+            break;
+
+            case 'phpWeb3':
+
+                return new phpWeb3;
+            break;
+
+            case 'BaobabProvider':
+
+                return new BaobabProvider;
+            break;
+
+            case 'OfficialProvider':
+
+                return new OfficialProvider;
+            break;
+
+        }
+
 
     }
 
