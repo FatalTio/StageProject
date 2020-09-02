@@ -22,7 +22,7 @@
             }
 
             body{
-                background-color: black;
+                background: linear-gradient(#000000 50%, #343a40);
             }
 
             .full-height {
@@ -70,5 +70,8 @@
         </style>
 
     </head>
+
+    <body>
+    </body>
 
 </html>

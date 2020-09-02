@@ -18,6 +18,10 @@
         bottom: 0;
     }
 
+    .contractButton{
+        box-shadow: 1px 1px 5px #ffc107;
+    }
+
 </style>
 <body>
 <section>

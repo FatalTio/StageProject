@@ -75,8 +75,11 @@ class CscDatasourcesController extends Controller
 
             $timeForRequest = $endTime - $startTime;
 
-            $results[$datasource['name']]['time'] = $timeForRequest . ' sec';
-            $results[$datasource['name']]['contracts'] = $cscResponse->contracts;
+            if($cscResponse){
+                
+                $results[$datasource['name']]['time'] = $timeForRequest . ' sec';
+                $results[$datasource['name']]['contracts'] = $cscResponse->contracts;
+            }
 
         }
 

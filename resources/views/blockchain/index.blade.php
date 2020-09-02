@@ -14,10 +14,6 @@
         opacity : 0.5;
     }
 
-    #bodyId{
-        background: linear-gradient(#000000 50%, #343a40);
-    }
-
 </style>
 <body>
 <h2 class="text-center text-warning font-weight-bold mt-3"> Enter your address and choose your blockchain</h2>
