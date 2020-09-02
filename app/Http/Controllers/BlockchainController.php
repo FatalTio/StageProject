@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\DB;
 class BlockchainController extends Controller
 {
 
-    public function getBlockchains(){
+    public function index(){
 
-        $blockchains = DB::table('blockchain')
+        $datasources = DB::table('datasource')
                         ->select()
                         ->get();
 
-        return view('welcome', [
-            'blockchains'   => $blockchains
+        return view('index', [
+            'datasources'   => $datasources
         ]);
     }
 
@@ -32,6 +32,18 @@ class BlockchainController extends Controller
         $result = json_decode(json_encode($blockchains), true);
 
         // return view()
+    }
+
+
+    public function cscFunctionstest(){
+
+        $blockchains = DB::table('blockchain')
+                        ->select()
+                        ->get();
+
+        return view('blockchain/index', [
+            'blockchains'   => $blockchains
+        ]);
     }
 
 

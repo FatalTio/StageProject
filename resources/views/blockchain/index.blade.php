@@ -1,3 +1,7 @@
+@include('components/header')
+
+@extends('welcome')
+
 <style>
 
     #blockchain_choose{
@@ -10,11 +14,16 @@
         opacity : 0.5;
     }
 
+    #bodyId{
+        background: linear-gradient(#000000 50%, #343a40);
+    }
+
 </style>
+<body>
+<h2 class="text-center text-warning font-weight-bold mt-3"> Enter your address and choose your blockchain</h2>
 
+<section id="blockchain_choose" class="rounded text-light container col-6 mt-5 pt-5 pb-5">
 
-
-<section id="blockchain_choose" class="rounded text-light bg-dark container col-6 mt-5 pt-5 pb-5">
 
     <form class="container text-center col-6 font-weight-bold" action="{{ url('/testDatasources') }}" method="POST">
         <div class="form-group">
@@ -65,3 +74,4 @@
     </form>
 
 </section>
+</body>

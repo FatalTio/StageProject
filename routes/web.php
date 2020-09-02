@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlockchainController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,11 +18,12 @@ Route::get('/test', function () {
     return view('welcome');
 });
 
-Route::get('/index', 'AppController@index');
-
 Route::get('/init', 'AppController@init');
 
 Route::get('/blockchain/{blockchainId}', 'BlockchainController@getBlockchainsSources');
-Route::get('/blockchains', 'BlockchainController@getBlockchains');
 
-Route::post('/testDatasources', 'CscDatasourcesController@testAllDatasources');
+Route::get('/cscFunctions', 'BlockchainController@cscFunctionstest')->name('cscFunctions');
+
+Route::get('/index', 'BlockchainController@index');
+
+Route::post('/testDatasources', 'CscDatasourcesController@testAllDatasources')->name('testDatasources');

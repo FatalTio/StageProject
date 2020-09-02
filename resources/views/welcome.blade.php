@@ -17,14 +17,16 @@
                 color: #636b6f;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
-                height: 100vh;
+                min-height: 100%;
                 margin: 0;
+            }
 
-                background-image: url('https://img.pngio.com/technology-blue-background-information-png-and-background-image-technology-background-png-1920_1000.jpg');
+            body{
+                background-color: black;
             }
 
             .full-height {
-                height: 100vh;
+                height: 100%;
             }
 
             .flex-center {
@@ -65,33 +67,8 @@
                 margin-bottom: 30px;
             }
 
-            footer{
-                position: absolute;
-                bottom: 0;
-                color: #fff;
-                height: 100px;
-            }
         </style>
+
     </head>
-    <body>
-        <div>
 
-            @component('components.header')
-            @endcomponent
-    
-            <div class="container text-center mt-5 text-warning">
-    
-                <h1 class='font-weight-bold'>Welcome to the Cs Cannon Test</h1>
-            
-                <h3 class='font-weight-bold'>Here you can determine which Datasource you can use</h3>
-            
-            </div>
-    
-            @include('index')
-                
-            @component('components.footer')
-            @endcomponent
-
-        </div>
-    </body>
 </html>

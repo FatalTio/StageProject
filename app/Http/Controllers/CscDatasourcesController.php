@@ -37,7 +37,6 @@ class CscDatasourcesController extends Controller
         $myBlockchain = strtolower($blockchain);
         $blockchain = ucfirst($myBlockchain);
 
-
         $blockchains = DB::table('blockchain')
                         ->where('blockchain.name', $blockchain)
                         ->join('datasource', 'blockchain_id', '=', 'datasource.blockchain')
@@ -47,8 +46,7 @@ class CscDatasourcesController extends Controller
         $datasources = json_decode(json_encode($blockchains), true);
 
 
-
-        $sandra = new System('', true, env('DB_HOST'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
+        $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
         SandraManager::setSandra($sandra);
 
         $assetCollection = new AssetCollectionFactory(SandraManager::getSandra());
@@ -66,15 +64,26 @@ class CscDatasourcesController extends Controller
 
         foreach($datasources as $datasource){
 
-            $myDatasource = $this->getDatasourceClass($datasource['name']);
+            $startTime = time();
 
+            $myDatasource = $this->getDatasourceClass($datasource['name']);
             $addressToQuery->setDataSource($myDatasource);
 
-            $results[] = $addressToQuery->$function();
+            $cscResponse = $addressToQuery->$function();
+
+            $endTime = time();
+
+            $timeForRequest = $endTime - $startTime;
+
+            $results[$datasource['name']]['time'] = $timeForRequest . ' sec';
+            $results[$datasource['name']]['contracts'] = $cscResponse->contracts;
 
         }
 
-        dd($results);
+        // dd($results);
+        return view('blockchain/results', [
+            'results' => $results
+        ]);
 
     }
 
@@ -84,62 +93,50 @@ class CscDatasourcesController extends Controller
         switch($datasource){
 
             case 'CrystalSuiteDataSource':
-
                 return new CrystalSuiteDataSource;
             break;
 
             case 'XchainDataSource':
-
                 return new XchainDataSource;
             break;
 
             case 'XchainOnBcy':
-
                 return new XchainOnBcy;
             break;
 
             case 'BlockscoutAPI':
-
                 return new BlockscoutAPI;
             break;
 
             case 'InfuraProvider':
-                
                 return new InfuraProvider;
             break;
 
             case 'InfuraProviderRinkeby':
-
                 return new InfuraProviderRinkeby;
             break;
 
             case 'InfuraRopstenProvider':
-
                 return new InfuraRopstenProvider;
             break;
 
             case 'OpenSeaImporter':
-
                 return new OpenSeaImporter;
             break;
 
             case 'OpenSeaRinkebyDatasource':
-
                 return new OpenSeaRinkebyDatasource;
             break;
 
             case 'phpWeb3':
-
                 return new phpWeb3;
             break;
 
             case 'BaobabProvider':
-
                 return new BaobabProvider;
             break;
 
             case 'OfficialProvider':
-
                 return new OfficialProvider;
             break;
 
