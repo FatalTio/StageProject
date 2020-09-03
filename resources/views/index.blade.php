@@ -41,7 +41,8 @@
     }
 
 </style>
-<body>
+
+
 <div class="container text-center mt-5 pt-5 text-warning">
 
     <h1 class="mainPage">Welcome to CsCannon Test</h1>
@@ -108,7 +109,6 @@
 
 @include('components/footer')
 
-</body>
 
     <script src="http://code.jquery.com/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>

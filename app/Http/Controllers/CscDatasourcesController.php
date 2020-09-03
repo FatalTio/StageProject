@@ -83,11 +83,11 @@ class CscDatasourcesController extends Controller
 
         }
 
-
         return view('blockchain/balance_results', [
             'results'       => $results,
             'function'      => $function,
-            'address'       => $address
+            'address'       => $address,
+            'howTotest'     => $request->input('howToTest')
         ]);
 
     }

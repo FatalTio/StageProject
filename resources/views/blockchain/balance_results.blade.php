@@ -26,15 +26,20 @@
 
     @foreach($results as $name => $result)
 
-        <h2 class="text-center text-warning font-weight-bold mt-3">This request responds in {{ $result['time'] }}</h2>
+        <h3 class="text-center text-warning font-weight-bold mt-3">With the Datasource {{ $name }} :</h3>
 
-        <h3 class="text-center text-warning font-weight-bold mt-3">With the Datasource : {{ $name }}</h3>
+        <h2 class="text-center text-warning font-weight-bold mt-3"> {{ $result ? 'This request responds in' . $result['time'] : 'This request find nothing !' }}</h2>
         
 
-        <a href="{{ url('/viewJson', ['datasource' => $name, 'function' => $function, 'address' => $address]) }}" target="_blank" type="button" 
-            class="btn btn-outline-success font-weight-bold col-4 offset-4 mt-3">
-                View the Json result
-        </a>
+        @if($result)
+
+            <a href="{{ url('/viewJson', ['datasource' => $name, 'function' => $function, 'address' => $address]) }}" target="_blank" type="button" 
+                class="btn btn-outline-success font-weight-bold col-4 offset-4 mt-3">
+                    View the Json result
+            </a>
+        @else
+            <a href="{{ url('functionsTest', ['howToTest' => $howTotest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">Back to the research</a>
+        @endif
 
         @if(isset($result['contracts']))
 

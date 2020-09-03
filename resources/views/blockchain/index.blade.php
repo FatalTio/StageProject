@@ -20,26 +20,20 @@
 
 </style>
 
-@if($testToDo == 'CsCannon')
-
-    <h1 class="text-center text-warning font-weight-bold mt-3">Here we test the CsCannon functions</h1>
-@elseif($testToDo == 'datasources')
-
-    <h1 class="text-center text-warning font-weight-bold mt-3">Here we test the differents Datasources</h1>
-@endif
+<h1 class="text-center text-warning font-weight-bold mt-3">
+    {{ $testToDo == 'CsCannon' ? 'Here we test the CsCannon functions' : 'Here we test the differents Datasources' }} 
+</h1>
 
 
 <h2 class="text-center text-warning font-weight-bold mt-3"> Enter your address and choose your blockchain</h2>
 
 <section id="blockchain_choose" class="rounded text-light container col-6 mt-5 pt-5 pb-5">
 
-    @if($testToDo == 'CsCannon')
-        <form class="container text-center col-6 font-weight-bold" action="{{ url('/testDatasources') }}" method="POST">
+        <form class="container text-center col-6 font-weight-bold" 
+            action={{ $testToDo == 'CsCannon' ? url('/testDatasources') : url('/testDatasources') }} 
+            method="POST">
 
-    @elseif($testToDo == 'datasources')
-        <form class="container text-center col-6 font-weight-bold" action="{{ url('/testDatasources') }}" method="POST">
-
-    @endif
+        <input type="hidden" name="howToTest" value="{{ $testToDo }}">
 
         <div class="form-group">
 
