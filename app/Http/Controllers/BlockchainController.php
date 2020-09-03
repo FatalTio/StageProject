@@ -31,20 +31,10 @@ class BlockchainController extends Controller
 
         $result = json_decode(json_encode($blockchains), true);
 
-        // return view()
     }
 
 
-    public function cscFunctionstest(){
 
-        $blockchains = DB::table('blockchain')
-                        ->select()
-                        ->get();
-
-        return view('blockchain/index', [
-            'blockchains'   => $blockchains
-        ]);
-    }
 
 
 }

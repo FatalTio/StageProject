@@ -14,14 +14,33 @@
         opacity : 0.5;
     }
 
+    .alertFunctions{
+        display: none;
+    }
+
 </style>
-<body>
+
+@if($testToDo == 'CsCannon')
+
+    <h1 class="text-center text-warning font-weight-bold mt-3">Here we test the CsCannon functions</h1>
+@elseif($testToDo == 'datasources')
+
+    <h1 class="text-center text-warning font-weight-bold mt-3">Here we test the differents Datasources</h1>
+@endif
+
+
 <h2 class="text-center text-warning font-weight-bold mt-3"> Enter your address and choose your blockchain</h2>
 
 <section id="blockchain_choose" class="rounded text-light container col-6 mt-5 pt-5 pb-5">
 
+    @if($testToDo == 'CsCannon')
+        <form class="container text-center col-6 font-weight-bold" action="{{ url('/testDatasources') }}" method="POST">
 
-    <form class="container text-center col-6 font-weight-bold" action="{{ url('/testDatasources') }}" method="POST">
+    @elseif($testToDo == 'datasources')
+        <form class="container text-center col-6 font-weight-bold" action="{{ url('/testDatasources') }}" method="POST">
+
+    @endif
+
         <div class="form-group">
 
             <label for="blockchainAddress">Blockchain Address</label>
@@ -38,29 +57,43 @@
                 <option selected="selected">Choose a blockchain</option>
 
                 @foreach ($blockchains as $blockchain)
-
-                <option>{{ $blockchain->name }}</option>
-
+                    <option>{{ $blockchain->name }}</option>
                 @endforeach
                 
             </select>
 
         </div>
 
-        <div class="form-group">
+        @if($testToDo == 'CsCannon')
 
-            <label for="selectFunction">Select a function</label>
+            <div class="form-group">
 
-            <select name="function" class="opacityClass form-control font-weight-bold" id="selectFunction">
+                <label>Select a function</label>
 
-                <option selected="selected">Action to do</option>
+                <select id="selectFunction" name="function" class="opacityClass form-control font-weight-bold">
 
-                <option>getBalance</option>
+                    <option selected="selected">Action to do</option>
+                    <option data-alert="getBalanceAlert">getBalance</option>
+                    <option data-alert="obsByCollectionAlert">returnObsByCollection</option>
+                    
+                </select>
 
-                <option>Tx History</option>
-                
-            </select>
+            </div>
 
+        @endif
+
+        <div id="getBalanceAlert" class="alertFunctions alert alert-success" role="alert">
+            <button type="button" data-toggle="popover" data-content="Do not show this alert" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            This function find all contracts and their quantities on the specified address
+        </div>
+
+        <div id="obsByCollectionAlert" class="alertFunctions alert alert-success" role="alert">
+            <button type="button" data-toggle="popover" data-content="Do not show this alert" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            This function find all the Collections, contracts, assets and their quantities on the specified address
         </div>
 
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -70,4 +103,27 @@
     </form>
 
 </section>
-</body>
+
+@include('components/footer')
+
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script>
+
+    $.noConflict();
+    jQuery(document).ready(function($){
+        
+        $('#selectFunction').change(()=>{
+
+            $('.alertFunctions').slideUp(500);
+
+            $selectedOption = $('#selectFunction option:selected').attr('data-alert');
+            $('#' + $selectedOption).slideDown(500);
+        })
+
+        $('.close').popover({ trigger : "hover" });
+
+    });
+        
+</script>

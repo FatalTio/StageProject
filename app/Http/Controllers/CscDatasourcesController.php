@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use CsCannon\AssetCollectionFactory;
 use CsCannon\AssetFactory;
 use CsCannon\BlockchainRouting;
+use CsCannon\Blockchains\BlockchainAddress;
 use CsCannon\Blockchains\Counterparty\DataSource\XchainDataSource;
 use CsCannon\Blockchains\Counterparty\DataSource\XchainOnBcy;
 use CsCannon\Blockchains\DataSource\CrystalSuiteDataSource;
@@ -26,12 +27,23 @@ use SandraCore\System;
 class CscDatasourcesController extends Controller
 {
 
+
+    public function functionsTest(string $howToTest){
+
+        $blockchains = DB::table('blockchain')
+                        ->select()
+                        ->get();
+
+        return view('blockchain/index', [
+            'testToDo'      => $howToTest,
+            'blockchains'   => $blockchains
+        ]);
+    }
+
     public function testAllDatasources(Request $request){
 
         $blockchain = $request->input('blockchain');
-
         $function = $request->input('function');
-
         $address = $request->input('address');
 
         $myBlockchain = strtolower($blockchain);
@@ -64,34 +76,90 @@ class CscDatasourcesController extends Controller
 
         foreach($datasources as $datasource){
 
-            $startTime = time();
-
-            $myDatasource = $this->getDatasourceClass($datasource['name']);
+            $myDatasource = self::getDatasourceClass($datasource['name']);
             $addressToQuery->setDataSource($myDatasource);
 
-            $cscResponse = $addressToQuery->$function();
-
-            $endTime = time();
-
-            $timeForRequest = $endTime - $startTime;
-
-            if($cscResponse){
-                
-                $results[$datasource['name']]['time'] = $timeForRequest . ' sec';
-                $results[$datasource['name']]['contracts'] = $cscResponse->contracts;
-            }
+            $results[$datasource['name']] = $this->callFunction($addressToQuery, $function);
 
         }
 
-        // dd($results);
-        return view('blockchain/results', [
-            'results' => $results
+
+        return view('blockchain/balance_results', [
+            'results'       => $results,
+            'function'      => $function,
+            'address'       => $address
         ]);
 
     }
 
 
-    private function getDatasourceClass(string $datasource){
+    private function callFunction(BlockchainAddress $address, string $function){
+
+        $startTime = time();
+
+        $cscResponse = $address->getBalance();
+
+        if($function == 'returnObsByCollection'){
+
+            $obsByCollection = $cscResponse->returnObsByCollections();
+
+            $endTime = time();
+            $timeForRequest = $endTime - $startTime;
+                
+            $result['time'] = $timeForRequest . ' sec';
+            $result['collections'] = $obsByCollection['collections'];
+
+        }else{
+
+            $endTime = time();
+            $timeForRequest = $endTime - $startTime;
+
+            // foreach($cscResponse->contracts as $blockchain){
+
+            //     foreach($blockchain as $name => $contract){
+                    
+            //         unset($contract['']['token']);
+
+            //         $contractArray[$name] = $contract;
+            //     }
+            //     $blockchainArray[$blockchain] = $contractArray;
+            // }
+
+            $result['time'] = $timeForRequest . ' sec';
+            $result['results'] = $cscResponse->contracts;
+
+        }
+
+
+        return ;
+
+    }
+
+
+    public function viewJson(string $datasource, string $function, string $address){
+
+        $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
+        SandraManager::setSandra($sandra);
+
+        $assetCollection = new AssetCollectionFactory(SandraManager::getSandra());
+
+        $addressFactory = BlockchainRouting::getAddressFactory($address);
+        $addressToQuery = $addressFactory->get($address);
+
+        $myDatasource = self::getDatasourceClass($datasource);
+        $addressToQuery->setDataSource($myDatasource);
+
+        $array = $this->callFunction($addressToQuery, $function);
+
+
+
+        dd($array);
+
+        return ;
+    }
+
+
+    public static function getDatasourceClass(string $datasource){
 
         switch($datasource){
 

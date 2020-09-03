@@ -54,18 +54,18 @@
 
 <div id="br">
     <div class="bg-warning" id="mainPageMove"></div>
-
+</div>
     <div id="buttons" class="container-fluid col-6 offset-3 row justify-content-around">
 
         <div>
-            <a href="{{ route('cscFunctions') }}" data-value="cscFunctions" id="functions" type="button"
+            <a href="{{ url('functionsTest', ['howToTest' => 'CsCannon']) }}" data-value="cscFunctions" id="functions" type="button"
                 class="buttonShow mainPage btn btn-outline-warning">
                 CsCanon functions
             </a>
         </div>
 
         <div>
-            <a href="" data-value="blockchainDatasources" id="datasources" type="button"
+            <a href="{{ url('functionsTest', ['howToTest' => 'datasources']) }}" data-value="blockchainDatasources" id="datasources" type="button"
                 class="buttonShow mainPage btn btn-outline-success">
                 Tests Datasources
             </a>
@@ -99,14 +99,14 @@
         <ul class="text-success font-weight-bold">
 
             @foreach ($datasources as $datasource)
-            <li>{{ $datasource->name }}</li>
+                <li>{{ $datasource->name }}</li>
             @endforeach
 
         </ul>
 
     </div>
 
-</div>
+@include('components/footer')
 
 </body>
 
@@ -114,10 +114,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>
     <script>
 
+        let mainPageMove = document.getElementById('mainPageMove');
+        let animReceiver = document.getElementById('br')
+
         document.addEventListener("DOMContentLoaded", firstAnime = ()=>{
             anime({
                 targets: '#mainPageMove',
-                translateX: document.getElementById('br').clientWidth,
+                translateX: animReceiver.clientWidth - mainPageMove.clientWidth,
                 easing: 'linear',
                 duration: 1500,
                 loop: true,
@@ -134,7 +137,7 @@
                 $htmlToReplace = $('#' + $divToShow).html();
 
                 $('#cscCode').html($htmlToReplace);
-                $('#cscCode').show(1000);
+                $('#cscCode').show(600);
             });
         });
         

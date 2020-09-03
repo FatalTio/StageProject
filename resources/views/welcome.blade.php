@@ -23,10 +23,11 @@
 
             body{
                 background: linear-gradient(#000000 50%, #343a40);
+                margin-bottom: 100px;
             }
 
             .full-height {
-                height: 100%;
+                min-height: 100%;
             }
 
             .flex-center {
@@ -75,3 +76,5 @@
     </body>
 
 </html>
+
+
