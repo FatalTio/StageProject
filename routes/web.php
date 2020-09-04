@@ -21,7 +21,7 @@ Route::get('/init', 'AppController@init');
 
 Route::get('/functionsTest/{howToTest}', 'CscDatasourcesController@functionsTest')->name('functionsTest');
 
-Route::get('/dataSourceTests', 'DatasourceController@testCurlDatasources');
+Route::post('/dataSourceTests', 'DatasourceController@testCurlDatasources');
 
 Route::get('/index', 'BlockchainController@index');
 

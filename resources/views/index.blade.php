@@ -114,19 +114,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>
     <script>
 
-        let mainPageMove = document.getElementById('mainPageMove');
-        let animReceiver = document.getElementById('br')
+        const mainPageMove = document.getElementById('mainPageMove');
+        const animReceiver = document.getElementById('br')
 
-        document.addEventListener("DOMContentLoaded", firstAnime = ()=>{
+
+        const anim = (animReceiverWidth, mainPageMoveWidth) => {
             anime({
                 targets: '#mainPageMove',
-                translateX: animReceiver.clientWidth - mainPageMove.clientWidth,
+                translateX: animReceiverWidth - mainPageMoveWidth,
                 easing: 'linear',
                 duration: 1500,
                 loop: true,
                 direction: 'alternate'
             })
+        }
+
+
+        document.addEventListener("DOMContentLoaded", firstAnime = ()=>{
+            anim(animReceiver.clientWidth, mainPageMove.clientWidth);
         })
+
+        window.addEventListener('resize',()=>{
+            anime.remove(anim);
+            anim(animReceiver.clientWidth, mainPageMove.clientWidth);
+        });
 
         $.noConflict();
         jQuery(document).ready(function($){

@@ -29,9 +29,9 @@
 
 <section id="blockchain_choose" class="rounded text-light container col-6 mt-5 pt-5 pb-5">
 
-        <form class="container text-center col-6 font-weight-bold" 
-            action={{ $testToDo == 'CsCannon' ? url('/testDatasources') : url('/testDatasources') }} 
-            method="POST">
+    <form class="container text-center col-6 font-weight-bold" 
+        action={{ $testToDo == 'CsCannon' ? url('/testDatasources') : url('/dataSourceTests') }} 
+        method="POST">
 
         <input type="hidden" name="howToTest" value="{{ $testToDo }}">
 
@@ -58,23 +58,33 @@
 
         </div>
 
-        @if($testToDo == 'CsCannon')
 
-            <div class="form-group">
+        <div class="form-group">
 
-                <label>Select a function</label>
+            <label>Select a function</label>
 
-                <select id="selectFunction" name="function" class="opacityClass form-control font-weight-bold">
+            <select id="selectFunction" name="function" class="opacityClass form-control font-weight-bold">
 
-                    <option selected="selected">Action to do</option>
-                    <option data-alert="getBalanceAlert">getBalance</option>
+                <option selected="selected">Action to do</option>
+                <option data-alert="getBalanceAlert">getBalance</option>
+
+                @if($testToDo == 'CsCannon')
                     <option data-alert="obsByCollectionAlert">returnObsByCollection</option>
+                @else
+                    <option data-alert="txHistoryAlert">TxHistory</option>
+                @endif
                     
-                </select>
+            </select>
 
-            </div>
+        </div>
+        
 
-        @endif
+        <div id="txHistoryAlert" class="alertFunctions alert alert-success" role="alert">
+            <button type="button" data-toggle="popover" data-content="Do not show this alert" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            This function find all last transactions of the specified address
+        </div>
 
         <div id="getBalanceAlert" class="alertFunctions alert alert-success" role="alert">
             <button type="button" data-toggle="popover" data-content="Do not show this alert" class="close" data-dismiss="alert" aria-label="Close">

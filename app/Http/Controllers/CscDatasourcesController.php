@@ -76,7 +76,7 @@ class CscDatasourcesController extends Controller
 
         foreach($datasources as $datasource){
 
-            $myDatasource = self::getDatasourceClass($datasource['name']);
+            $myDatasource = DatasourcesStringController::getDatasourceClass($datasource['name']);
             $addressToQuery->setDataSource($myDatasource);
 
             $results[$datasource['name']] = $this->callFunction($addressToQuery, $function);
@@ -95,7 +95,7 @@ class CscDatasourcesController extends Controller
 
     private function callFunction(BlockchainAddress $address, string $function){
 
-        $startTime = time();
+        $startTime = microtime(true);
 
         $cscResponse = $address->getBalance();
 
@@ -103,16 +103,20 @@ class CscDatasourcesController extends Controller
 
             $obsByCollection = $cscResponse->returnObsByCollections();
 
-            $endTime = time();
-            $timeForRequest = $endTime - $startTime;
-                
-            $result['time'] = $timeForRequest . ' sec';
-            $result['collections'] = $obsByCollection['collections'];
+            $endTime = microtime(true);
+
+            $timeForRequest = round(($endTime - $startTime), 5);
+            
+            if(!empty($obsByCollection['collections'])){
+
+                $result['time'] = $timeForRequest . ' sec';
+                $result['collections'] = $obsByCollection['collections'];
+            }
 
         }else{
 
-            $endTime = time();
-            $timeForRequest = $endTime - $startTime;
+            $endTime = microtime(true);
+            $timeForRequest = round(($endTime - $startTime), 5);
 
             // foreach($cscResponse->contracts as $blockchain){
 
@@ -146,7 +150,7 @@ class CscDatasourcesController extends Controller
         $addressFactory = BlockchainRouting::getAddressFactory($address);
         $addressToQuery = $addressFactory->get($address);
 
-        $myDatasource = self::getDatasourceClass($datasource);
+        $myDatasource = DatasourcesStringController::getDatasourceClass($datasource);
         $addressToQuery->setDataSource($myDatasource);
 
         $array = $this->callFunction($addressToQuery, $function);
@@ -159,62 +163,7 @@ class CscDatasourcesController extends Controller
     }
 
 
-    public static function getDatasourceClass(string $datasource){
 
-        switch($datasource){
-
-            case 'CrystalSuiteDataSource':
-                return new CrystalSuiteDataSource;
-            break;
-
-            case 'XchainDataSource':
-                return new XchainDataSource;
-            break;
-
-            case 'XchainOnBcy':
-                return new XchainOnBcy;
-            break;
-
-            case 'BlockscoutAPI':
-                return new BlockscoutAPI;
-            break;
-
-            case 'InfuraProvider':
-                return new InfuraProvider;
-            break;
-
-            case 'InfuraProviderRinkeby':
-                return new InfuraProviderRinkeby;
-            break;
-
-            case 'InfuraRopstenProvider':
-                return new InfuraRopstenProvider;
-            break;
-
-            case 'OpenSeaImporter':
-                return new OpenSeaImporter;
-            break;
-
-            case 'OpenSeaRinkebyDatasource':
-                return new OpenSeaRinkebyDatasource;
-            break;
-
-            case 'phpWeb3':
-                return new phpWeb3;
-            break;
-
-            case 'BaobabProvider':
-                return new BaobabProvider;
-            break;
-
-            case 'OfficialProvider':
-                return new OfficialProvider;
-            break;
-
-        }
-
-
-    }
 
 
 }
