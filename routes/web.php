@@ -28,3 +28,4 @@ Route::get('/index', 'BlockchainController@index');
 Route::post('/testDatasources', 'CscDatasourcesController@testAllDatasources')->name('testDatasources');
 
 Route::get('/viewJson/{datasource}/{function}/{address}', 'CscDatasourcesController@viewJson');
+Route::get('/datasourcesToJson/{datasource}/{function}/{address}', 'DatasourceController@viewJson');

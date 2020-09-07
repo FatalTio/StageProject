@@ -155,8 +155,6 @@ class CscDatasourcesController extends Controller
 
         $array = $this->callFunction($addressToQuery, $function);
 
-
-
         dd($array);
 
         return ;

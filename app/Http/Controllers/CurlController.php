@@ -11,11 +11,11 @@ class CurlController extends Controller
         $request = "{$url}";
     
         $curl = curl_init();
-  
+
         curl_setopt_array($curl, array(
             CURLOPT_URL => $request,     
             CURLOPT_HTTPHEADER => $headers,    
-            CURLOPT_RETURNTRANSFER => 1        
+            CURLOPT_RETURNTRANSFER => 1   
         ));
     
         $response = curl_exec($curl);

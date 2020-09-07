@@ -14,30 +14,25 @@
     }
 
     #br {
-        background-color: #F9EEBF;
+        background: #F9EEBF;
         height: 2px;
         width: 60%;
         margin: auto;
         margin-top: 75px;
-    }
-
-    #mainPageMove {
-        width: 20px;
-        height: 2px;
-    }
-
-    #cscCode {
-        border-radius: 30px;
+        
     }
 
     #cscFunctions,
-    #blockchainDatasources,
-    #cscCode {
+    #blockchainDatasources {
         display: none;
     }
 
     ul {
         list-style-type: none;
+    }
+
+    .alertFunctions{
+        height: 25%;
     }
 
 </style>
@@ -54,8 +49,8 @@
 </div>
 
 <div id="br">
-    <div class="bg-warning" id="mainPageMove"></div>
 </div>
+
     <div id="buttons" class="container-fluid col-6 offset-3 row justify-content-around">
 
         <div>
@@ -75,35 +70,35 @@
     </div>
 
 
-    <div id="cscCode" class="text-light bg-dark container mt-5 pt-3 pb-3 text-center col-8">
-    </div>
+    <div class="container-fluid mt-3">
 
+        <div id="cscFunctions" class="col-6 offset-3 alertFunctions alert alert-primary text-center font-weight-bold overflow-auto">
+            <h3>eg :</h3>
 
-    <div id="cscFunctions">
-        <h3>eg :</h3>
+            <span class="text-primary">$address</span> = 'XXXXXX'; <br />
 
-        <span class="text-primary">$address</span> = 'XXXXXX'; <br />
+            <span class="text-primary">$addressFactory</span> = <span class="text-success">BlockchainRouting</span>::<span
+                class="text-warning">getAddressFactory</span>($address); <br />
+            <span class="text-primary">$addressToQuery</span> = $addressFactory-><span
+                class="text-warning">get</span>($address); <br />
 
-        <span class="text-primary">$addressFactory</span> = <span class="text-success">BlockchainRouting</span>::<span
-            class="text-warning">getAddressFactory</span>($address); <br />
-        <span class="text-primary">$addressToQuery</span> = $addressFactory-><span
-            class="text-warning">get</span>($address); <br />
+            <span class="text-primary">$addressToQuery</span>-><span class="text-warning">setDataSource</span>(new <span class="text-success">Datasource</span>);
+            <br />
+            <span class="text-primary">$balance</span> = $addressToQuery-><span class="text-warning">getBalance</span>();
+            <br />
+        </div>
 
-        <span class="text-primary">$addressToQuery</span>-><span class="text-warning">setDataSource</span>($datasource);
-        <br />
-        <span class="text-primary">$balance</span> = $addressToQuery-><span class="text-warning">getBalance</span>();
-        <br />
-    </div>
+        <div id="blockchainDatasources" class="col-6 offset-3 alertFunctions alert alert-primary text-center font-weight-bold overflow-auto">
 
-    <div id="blockchainDatasources">
+            <ul class="text-success font-weight-bold">
 
-        <ul class="text-success font-weight-bold">
+                @foreach ($datasources as $datasource)
+                    <li>{{ $datasource->name }}</li>
+                @endforeach
 
-            @foreach ($datasources as $datasource)
-                <li>{{ $datasource->name }}</li>
-            @endforeach
+            </ul>
 
-        </ul>
+        </div>
 
     </div>
 
@@ -111,33 +106,9 @@
 
 
     <script src="http://code.jquery.com/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <script>
 
-        const mainPageMove = document.getElementById('mainPageMove');
-        const animReceiver = document.getElementById('br')
-
-
-        const anim = (animReceiverWidth, mainPageMoveWidth) => {
-            anime({
-                targets: '#mainPageMove',
-                translateX: animReceiverWidth - mainPageMoveWidth,
-                easing: 'linear',
-                duration: 1500,
-                loop: true,
-                direction: 'alternate'
-            })
-        }
-
-
-        document.addEventListener("DOMContentLoaded", firstAnime = ()=>{
-            anim(animReceiver.clientWidth, mainPageMove.clientWidth);
-        })
-
-        window.addEventListener('resize',()=>{
-            anime.remove(anim);
-            anim(animReceiver.clientWidth, mainPageMove.clientWidth);
-        });
 
         $.noConflict();
         jQuery(document).ready(function($){
@@ -145,11 +116,17 @@
             $('.buttonShow').mouseover(display = (e)=>{
 
                 $divToShow = $(e.currentTarget).attr('data-value');
-                $htmlToReplace = $('#' + $divToShow).html();
 
-                $('#cscCode').html($htmlToReplace);
-                $('#cscCode').show(600);
-            });
+                if($divToShow != $('.buttonShow').attr('data-open') ){
+
+                    $('.buttonShow').attr('data-open', '');
+                    $('.alertFunctions').slideUp(600);
+                }
+
+                $('#' + $divToShow).slideDown(600);
+                $('.buttonShow').attr('data-open', $divToShow);
+
+            })
         });
         
     </script>

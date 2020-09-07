@@ -14,6 +14,7 @@ class DatasourceController extends Controller
         $blockchain = $request->input('blockchain');
         $function = $request->input('function');
 
+
         $datasources = DB::table('blockchain')
                         ->where('blockchain.name', $blockchain)
                         ->join('datasource', 'blockchain_id', '=', 'datasource.blockchain')
@@ -25,15 +26,15 @@ class DatasourceController extends Controller
 
         $datasourceUrls = DatasourcesStringController::getCompatiblesDataSources($myDatasources, $function);
 
-            
+        
+        $datasourceResult = array();
+
         foreach($datasourceUrls as $datasourceName => $datasourceUrl){
             
-
             $urlToCall = str_replace('{address}', $address, $datasourceUrl);
 
-            $headers = [
-                'Accepts: application/json'
-            ];
+            $headers = DatasourcesStringController::findHeader($function, $datasourceName, $address);
+
 
             $startTime = microtime(true);
 
@@ -49,18 +50,37 @@ class DatasourceController extends Controller
 
         }
 
-
         return view('datasource/result', [
-            'results'   => $datasourceResult,
-            'function'  => $function,
-            'address'   => $address,
-            'howToTest' => $request->input('howToTest')
+            'results'       => $datasourceResult,
+            'function'      => $function,
+            'address'       => $address,
+            'howToTest'     => $request->input('howToTest')
         ]);
 
     }
 
 
+    public function viewJson(string $datasource, string $function, string $address){
+
+        if($function === 'getBalance'){
+
+            $url = DatasourcesStringController::getDatasourceUrlBalance($datasource);
+
+        }elseif($function === 'TxHistory'){
+
+            $url = DatasourcesStringController::getDatasourceUrlTxHistory($datasource);
+        }
+
+        $urlToCall = str_replace('{address}', $address, $url);
 
 
+        $headers = DatasourcesStringController::findHeader($function, $datasource, $address);
+
+        $curlResult = CurlController::curlCreator($urlToCall, $headers);
+
+
+        return response()->json($curlResult);
+
+    }
 
 }

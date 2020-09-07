@@ -29,88 +29,59 @@
     <h1 class="text-center text-success font-weight-bold mt-3">{{ $function }}()</h1>
     <h1 class="text-center text-primary font-weight-bold mt-3">{{ $address }}</h1>
 
-    @foreach($results as $name => $result)
+    @if(empty($results))
 
-        <hr class="mt-4 mb-4">
+        <a href="{{ url('functionsTest', ['howToTest' => $howToTest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">Back to the research</a>
 
-        <h2 class="text-center text-warning font-weight-bold mt-3">{{ $name }}</h2>
-        <h2 class="text-center text-warning font-weight-bold mt-3"> {{ $result ? 'This request responds in ' . $result['time'] : 'This request find nothing !' }}</h2>
+    @else
 
+        @foreach($results as $name => $result)
 
-        <button data-toggle="popover" data-placement="right" data-content="{{ $result['total'] }} contract(s)"
-        data-value="{{ $name }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
-            View the list of contracts
-        </button>
+            <hr class="mt-4 mb-4">
 
-
-        <div id="responseDiv" class="container mt-4 col-6">
-
-            <div id="{{ $name }}" class="contractsList container mt-3 col-6 bg-dark text-success text-center">
-
-                <h3 class="text-center text-success font-weight-bold mt-3 mb-2"><ins>{{ $result['total'] }} contract(s) :</ins></h3>
-
-                <ol>
-
-                    @foreach($result['data'] as $contract)
-
-                        <li> {{ $contract['asset'] }} </li>
-
-                    @endforeach
-
-                </ol>
-
-            </div>
-
-        </div>
-
-        @if($result)
-
-            <a href="{{ url('/viewJson', ['datasource' => $name, 'function' => $function, 'address' => $address]) }}" target="_blank" type="button" 
-                class="btn btn-outline-success font-weight-bold col-4 offset-4 mt-3">
-                    View the Json result
-            </a>
-        @else
-            <a href="{{ url('functionsTest', ['howToTest' => $howTotest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">Back to the research</a>
-        @endif
+            <h2 class="text-center text-warning font-weight-bold mt-3">{{ $name }}</h2>
+            <h2 class="text-center text-warning font-weight-bold mt-3"> {{ $result ? 'This request responds in ' . $result['time'] . ' sec' : 'This request find nothing !' }}</h2>
 
 
-        {{-- @elseif(isset($result['collections']))
+            <button data-toggle="popover" data-placement="right" data-content="{{ count($result['data']) }} contract(s)"
+            data-value="{{ $name }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
+                View the list of contracts
+            </button>
 
-            <h5 class="text-center text-warning font-weight-bold mt-3">For {{ count($result['collections']) }} collection(s) :</h5>
 
             <div id="responseDiv" class="container mt-4 col-6">
 
-                @foreach($result['collections'] as $collection)
+                <div id="{{ $name }}" class="contractsList container mt-3 col-6 bg-dark text-success text-center">
 
-                    <button data-toggle="popover" data-placement="right" data-content="{{ count($collection['orbs']) }} contract(s)" 
-                        data-value="{{ $collection['id'] }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
+                    <h3 class="text-center text-success font-weight-bold mt-3 mb-2"><ins>{{ count($result['data']) }} contract(s) :</ins></h3>
 
-                        {{ $collection['id'] }}
-                    </button>
+                    <ol>
 
-                    <div id="{{ $collection['id'] }}" class="contractsList container mt-3 col-6 bg-dark text-success text-center">
+                        @foreach($result['data'] as $contract)
 
-                        <h3 class="text-center text-success font-weight-bold mt-3 mb-2"><ins>{{ count($collection['orbs']) }} contract(s) :</ins></h3>
+                            <li> {{ $contract['contract'] }} </li>
 
-                        <ol>
+                        @endforeach
 
-                            @foreach($collection['orbs'] as $contract)
+                    </ol>
 
-                                <li>{{ $contract['contract'] }}</li>
-
-                            @endforeach
-
-                        </ol>
-
-                    </div>
-
-                @endforeach
+                </div>
 
             </div>
 
-        @endif --}}
+            @if($result)
 
-    @endforeach
+                <a href="{{ url('/datasourcesToJson', ['datasource' => $name, 'function' => $function, 'address' => $address]) }}" target="_blank" type="button" 
+                    class="btn btn-outline-success font-weight-bold col-4 offset-4 mt-3">
+                        View the Json result
+                </a>
+            @else
+                <a href="{{ url('functionsTest', ['howToTest' => $howTotest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">Back to the research</a>
+            @endif
+
+        @endforeach
+    
+    @endif
 
 </section>
 

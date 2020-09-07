@@ -77,7 +77,10 @@
             </select>
 
         </div>
-        
+
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+        <input type="submit" class="btn btn-warning mt-3 font-weight-bold mb-3" value="View all Datasources">
 
         <div id="txHistoryAlert" class="alertFunctions alert alert-success" role="alert">
             <button type="button" data-toggle="popover" data-content="Do not show this alert" class="close" data-dismiss="alert" aria-label="Close">
@@ -99,10 +102,6 @@
             </button>
             This function find all the Collections, contracts, assets and their quantities on the specified address
         </div>
-
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-        <input type="submit" class="btn btn-warning mt-4 font-weight-bold" value="View all Datasources">
 
     </form>
 

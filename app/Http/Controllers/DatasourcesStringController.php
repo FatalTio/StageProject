@@ -22,40 +22,95 @@ class DatasourcesStringController extends Controller
         'CrystalSuiteDataSource',
         'XchainDataSource',
         'XchainOnBcy',
+        'BlockscoutAPI',
+        // 'InfuraProvider',
+        // 'InfuraProviderRinkeby',
+        // 'InfuraRopstenProvider'
+    ];
+
+
+    private static $txHistoryCompatibles = [
+        'XchaindataSource',
+        'XchainOnBcy',
         'BlockscoutAPI'
     ];
 
-    private static $txHistoryCompatibles = [
 
-    ];
 
+    /**
+     * Find the compatibles datasources depend of function
+     * 
+     * @param Array $datasources
+     * @param String $function
+     * 
+     * @return Array with the compatibles datasources
+     */
     public static function getCompatiblesDataSources(array $datasources, string $function){
 
 
         if($function === 'getBalance'){
 
             $compatibles = self::$getBalanceCompatibles;
-            $goodAttribute = 'getDatasourceUrlBalance';
+            $functionToCall = 'getDatasourceUrlBalance';
 
-        }else{
+        }elseif($function === 'TxHistory'){
 
-            $compatibles = self:: $txHistoryCompatibles;
-            $goodAttribute = 'getDatasourceUrlTxHistory';
+            $compatibles = self::$txHistoryCompatibles;
+            $functionToCall = 'getDatasourceUrlTxHistory';
         }
 
+        $dataSourcesArray = array();
         
         foreach($datasources as $datasource){
             
             if(in_array($datasource['name'], $compatibles)){
 
-                $dataSourcesArray[$datasource['name']] = self::$goodAttribute($datasource['name']);
+                $dataSourcesArray[$datasource['name']] = self::$functionToCall($datasource['name']);
 
             }
-
         }
-        
-        return $dataSourcesArray;
 
+        return $dataSourcesArray;
+    }
+
+
+
+    /**
+     * return the good header for the curl request
+     * 
+     * @param String $function
+     * @param String $datasource
+     * @param String $address
+     * 
+     * @return Array header
+     */
+    public static function findHeader(string $function, string $datasource, string $address){
+
+        if(strstr($datasource, 'Infura')){
+
+            if($function === 'getBalance'){
+
+                return [
+                    'Content-Type : application/json',
+                    'jsonrpc'   => '2.0',
+                    'method'    => 'eth_getBalance',
+                    'params'    => [
+                        $address,
+                        'latest'
+                    ]
+                ];
+
+            }elseif($function === 'TxHistory'){
+
+                return [];
+            }
+
+        }else{
+
+            return [
+                'Accepts: application/json'
+            ];
+        }
     }
 
 
@@ -116,6 +171,7 @@ class DatasourcesStringController extends Controller
 
     }
 
+
     public static function getDatasourceUrlBalance(string $datasource){
 
         switch($datasource){
@@ -133,19 +189,19 @@ class DatasourcesStringController extends Controller
             break;
 
             case 'BlockscoutAPI':
-                return 'https://blockscout.com/eth/mainnet/api?module=account&action=tokenlist&address={address}';
+                return 'https://blockscout.com/eth/mainnet/api?module=account&action=balance&address={address}';
             break;
 
             case 'InfuraProvider':
-                return 'https://mainnet.infura.io/v3/';
+                return 'https://mainnet.infura.io/v3/'.env('INFURA_PROJECT_ID');
             break;
 
             case 'InfuraProviderRinkeby':
-                return 'https://rinkeby.infura.io/v3/';
+                return 'https://rinkeby.infura.io/v3/'.env('INFURA_PROJECT_ID');
             break;
 
             case 'InfuraRopstenProvider':
-                return 'https://ropsten.infura.io/v3/';
+                return 'https://ropsten.infura.io/v3/'.env('INFURA_PROJECT_ID');
             break;
 
             case 'OpenSeaImporter':
@@ -169,6 +225,64 @@ class DatasourcesStringController extends Controller
             break;
 
         }
+    }
+
+
+    public static function getDatasourceUrlTxHistory(string $datasource){
+
+
+        switch($datasource){
+
+            case 'CrystalSuiteDataSource':
+                return null;
+            break;
+
+            case 'XchaindataSource':
+                return "https://xchain.io/api/history/{address}";
+            break;
+                
+            case 'XchainOnBcy':
+                return "https://xchain.io/api/history/{address}";
+            break;
+
+            case 'BlockscoutAPI':
+                return 'https://blockscout.com/eth/mainnet/api?module=account&action=txlist&address={address}';
+            break;
+
+            case 'InfuraProvider':
+                return 'https://mainnet.infura.io/v3/'.env('INFURA_PROJECT_ID');
+            break;
+
+            case 'InfuraProviderRinkeby':
+                return 'https://rinkeby.infura.io/v3/'.env('INFURA_PROJECT_ID');
+            break;
+
+            case 'InfuraRopstenProvider':
+                return 'https://ropsten.infura.io/v3/'.env('INFURA_PROJECT_ID');
+            break;
+
+            case 'OpenSeaImporter':
+                return 'https://api.opensea.io/api/v1/';
+            break;
+
+            case 'OpenSeaRinkebyDatasource':
+                return 'https://rinkeby-api.opensea.io/api/v1/';
+            break;
+
+            case 'phpWeb3':
+                return null;
+            break;
+
+            case 'BaobabProvider':
+                return 'https://api.baobab.klaytn.net:8651/';
+            break;
+
+            case 'OfficialProvider':
+                return null;
+            break;
+        }
+
+
     }
 
 
