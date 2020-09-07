@@ -21,7 +21,7 @@
 </style>
 
 <h1 class="text-center text-warning font-weight-bold mt-3">
-    {{ $testToDo == 'CsCannon' ? 'Here we test the CsCannon functions' : 'Here we test the differents Datasources' }} 
+    {{ $howToTest == 'CsCannon' ? 'Here we test the CsCannon functions' : 'Here we test the differents Datasources' }} 
 </h1>
 
 
@@ -30,10 +30,10 @@
 <section id="blockchain_choose" class="rounded text-light container col-6 mt-5 pt-5 pb-5">
 
     <form class="container text-center col-6 font-weight-bold" 
-        action={{ $testToDo == 'CsCannon' ? url('/testDatasources') : url('/dataSourceTests') }} 
+        action={{ $howToTest == 'CsCannon' ? url('/testDatasources') : url('/dataSourceTests') }} 
         method="POST">
 
-        <input type="hidden" name="howToTest" value="{{ $testToDo }}">
+        <input type="hidden" name="howToTest" value="{{ $howToTest }}">
 
         <div class="form-group">
 
@@ -68,7 +68,7 @@
                 <option selected="selected">Action to do</option>
                 <option data-alert="getBalanceAlert">getBalance</option>
 
-                @if($testToDo == 'CsCannon')
+                @if($howToTest == 'CsCannon')
                     <option data-alert="obsByCollectionAlert">returnObsByCollection</option>
                 @else
                     <option data-alert="txHistoryAlert">TxHistory</option>

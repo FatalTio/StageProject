@@ -35,7 +35,7 @@ class CscDatasourcesController extends Controller
                         ->get();
 
         return view('blockchain/index', [
-            'testToDo'      => $howToTest,
+            'howToTest'      => $howToTest,
             'blockchains'   => $blockchains
         ]);
     }
