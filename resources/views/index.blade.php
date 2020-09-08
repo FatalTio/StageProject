@@ -4,39 +4,7 @@
     @include('components.header')
 </header>
 
-<style>
-    #buttons {
-        padding-top: 100px;
-    }
-
-    .mainPage {
-        font-weight: bold;
-    }
-
-    #br {
-        background: #F9EEBF;
-        height: 2px;
-        width: 60%;
-        margin: auto;
-        margin-top: 75px;
-        
-    }
-
-    #cscFunctions,
-    #blockchainDatasources {
-        display: none;
-    }
-
-    ul {
-        list-style-type: none;
-    }
-
-    .alertFunctions{
-        height: 25%;
-    }
-
-</style>
-
+<link rel="stylesheet" href="styles/index.css">
 
 <div class="container text-center mt-5 pt-5 text-warning">
 
@@ -63,7 +31,7 @@
         <div>
             <a href="{{ url('functionsTest', ['howToTest' => 'datasources']) }}" data-value="blockchainDatasources" id="datasources" type="button"
                 class="buttonShow mainPage btn btn-outline-success">
-                Tests Datasources
+                Test Datasources
             </a>
         </div>
 
@@ -104,29 +72,6 @@
 
 @include('components/footer')
 
+@include('components/scripts')
 
-    <script src="http://code.jquery.com/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    <script>
-
-
-        $.noConflict();
-        jQuery(document).ready(function($){
-
-            $('.buttonShow').mouseover(display = (e)=>{
-
-                $divToShow = $(e.currentTarget).attr('data-value');
-
-                if($divToShow != $('.buttonShow').attr('data-open') ){
-
-                    $('.buttonShow').attr('data-open', '');
-                    $('.alertFunctions').slideUp(600);
-                }
-
-                $('#' + $divToShow).slideDown(600);
-                $('.buttonShow').attr('data-open', $divToShow);
-
-            })
-        });
-        
-    </script>
+<script src="js/index.js"></script>

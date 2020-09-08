@@ -8,12 +8,18 @@ use Illuminate\Support\Facades\DB;
 class DatasourceController extends Controller
 {
 
+    /**
+     * call each datasources compatibles with curl
+     * 
+     * @param Request POST
+     */
     public function testCurlDatasources(Request $request){
 
         $address = $request->input('address');
         $blockchain = $request->input('blockchain');
         $function = $request->input('function');
 
+        // get the datasources associated at blockchain
 
         $datasources = DB::table('blockchain')
                         ->where('blockchain.name', $blockchain)
@@ -23,7 +29,7 @@ class DatasourceController extends Controller
 
         $myDatasources = json_decode(json_encode($datasources), true);
 
-
+        // find the url of datasources
         $datasourceUrls = DatasourcesStringController::getCompatiblesDataSources($myDatasources, $function);
 
         
@@ -33,33 +39,52 @@ class DatasourceController extends Controller
             
             $urlToCall = str_replace('{address}', $address, $datasourceUrl);
 
+            // header for curl
             $headers = DatasourcesStringController::findHeader($function, $datasourceName, $address);
 
 
             $startTime = microtime(true);
 
             $result = CurlController::curlCreator($urlToCall, $headers);
-
+            
             $endTime = microtime(true);
 
             $timeForRequest = round(($endTime - $startTime), 5);
 
+            // replace key of results by 'data'
+            if(!empty($result) && array_key_exists('result', $result)){
 
-            $datasourceResult[$datasourceName] = $result;
-            $datasourceResult[$datasourceName]['time'] = $timeForRequest;
+                $result['data'] = $result['result'];
+                unset($result['result']);
+            }
+            
+            if(!is_null($result)){
+
+                $datasourceResult[$datasourceName] = $result;
+                $datasourceResult[$datasourceName]['time'] = $timeForRequest;
+            }
 
         }
-
+        
         return view('datasource/result', [
             'results'       => $datasourceResult,
             'function'      => $function,
             'address'       => $address,
+            'blockchain'    => $blockchain,
             'howToTest'     => $request->input('howToTest')
         ]);
 
     }
 
-
+    /**
+     * create a Json with the datasource datas
+     * 
+     * @param String $datasource
+     * @param String $function
+     * @param String $address
+     * 
+     * @return Json
+     */
     public function viewJson(string $datasource, string $function, string $address){
 
         if($function === 'getBalance'){

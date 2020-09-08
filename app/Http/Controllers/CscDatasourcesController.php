@@ -35,11 +35,16 @@ class CscDatasourcesController extends Controller
                         ->get();
 
         return view('blockchain/index', [
-            'howToTest'      => $howToTest,
+            'howToTest'     => $howToTest,
             'blockchains'   => $blockchains
         ]);
     }
 
+    /**
+     * test datasources with CsCannon function
+     * 
+     * @param Request POST
+     */
     public function testAllDatasources(Request $request){
 
         $blockchain = $request->input('blockchain');
@@ -49,6 +54,7 @@ class CscDatasourcesController extends Controller
         $myBlockchain = strtolower($blockchain);
         $blockchain = ucfirst($myBlockchain);
 
+        // get the datasources associated at blockchain
         $blockchains = DB::table('blockchain')
                         ->where('blockchain.name', $blockchain)
                         ->join('datasource', 'blockchain_id', '=', 'datasource.blockchain')
@@ -57,7 +63,7 @@ class CscDatasourcesController extends Controller
 
         $datasources = json_decode(json_encode($blockchains), true);
 
-
+        // Initialize CsCannon System and populate
         $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
         SandraManager::setSandra($sandra);
 
@@ -73,7 +79,7 @@ class CscDatasourcesController extends Controller
         $addressFactory = BlockchainRouting::getAddressFactory($address);
         $addressToQuery = $addressFactory->get($address);
 
-
+        // call the differents datasources
         foreach($datasources as $datasource){
 
             $myDatasource = DatasourcesStringController::getDatasourceClass($datasource['name']);
@@ -93,6 +99,14 @@ class CscDatasourcesController extends Controller
     }
 
 
+    /**
+     * call the function needed with string (input) function
+     * 
+     * @param BlockchainAddress $address
+     * @param String $function
+     * 
+     * @return Array of results
+     */
     private function callFunction(BlockchainAddress $address, string $function){
 
         $startTime = microtime(true);
@@ -135,11 +149,19 @@ class CscDatasourcesController extends Controller
         }
 
 
-        return ;
+        return $result;
 
     }
 
-
+    /**
+     * create a Json
+     * 
+     * @param String $datasource
+     * @param String $function
+     * @param String $address
+     * 
+     * @return Json of results
+     */
     public function viewJson(string $datasource, string $function, string $address){
 
         $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
@@ -155,9 +177,7 @@ class CscDatasourcesController extends Controller
 
         $array = $this->callFunction($addressToQuery, $function);
 
-        dd($array);
-
-        return ;
+        return response()->json($array);
     }
 
 

@@ -11,6 +11,7 @@
         border-radius: 10px;
         padding-top: 10px;
         display: none;
+        width: 30%;
     }
 
     .contractButton{
@@ -31,6 +32,8 @@
 
     @if(empty($results))
 
+        <h2 class="text-center text-warning font-weight-bold mt-3">This request find nothing !</h2>
+
         <a href="{{ url('functionsTest', ['howToTest' => $howToTest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">Back to the research</a>
 
     @else
@@ -43,23 +46,50 @@
             <h2 class="text-center text-warning font-weight-bold mt-3"> {{ $result ? 'This request responds in ' . $result['time'] . ' sec' : 'This request find nothing !' }}</h2>
 
 
-            <button data-toggle="popover" data-placement="right" data-content="{{ count($result['data']) }} contract(s)"
+            <button data-toggle="popover" data-placement="right" data-content="{{ count($result['data']) }} {{ $function == 'getBalance' ? 'contracts' : 'transactions' }}"
             data-value="{{ $name }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
-                View the list of contracts
+                {{ $function == 'getBalance' ? 'View the list of contracts' : 'View the top ten transactions' }}
             </button>
 
 
             <div id="responseDiv" class="container mt-4 col-6">
 
-                <div id="{{ $name }}" class="contractsList container mt-3 col-6 bg-dark text-success text-center">
+                <div id="{{ $name }}" class="contractsList container mt-3 bg-dark text-success text-center font-weight-normal">
 
                     <h3 class="text-center text-success font-weight-bold mt-3 mb-2"><ins>{{ count($result['data']) }} contract(s) :</ins></h3>
 
                     <ol>
+                        @php
+                            $i = 0;
+                        @endphp
 
                         @foreach($result['data'] as $contract)
 
-                            <li> {{ $contract['contract'] }} </li>
+                            @if($blockchain != 'Ethereum')
+
+                                <li> {{ $contract['contract'] }} </li>
+                            
+                            @else
+
+                                @if($function == 'TxHistory')
+                                    <li><h5 class="font-weight-bold">Transaction Index : </h5>{{ $contract['transactionIndex'] }}<br/>
+                                    <h5 class="font-weight-bold">From : </h5>{{ $contract['from'] }}<br/>
+                                    <h5 class="font-weight-bold">To : </h5>{{ $contract['to'] }}<br/>
+                                    <h5 class="font-weight-bold">Value : </h5>{{ $contract['value'] }}</li><hr>
+
+                                    @php
+                                        $i ++;
+                                    @endphp
+
+                                    @if($i<10)
+                                        @continue
+                                    @else
+                                        @break
+                                    @endif
+                                        
+                                @endif
+
+                            @endif
 
                         @endforeach
 
@@ -86,23 +116,6 @@
 </section>
 
 @include('components/footer')
+@include('components/scripts')
 
-<script src="http://code.jquery.com/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-<script>
-
-    $.noConflict();
-    jQuery(document).ready(function($){
-
-        $('.contractButton').on('click', (e)=>{
-
-            $divToDisplay = $(e.currentTarget).attr('data-value');
-            $('#' + $divToDisplay).slideToggle(500);
-        });
-
-        $('.contractButton').popover({ trigger : "hover" });
-    });
-
-</script>
+<script src="js/datasource/result.js"></script>

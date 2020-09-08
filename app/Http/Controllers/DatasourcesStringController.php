@@ -18,6 +18,7 @@ use CsCannon\Blockchains\Klaytn\OfficialProvider;
 class DatasourcesStringController extends Controller
 {
 
+    // datasources compatibles with getBalance
     private static $getBalanceCompatibles = [
         'CrystalSuiteDataSource',
         'XchainDataSource',
@@ -28,7 +29,7 @@ class DatasourcesStringController extends Controller
         // 'InfuraRopstenProvider'
     ];
 
-
+    // datasources compatibles with TxHistory
     private static $txHistoryCompatibles = [
         'XchaindataSource',
         'XchainOnBcy',
@@ -61,6 +62,7 @@ class DatasourcesStringController extends Controller
 
         $dataSourcesArray = array();
         
+        // return an array datasource => url
         foreach($datasources as $datasource){
             
             if(in_array($datasource['name'], $compatibles)){
@@ -102,7 +104,9 @@ class DatasourcesStringController extends Controller
 
             }elseif($function === 'TxHistory'){
 
-                return [];
+                return [
+                    'Accepts: application/json'
+                ];
             }
 
         }else{
@@ -114,6 +118,11 @@ class DatasourcesStringController extends Controller
     }
 
 
+    /**
+     * return datasource object for CsCannon functions
+     * 
+     * @param String $datasource
+     */
     public static function getDatasourceClass(string $datasource){
 
         switch($datasource){
@@ -172,6 +181,11 @@ class DatasourcesStringController extends Controller
     }
 
 
+    /**
+     * find the url for getBalance
+     * 
+     * @param String $datasource
+     */
     public static function getDatasourceUrlBalance(string $datasource){
 
         switch($datasource){
@@ -228,6 +242,13 @@ class DatasourcesStringController extends Controller
     }
 
 
+    /**
+     * find the url for TxHistory
+     * 
+     * @param String $datasource
+     * 
+     * @return Url
+     */
     public static function getDatasourceUrlTxHistory(string $datasource){
 
 
@@ -245,8 +266,12 @@ class DatasourcesStringController extends Controller
                 return "https://xchain.io/api/history/{address}";
             break;
 
+            // case 'BlockscoutAPI':
+            //     return 'https://blockscout.com/eth/mainnet/api?module=account&action=txlist&address={address}';
+            // break;
+
             case 'BlockscoutAPI':
-                return 'https://blockscout.com/eth/mainnet/api?module=account&action=txlist&address={address}';
+                return 'https://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock=0&endblock=999999999&sort=desc&apikey='.env('ETHERSCAN_API_KEY');
             break;
 
             case 'InfuraProvider':
