@@ -4,30 +4,30 @@ jQuery(document).ready(function($){
 
         $.each(datas, function(index, content){
 
-            $datasourceName = index;
-            $('#'+$datasourceName).html(index)
-            $('#'+$datasourceName).append('<br>')
+            $datasource = $('#' + index);
+            $datasource.html(index)
+            $datasource.append('<br>')
 
             $.each(content, function (name, data){
-                console.log(name);
                 
                 if(!data.isArray){
-                    $('#'+$datasourceName).append(name)
-                    $('#'+$datasourceName).append('<br>')
-                    $('#'+$datasourceName).append('     ' + data)
-                    $('#'+$datasourceName).append('<br>')
+
+                    $datasource.append(name)
+                    $datasource.append('<br>')
+                    $datasource.append('     ' + data)
+                    $datasource.append('<br>')
+
                 }else{
 
                     $.each(data, function(dataName, dataContent){
 
-                        
+
 
                     })
-
                 }
+
             })
         })
 
     })
-
 });
