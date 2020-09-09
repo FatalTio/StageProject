@@ -65,8 +65,8 @@ class DatasourceController extends Controller
             }
 
         }
-        
-        return view('datasource/result', [
+        // dd($datasourceResult);
+        return view('datasource/results', [
             'results'       => $datasourceResult,
             'function'      => $function,
             'address'       => $address,
