@@ -29,3 +29,5 @@ Route::post('/testDatasources', 'CscDatasourcesController@testAllDatasources')->
 
 Route::get('/viewJson/{datasource}/{function}/{address}', 'CscDatasourcesController@viewJson');
 Route::get('/datasourcesToJson/{datasource}/{function}/{address}', 'DatasourceController@viewJson');
+
+Route::get('/dataSourceJson/{address}/{blockchain}/{function}', 'DatasourceController@dataSourceJson')->name('dataSourceJson');

@@ -8,31 +8,21 @@ use Illuminate\Support\Facades\DB;
 class DatasourceController extends Controller
 {
 
-    /**
-     * call each datasources compatibles with curl
-     * 
-     * @param Request POST
-     */
-    public function testCurlDatasources(Request $request){
-
-        $address = $request->input('address');
-        $blockchain = $request->input('blockchain');
-        $function = $request->input('function');
-
+    public function callDatasources(string $address, string $blockchain, string $function){
+    
         // get the datasources associated at blockchain
-
         $datasources = DB::table('blockchain')
-                        ->where('blockchain.name', $blockchain)
-                        ->join('datasource', 'blockchain_id', '=', 'datasource.blockchain')
-                        ->select(['blockchain.name', 'datasource.name'])
-                        ->get();
+            ->where('blockchain.name', $blockchain)
+            ->join('datasource', 'blockchain_id', '=', 'datasource.blockchain')
+            ->select(['blockchain.name', 'datasource.name'])
+            ->get();
 
         $myDatasources = json_decode(json_encode($datasources), true);
 
         // find the url of datasources
         $datasourceUrls = DatasourcesStringController::getCompatiblesDataSources($myDatasources, $function);
 
-        
+
         $datasourceResult = array();
 
         foreach($datasourceUrls as $datasourceName => $datasourceUrl){
@@ -65,6 +55,24 @@ class DatasourceController extends Controller
             }
 
         }
+
+        return $datasourceResult;
+    }
+
+    /**
+     * call each datasources compatibles with curl
+     * 
+     * @param Request POST
+     */
+    public function testCurlDatasources(Request $request){
+
+        $address = $request->input('address');
+        $blockchain = $request->input('blockchain');
+        $function = $request->input('function');
+
+
+        $datasourceResult = $this->callDatasources($address, $blockchain, $function);
+
         // dd($datasourceResult);
         return view('datasource/results', [
             'results'       => $datasourceResult,
@@ -74,6 +82,13 @@ class DatasourceController extends Controller
             'howToTest'     => $request->input('howToTest')
         ]);
 
+    }
+
+    public function dataSourceJson(string $address, string $blockchain, string $function){
+
+        $datasourceResult = $this->callDatasources($address, $blockchain, $function);
+        
+        return response()->json($datasourceResult);
     }
 
     /**
