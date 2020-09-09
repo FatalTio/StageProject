@@ -1,123 +1,107 @@
 @extends('welcome')
 
-<header>
-    @include('components.header')
-</header>
+@section('content')
 
-<style>
+    <link rel="stylesheet" href="{{ asset('styles/blockchain/balance_result.css') }}">
 
-    .contractsList{
-        font-weight: bold;
-        border-radius: 10px;
-        padding-top: 10px;
-        display: none;
-    }
+    <section>
 
-    .contractButton{
-        box-shadow: 1px 1px 5px #ffc107;
-    }
+        <h1 class="text-center text-success font-weight-bold mt-3">{{ $function }}()</h1>
+        <h1 class="text-center text-primary font-weight-bold mt-3">{{ $address }}</h1>
 
-</style>
-<body>
-<section>
+        @foreach($results as $name => $result)
 
-    <h1 class="text-center text-success font-weight-bold mt-3">{{ $function }}()</h1>
-    <h1 class="text-center text-primary font-weight-bold mt-3">{{ $address }}</h1>
+            <h3 class="text-center text-warning font-weight-bold mt-3">With the Datasource {{ $name }} :</h3>
 
-    @foreach($results as $name => $result)
+            <h2 class="text-center text-warning font-weight-bold mt-3"> {{ $result ? 'This request responds in ' . $result['time'] : 'This request find nothing !' }}</h2>
+            
 
-        <h3 class="text-center text-warning font-weight-bold mt-3">With the Datasource {{ $name }} :</h3>
+            @if($result)
 
-        <h2 class="text-center text-warning font-weight-bold mt-3"> {{ $result ? 'This request responds in' . $result['time'] : 'This request find nothing !' }}</h2>
-        
+                <a href="{{ url('/viewJson', ['datasource' => $name, 'function' => $function, 'address' => $address]) }}" target="_blank" type="button" 
+                    class="btn btn-outline-success font-weight-bold col-4 offset-4 mt-3">
+                        View the Json result
+                </a>
+            @else
+                <a href="{{ url('functionsTest', ['howToTest' => $howTotest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">Back to the research</a>
+            @endif
 
-        @if($result)
+            @if(isset($result['contracts']))
 
-            <a href="{{ url('/viewJson', ['datasource' => $name, 'function' => $function, 'address' => $address]) }}" target="_blank" type="button" 
-                class="btn btn-outline-success font-weight-bold col-4 offset-4 mt-3">
-                    View the Json result
-            </a>
-        @else
-            <a href="{{ url('functionsTest', ['howToTest' => $howTotest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">Back to the research</a>
-        @endif
+                <h5 class="text-center text-warning font-weight-bold mt-3">For {{ count($result['contracts']) }} blockchain(s) :</h5>
 
-        @if(isset($result['contracts']))
+                <div id="responseDiv" class="container mt-4 col-6">
 
-            <h5 class="text-center text-warning font-weight-bold mt-3">For {{ count($result['contracts']) }} blockchain(s) :</h5>
+                    @foreach($result['contracts'] as $index => $contracts)
 
-            <div id="responseDiv" class="container mt-4 col-6">
+                        <button data-toggle="popover" data-placement="right" data-content="{{ count($contracts) }} contract(s) }}" 
+                            data-value="{{ $index }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
 
-                @foreach($result['contracts'] as $index => $contracts)
+                            {{ $index }}
+                        </button>
 
-                    <button data-toggle="popover" data-placement="right" data-content="{{ count($contracts) }} contract(s) }}" 
-                        data-value="{{ $index }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
+                        <div id="{{ $index }}" class="contractsList container mt-3 col-6 bg-dark text-success text-center">
 
-                        {{ $index }}
-                    </button>
+                            <h3 class="text-center text-success font-weight-bold mt-3 mb-2"><ins>{{ count($contracts) }} contract(s) :</ins></h3>
 
-                    <div id="{{ $index }}" class="contractsList container mt-3 col-6 bg-dark text-success text-center">
+                            <ol>
 
-                        <h3 class="text-center text-success font-weight-bold mt-3 mb-2"><ins>{{ count($contracts) }} contract(s) :</ins></h3>
+                                @foreach($contracts as $contractName => $contract)
 
-                        <ol>
+                                    <li>{{ $contractName }}</li>
 
-                            @foreach($contracts as $contractName => $contract)
+                                @endforeach
 
-                                <li>{{ $contractName }}</li>
+                            </ol>
 
-                            @endforeach
+                        </div>
 
-                        </ol>
+                    @endforeach
 
-                    </div>
+                </div>
 
-                @endforeach
+            
+            @elseif(isset($result['collections']))
 
-            </div>
+                <h5 class="text-center text-warning font-weight-bold mt-3">For {{ count($result['collections']) }} collection(s) :</h5>
 
-        
-        @elseif(isset($result['collections']))
+                <div id="responseDiv" class="container mt-4 col-6">
 
-            <h5 class="text-center text-warning font-weight-bold mt-3">For {{ count($result['collections']) }} collection(s) :</h5>
+                    @foreach($result['collections'] as $collection)
 
-            <div id="responseDiv" class="container mt-4 col-6">
+                        <button data-toggle="popover" data-placement="right" data-content="{{ count($collection['orbs']) }} contract(s)" 
+                            data-value="{{ $collection['id'] }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
 
-                @foreach($result['collections'] as $collection)
+                            {{ $collection['id'] }}
+                        </button>
 
-                    <button data-toggle="popover" data-placement="right" data-content="{{ count($collection['orbs']) }} contract(s)" 
-                        data-value="{{ $collection['id'] }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
+                        <div id="{{ $collection['id'] }}" class="contractsList container mt-3 col-6 bg-dark text-success text-center">
 
-                        {{ $collection['id'] }}
-                    </button>
+                            <h3 class="text-center text-success font-weight-bold mt-3 mb-2"><ins>{{ count($collection['orbs']) }} contract(s) :</ins></h3>
 
-                    <div id="{{ $collection['id'] }}" class="contractsList container mt-3 col-6 bg-dark text-success text-center">
+                            <ol>
 
-                        <h3 class="text-center text-success font-weight-bold mt-3 mb-2"><ins>{{ count($collection['orbs']) }} contract(s) :</ins></h3>
+                                @foreach($collection['orbs'] as $contract)
 
-                        <ol>
+                                    <li>{{ $contract['contract'] }}</li>
 
-                            @foreach($collection['orbs'] as $contract)
+                                @endforeach
 
-                                <li>{{ $contract['contract'] }}</li>
+                            </ol>
 
-                            @endforeach
+                        </div>
 
-                        </ol>
+                    @endforeach
 
-                    </div>
+                </div>
 
-                @endforeach
+            @endif
 
-            </div>
+        @endforeach
 
-        @endif
+    </section>
 
-    @endforeach
 
-</section>
-</body>
+    <script src="{{ asset('js/blockchain/balance.js') }}"></script>
 
-@include('components/footer')
-@include('components/scripts')
-
-<script src="js/blockchain/balance.js"></script>
+@endsection

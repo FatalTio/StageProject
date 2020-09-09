@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="styles/helper/helper.css">
+<link rel="stylesheet" href="{{ asset('styles/components/helper.css') }}">
 
 <div id="helperIcon">
     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-question-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -29,13 +29,12 @@
         <a href="#"><li class="nav-item">Blockchains</li></a>
         <a href="#"><li class="nav-item">Datasources</li></a>
         <a href="#"><li class="nav-item">About us</li></a>
-        {{-- <li></li>
-        <li></li> --}}
+        <!-- <li></li>
+        <li></li> -->
 
     </ul>
 
 </div>
 
-@include('components/scripts')
 
-<script src="js/helper/helper.js"></script>
+<script src="{{ asset('js/helper/helper.js') }}"></script>

@@ -1,0 +1,17 @@
+.contractsList{
+    font-weight: bold;
+    border-radius: 10px;
+    padding-top: 10px;
+    display: none;
+    width: 30%;
+}
+
+.contractButton{
+    box-shadow: 1px 1px 5px #ffc107;
+}
+
+hr{
+    width: 75%;
+    height: 2px;
+    background-color: antiquewhite;
+}

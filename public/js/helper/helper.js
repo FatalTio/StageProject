@@ -1,14 +1,42 @@
-const helperDisplay = document.getElementById('helperIcon');
+const helperIcon = document.getElementById('helperIcon');
 const closeMenu = document.getElementById('closeMenu');
 let open = false;
 
-helperDisplay.addEventListener('click', () => {
+helperIcon.addEventListener('click', () => {
     openOrClose();
+    scaleVanish();
 })
 
 closeMenu.addEventListener('click', ()=>{
     openOrClose();
+    scaleAppear();
 })
+
+const scaleVanish = () => {
+
+    anime({
+        targets: '#helperIcon',
+        scale: 0.2,
+        duration: 800,
+        easing: 'linear'
+    })
+
+    setTimeout(() => {
+        helperIcon.style.display = 'none';
+    }, 800)
+}
+
+const scaleAppear = () => {
+
+    helperIcon.style.display = 'block';
+    anime({
+        targets: '#helperIcon',
+        scale: 1,
+        duration: 400,
+        easing: 'linear'
+    })
+}
+
 
 const openOrClose = () => {
     
@@ -24,7 +52,7 @@ const openOrClose = () => {
 }
 
 
-$.noConflict();
+// $.noConflict();
 jQuery(document).ready(function($){
 
     $('#cscDropDown').on('click', ()=>{

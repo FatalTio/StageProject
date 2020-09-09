@@ -9,7 +9,6 @@ use CsCannon\AssetFactory;
 use CsCannon\BlockchainRouting;
 use CsCannon\Blockchains\BlockchainAddress;
 use CsCannon\Blockchains\Counterparty\DataSource\XchainDataSource;
-use CsCannon\Blockchains\Counterparty\DataSource\XchainOnBcy;
 use CsCannon\Blockchains\DataSource\CrystalSuiteDataSource;
 use CsCannon\Blockchains\Ethereum\DataSource\BlockscoutAPI;
 use CsCannon\Blockchains\Ethereum\DataSource\InfuraProvider;
@@ -69,7 +68,7 @@ class CscDatasourcesController extends Controller
 
         $assetCollection = new AssetCollectionFactory(SandraManager::getSandra());
         $assetCollection->populateLocal();
-
+        
         $assetFactory = new AssetFactory();
         $assetFactory->populateLocal();
 
@@ -84,11 +83,11 @@ class CscDatasourcesController extends Controller
 
             $myDatasource = DatasourcesStringController::getDatasourceClass($datasource['name']);
             $addressToQuery->setDataSource($myDatasource);
-
+            
             $results[$datasource['name']] = $this->callFunction($addressToQuery, $function);
-
+            
         }
-
+        
         return view('blockchain/balance_results', [
             'results'       => $results,
             'function'      => $function,
@@ -112,6 +111,8 @@ class CscDatasourcesController extends Controller
         $startTime = microtime(true);
 
         $cscResponse = $address->getBalance();
+        
+        $result = array();
 
         if($function == 'returnObsByCollection'){
 
@@ -120,7 +121,8 @@ class CscDatasourcesController extends Controller
             $endTime = microtime(true);
 
             $timeForRequest = round(($endTime - $startTime), 5);
-            
+        
+
             if(!empty($obsByCollection['collections'])){
 
                 $result['time'] = $timeForRequest . ' sec';
@@ -148,7 +150,7 @@ class CscDatasourcesController extends Controller
 
         }
 
-
+        
         return $result;
 
     }
@@ -164,10 +166,10 @@ class CscDatasourcesController extends Controller
      */
     public function viewJson(string $datasource, string $function, string $address){
 
-        $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
-        SandraManager::setSandra($sandra);
+        // $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
+        // SandraManager::setSandra($sandra);
 
-        $assetCollection = new AssetCollectionFactory(SandraManager::getSandra());
+        // $assetCollection = new AssetCollectionFactory(SandraManager::getSandra());
 
         $addressFactory = BlockchainRouting::getAddressFactory($address);
         $addressToQuery = $addressFactory->get($address);

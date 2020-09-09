@@ -1,121 +1,98 @@
 @extends('welcome')
 
-<header>
-    @include('components.header')
-</header>
+@section('content')
 
-<style>
+    <link rel="stylesheet" href="{{ asset('styles/datasource/result.css') }}">
+    <section>
 
-    .contractsList{
-        font-weight: bold;
-        border-radius: 10px;
-        padding-top: 10px;
-        display: none;
-        width: 30%;
-    }
+        <h1 class="text-center text-success font-weight-bold mt-3">{{ $function }}()</h1>
+        <h1 class="text-center text-primary font-weight-bold mt-3">{{ $address }}</h1>
 
-    .contractButton{
-        box-shadow: 1px 1px 5px #ffc107;
-    }
+        @if(empty($results))
 
-    hr{
-        width: 75%;
-        height: 2px;
-        background-color: antiquewhite;
-    }
+            <h2 class="text-center text-warning font-weight-bold mt-3">This request find nothing !</h2>
 
-</style>
-<section>
+            <a href="{{ url('functionsTest', ['howToTest' => $howToTest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">Back to the research</a>
 
-    <h1 class="text-center text-success font-weight-bold mt-3">{{ $function }}()</h1>
-    <h1 class="text-center text-primary font-weight-bold mt-3">{{ $address }}</h1>
+        @else
 
-    @if(empty($results))
+            @foreach($results as $name => $result)
 
-        <h2 class="text-center text-warning font-weight-bold mt-3">This request find nothing !</h2>
+                <hr class="mt-4 mb-4">
 
-        <a href="{{ url('functionsTest', ['howToTest' => $howToTest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">Back to the research</a>
-
-    @else
-
-        @foreach($results as $name => $result)
-
-            <hr class="mt-4 mb-4">
-
-            <h2 class="text-center text-warning font-weight-bold mt-3">{{ $name }}</h2>
-            <h2 class="text-center text-warning font-weight-bold mt-3"> {{ $result ? 'This request responds in ' . $result['time'] . ' sec' : 'This request find nothing !' }}</h2>
+                <h2 class="text-center text-warning font-weight-bold mt-3">{{ $name }}</h2>
+                <h2 class="text-center text-warning font-weight-bold mt-3"> {{ $result ? 'This request responds in ' . $result['time'] . ' sec' : 'This request find nothing !' }}</h2>
 
 
-            <button data-toggle="popover" data-placement="right" data-content="{{ count($result['data']) }} {{ $function == 'getBalance' ? 'contracts' : 'transactions' }}"
-            data-value="{{ $name }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
-                {{ $function == 'getBalance' ? 'View the list of contracts' : 'View the top ten transactions' }}
-            </button>
+                <button data-toggle="popover" data-placement="right" data-content="{{ count($result['data']) }} {{ $function == 'getBalance' ? 'contracts' : 'transactions' }}"
+                data-value="{{ $name }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
+                    {{ $function == 'getBalance' ? 'View the list of contracts' : 'View the top ten transactions' }}
+                </button>
 
 
-            <div id="responseDiv" class="container mt-4 col-6">
+                <div id="responseDiv" class="container mt-4 col-6">
 
-                <div id="{{ $name }}" class="contractsList container mt-3 bg-dark text-success text-center font-weight-normal">
+                    <div id="{{ $name }}" class="contractsList container mt-3 bg-dark text-success text-center font-weight-normal">
 
-                    <h3 class="text-center text-success font-weight-bold mt-3 mb-2"><ins>{{ count($result['data']) }} contract(s) :</ins></h3>
+                        <h3 class="text-center text-success font-weight-bold mt-3 mb-2"><ins>{{ count($result['data']) }} contract(s) :</ins></h3>
 
-                    <ol>
-                        @php
-                            $i = 0;
-                        @endphp
+                        <ol>
+                            @php
+                                $i = 0;
+                            @endphp
 
-                        @foreach($result['data'] as $contract)
+                            @foreach($result['data'] as $contract)
 
-                            @if($blockchain != 'Ethereum')
+                                @if($blockchain != 'Ethereum')
 
-                                <li> {{ $contract['contract'] }} </li>
-                            
-                            @else
+                                    <li> {{ $contract['contract'] }} </li>
+                                
+                                @else
 
-                                @if($function == 'TxHistory')
-                                    <li><h5 class="font-weight-bold">Transaction Index : </h5>{{ $contract['transactionIndex'] }}<br/>
-                                    <h5 class="font-weight-bold">From : </h5>{{ $contract['from'] }}<br/>
-                                    <h5 class="font-weight-bold">To : </h5>{{ $contract['to'] }}<br/>
-                                    <h5 class="font-weight-bold">Value : </h5>{{ $contract['value'] }}</li><hr>
+                                    @if($function == 'TxHistory')
+                                        <li><h5 class="font-weight-bold">Transaction Index : </h5>{{ $contract['transactionIndex'] }}<br/>
+                                        <h5 class="font-weight-bold">From : </h5>{{ $contract['from'] }}<br/>
+                                        <h5 class="font-weight-bold">To : </h5>{{ $contract['to'] }}<br/>
+                                        <h5 class="font-weight-bold">Value : </h5>{{ $contract['value'] }}</li><hr>
 
-                                    @php
-                                        $i ++;
-                                    @endphp
+                                        @php
+                                            $i ++;
+                                        @endphp
 
-                                    @if($i<10)
-                                        @continue
-                                    @else
-                                        @break
+                                        @if($i<10)
+                                            @continue
+                                        @else
+                                            @break
+                                        @endif
+                                            
                                     @endif
-                                        
+
                                 @endif
 
-                            @endif
+                            @endforeach
 
-                        @endforeach
+                        </ol>
 
-                    </ol>
+                    </div>
 
                 </div>
 
-            </div>
+                @if($result)
 
-            @if($result)
+                    <a href="{{ url('/datasourcesToJson', ['datasource' => $name, 'function' => $function, 'address' => $address]) }}" target="_blank" type="button" 
+                        class="btn btn-outline-success font-weight-bold col-4 offset-4 mt-3">
+                            View the Json result
+                    </a>
+                @else
+                    <a href="{{ url('functionsTest', ['howToTest' => $howTotest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">Back to the research</a>
+                @endif
 
-                <a href="{{ url('/datasourcesToJson', ['datasource' => $name, 'function' => $function, 'address' => $address]) }}" target="_blank" type="button" 
-                    class="btn btn-outline-success font-weight-bold col-4 offset-4 mt-3">
-                        View the Json result
-                </a>
-            @else
-                <a href="{{ url('functionsTest', ['howToTest' => $howTotest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">Back to the research</a>
-            @endif
+            @endforeach
+        
+        @endif
 
-        @endforeach
-    
-    @endif
+    </section>
 
-</section>
+    <script src="{{ asset('js/datasource/result.js') }}"></script>
 
-@include('components/footer')
-@include('components/scripts')
-
-<script src="js/datasource/result.js"></script>
+@endsection

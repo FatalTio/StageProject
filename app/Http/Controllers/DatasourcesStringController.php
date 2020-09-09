@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use CsCannon\Blockchains\Counterparty\DataSource\XchainDataSource;
-use CsCannon\Blockchains\Counterparty\DataSource\XchainOnBcy;
 use CsCannon\Blockchains\DataSource\CrystalSuiteDataSource;
 use CsCannon\Blockchains\Ethereum\DataSource\BlockscoutAPI;
 use CsCannon\Blockchains\Ethereum\DataSource\InfuraProvider;
@@ -22,7 +21,6 @@ class DatasourcesStringController extends Controller
     private static $getBalanceCompatibles = [
         'CrystalSuiteDataSource',
         'XchainDataSource',
-        'XchainOnBcy',
         'BlockscoutAPI',
         // 'InfuraProvider',
         // 'InfuraProviderRinkeby',
@@ -32,7 +30,6 @@ class DatasourcesStringController extends Controller
     // datasources compatibles with TxHistory
     private static $txHistoryCompatibles = [
         'XchaindataSource',
-        'XchainOnBcy',
         'BlockscoutAPI'
     ];
 
@@ -135,10 +132,6 @@ class DatasourcesStringController extends Controller
                 return new XchainDataSource;
             break;
 
-            case 'XchainOnBcy':
-                return new XchainOnBcy;
-            break;
-
             case 'BlockscoutAPI':
                 return new BlockscoutAPI;
             break;
@@ -177,7 +170,6 @@ class DatasourcesStringController extends Controller
 
         }
 
-
     }
 
 
@@ -195,10 +187,6 @@ class DatasourcesStringController extends Controller
             break;
 
             case 'XchainDataSource':
-                return "https://xchain.io/api/balances/{address}";
-            break;
-
-            case 'XchainOnBcy':
                 return "https://xchain.io/api/balances/{address}";
             break;
 
@@ -261,18 +249,14 @@ class DatasourcesStringController extends Controller
             case 'XchaindataSource':
                 return "https://xchain.io/api/history/{address}";
             break;
-                
-            case 'XchainOnBcy':
-                return "https://xchain.io/api/history/{address}";
+
+            case 'BlockscoutAPI':
+                return 'https://blockscout.com/eth/mainnet/api?module=account&action=txlist&address={address}';
             break;
 
             // case 'BlockscoutAPI':
-            //     return 'https://blockscout.com/eth/mainnet/api?module=account&action=txlist&address={address}';
+            //     return 'https://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock=0&endblock=999999999&sort=desc&apikey='.env('ETHERSCAN_API_KEY');
             // break;
-
-            case 'BlockscoutAPI':
-                return 'https://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock=0&endblock=999999999&sort=desc&apikey='.env('ETHERSCAN_API_KEY');
-            break;
 
             case 'InfuraProvider':
                 return 'https://mainnet.infura.io/v3/'.env('INFURA_PROJECT_ID');
