@@ -26,6 +26,7 @@
                 <a href="{{ url('functionsTest', ['howToTest' => $howTotest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">Back to the research</a>
             @endif
 
+            {{-- getBalance on Ethereum --}}
             @if(isset($result['contracts']))
 
                 <h5 class="text-center text-warning font-weight-bold mt-3">For {{ count($result['contracts']) }} blockchain(s) :</h5>
@@ -60,7 +61,7 @@
 
                 </div>
 
-            
+            {{-- returnObsByCollection --}}
             @elseif(isset($result['collections']))
 
                 <h5 class="text-center text-warning font-weight-bold mt-3">For {{ count($result['collections']) }} collection(s) :</h5>
@@ -84,6 +85,41 @@
                                 @foreach($collection['orbs'] as $contract)
 
                                     <li>{{ $contract['contract'] }}</li>
+
+                                @endforeach
+
+                            </ol>
+
+                        </div>
+
+                    @endforeach
+
+                </div>
+
+            {{-- getBalance on Counterparty --}}
+            @elseif(isset($result['results']))
+
+                <h5 class="text-center text-warning font-weight-bold mt-3">For {{ count($result['results']) }} blockchain(s) :</h5>
+
+                <div id="responseDiv" class="container mt-4 col-6">
+
+                    @foreach($result['results'] as $blockchain => $contracts)
+
+                        <button data-toggle="popover" data-placement="right" data-content="{{ count($contracts) }} contract(s) }}" 
+                            data-value="{{ $blockchain }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
+
+                            {{ $blockchain }}
+                        </button>
+
+                        <div id="{{ $blockchain }}" class="contractsList container mt-3 col-6 bg-dark text-success text-center">
+
+                            <h3 class="text-center text-success font-weight-bold mt-3 mb-2"><ins>{{ count($contracts) }} contract(s) :</ins></h3>
+
+                            <ol>
+
+                                @foreach($contracts as $contractName => $contract)
+
+                                    <li>{{ $contractName }}</li>
 
                                 @endforeach
 
