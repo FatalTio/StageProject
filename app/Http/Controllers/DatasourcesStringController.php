@@ -29,7 +29,7 @@ class DatasourcesStringController extends Controller
 
     // datasources compatibles with TxHistory
     private static $txHistoryCompatibles = [
-        'XchaindataSource',
+        'XchainDataSource',
         'BlockscoutAPI'
     ];
 
@@ -63,12 +63,12 @@ class DatasourcesStringController extends Controller
         foreach($datasources as $datasource){
             
             if(in_array($datasource['name'], $compatibles)){
-
+                
                 $dataSourcesArray[$datasource['name']] = self::$functionToCall($datasource['name']);
 
             }
         }
-
+        
         return $dataSourcesArray;
     }
 
@@ -190,9 +190,12 @@ class DatasourcesStringController extends Controller
                 return "https://xchain.io/api/balances/{address}";
             break;
 
+            // case 'BlockscoutAPI':
+            //     return 'https://blockscout.com/eth/mainnet/api?module=account&action=balance&address={address}';
+            // break;
+
             case 'BlockscoutAPI':
-                return 'https://blockscout.com/eth/mainnet/api?module=account&action=balance&address={address}';
-            break;
+                return 'https://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock=0&endblock=999999999&sort=desc&apikey='.env('ETHERSCAN_API_KEY');
 
             case 'InfuraProvider':
                 return 'https://mainnet.infura.io/v3/'.env('INFURA_PROJECT_ID');
@@ -246,17 +249,17 @@ class DatasourcesStringController extends Controller
                 return null;
             break;
 
-            case 'XchaindataSource':
+            case 'XchainDataSource':
                 return "https://xchain.io/api/history/{address}";
             break;
 
-            case 'BlockscoutAPI':
-                return 'https://blockscout.com/eth/mainnet/api?module=account&action=txlist&address={address}';
-            break;
-
             // case 'BlockscoutAPI':
-            //     return 'https://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock=0&endblock=999999999&sort=desc&apikey='.env('ETHERSCAN_API_KEY');
+            //     return 'https://blockscout.com/eth/mainnet/api?module=account&action=txlist&address={address}';
             // break;
+
+            case 'BlockscoutAPI':
+                return 'https://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock=0&endblock=999999999&sort=desc&apikey='.env('ETHERSCAN_API_KEY');
+            break;
 
             case 'InfuraProvider':
                 return 'https://mainnet.infura.io/v3/'.env('INFURA_PROJECT_ID');

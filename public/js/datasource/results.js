@@ -1,33 +1,27 @@
 jQuery(document).ready(function($){
-    
-    $.get(url, function(datas, status){
 
-        $.each(datas, function(index, content){
+    $.ajax({
 
-            $datasource = $('#' + index);
-            $datasource.html(index)
-            $datasource.append('<br>')
+        url: urlToQuery,
+        type: 'get',
+        beforeSend: function(){
 
-            $.each(content, function (name, data){
-                
-                if(!data.isArray){
+            $('.spinner-border').show();
+        },
+        success: function(response){
 
-                    $datasource.append(name)
-                    $datasource.append('<br>')
-                    $datasource.append('     ' + data)
-                    $datasource.append('<br>')
+            $('.spinner-border').hide();
 
-                }else{
+            $.each(response, function(index, content){
 
-                    $.each(data, function(dataName, dataContent){
-
-
-
-                    })
+                if(status != 200){
+                    'Something is worng with this request !'
                 }
-
+    
+                $datasource = $('#' + index);
+    
+                $datasource.append(JSON.stringify(content, undefined, 2))
             })
-        })
-
+        }
     })
 });

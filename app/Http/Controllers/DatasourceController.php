@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class DatasourceController extends Controller
 {
 
-    public function callDatasources(string $address, string $blockchain, string $function){
+    public function callDatasources(string $address, string $blockchain, string $function, bool $curlCall = true){
     
         // get the datasources associated at blockchain
         $datasources = DB::table('blockchain')
@@ -16,19 +16,24 @@ class DatasourceController extends Controller
             ->join('datasource', 'blockchain_id', '=', 'datasource.blockchain')
             ->select(['blockchain.name', 'datasource.name'])
             ->get();
-
+        
         $myDatasources = json_decode(json_encode($datasources), true);
 
         // find the url of datasources
         $datasourceUrls = DatasourcesStringController::getCompatiblesDataSources($myDatasources, $function);
 
+        // if param $curlCall false, return array of urls and datasources name
+        if($curlCall === false){
+
+            return $datasourceUrls;
+        }
 
         $datasourceResult = array();
 
         foreach($datasourceUrls as $datasourceName => $datasourceUrl){
             
             $urlToCall = str_replace('{address}', $address, $datasourceUrl);
-
+            
             // header for curl
             $headers = DatasourcesStringController::findHeader($function, $datasourceName, $address);
 
@@ -69,13 +74,11 @@ class DatasourceController extends Controller
         $address = $request->input('address');
         $blockchain = $request->input('blockchain');
         $function = $request->input('function');
-
-
-        $datasourceResult = $this->callDatasources($address, $blockchain, $function);
-
-        // dd($datasourceResult);
+       
+        $datasourceToCall = $this->callDatasources($address, $blockchain, $function, false);
+        
         return view('datasource/results', [
-            'results'       => $datasourceResult,
+            'datasources'       => $datasourceToCall,
             'function'      => $function,
             'address'       => $address,
             'blockchain'    => $blockchain,
