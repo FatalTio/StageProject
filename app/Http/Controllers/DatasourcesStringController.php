@@ -22,9 +22,6 @@ class DatasourcesStringController extends Controller
         'CrystalSuiteDataSource',
         'XchainDataSource',
         'BlockscoutAPI',
-        // 'InfuraProvider',
-        // 'InfuraProviderRinkeby',
-        // 'InfuraRopstenProvider'
     ];
 
     // datasources compatibles with TxHistory

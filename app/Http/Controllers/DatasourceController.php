@@ -8,14 +8,24 @@ use Illuminate\Support\Facades\DB;
 class DatasourceController extends Controller
 {
 
+    /**
+     * Find the compatibles datasources and url, can make a curl request
+     * 
+     * @param String $address Blockchain address
+     * @param String $blockchain Blockchain name     
+     * @param String $function Function name
+     * @param Bool $curlCall True for curl request, false for have only datasources names
+     * 
+     * @return Array of datasources or curl result
+     */
     public function callDatasources(string $address, string $blockchain, string $function, bool $curlCall = true){
     
         // get the datasources associated at blockchain
         $datasources = DB::table('blockchain')
-            ->where('blockchain.name', $blockchain)
-            ->join('datasource', 'blockchain_id', '=', 'datasource.blockchain')
-            ->select(['blockchain.name', 'datasource.name'])
-            ->get();
+                        ->where('blockchain.name', $blockchain)
+                        ->join('datasource', 'blockchain_id', '=', 'datasource.blockchain')
+                        ->select(['blockchain.name', 'datasource.name'])
+                        ->get();
         
         $myDatasources = json_decode(json_encode($datasources), true);
 
@@ -32,37 +42,31 @@ class DatasourceController extends Controller
 
         foreach($datasourceUrls as $datasourceName => $datasourceUrl){
             
+            // add $address in url
             $urlToCall = str_replace('{address}', $address, $datasourceUrl);
-            
             // header for curl
             $headers = DatasourcesStringController::findHeader($function, $datasourceName, $address);
 
-
+            
             $startTime = microtime(true);
 
             $result = CurlController::curlCreator($urlToCall, $headers);
-            
+
             $endTime = microtime(true);
-
-            $timeForRequest = round(($endTime - $startTime), 5);
-
-            // replace key of results by 'data'
-            if(!empty($result) && array_key_exists('result', $result)){
-
-                $result['data'] = $result['result'];
-                unset($result['result']);
-            }
+            $timeForRequest = ['time' => round(($endTime - $startTime), 5)];
             
             if(!is_null($result)){
 
                 $datasourceResult[$datasourceName] = $result;
-                $datasourceResult[$datasourceName]['time'] = $timeForRequest;
+                $datasourceResult[$datasourceName] = $timeForRequest + $datasourceResult[$datasourceName];
             }
 
         }
 
         return $datasourceResult;
     }
+
+
 
     /**
      * call each datasources compatibles with curl
@@ -74,56 +78,36 @@ class DatasourceController extends Controller
         $address = $request->input('address');
         $blockchain = $request->input('blockchain');
         $function = $request->input('function');
+        $howTotest = $request->input('howToTest');
        
         $datasourceToCall = $this->callDatasources($address, $blockchain, $function, false);
         
         return view('datasource/results', [
-            'datasources'       => $datasourceToCall,
+            'datasources'   => $datasourceToCall,
             'function'      => $function,
             'address'       => $address,
             'blockchain'    => $blockchain,
-            'howToTest'     => $request->input('howToTest')
+            'howToTest'     => $howTotest
         ]);
 
     }
 
-    public function dataSourceJson(string $address, string $blockchain, string $function){
-
-        $datasourceResult = $this->callDatasources($address, $blockchain, $function);
-        
-        return response()->json($datasourceResult);
-    }
+    
 
     /**
-     * create a Json with the datasource datas
+     * Curl request for Ajax
      * 
-     * @param String $datasource
-     * @param String $function
-     * @param String $address
-     * 
-     * @return Json
+     * @param String $address Blockchain address
+     * @param String $blockchain Blockchain name     
+     * @param String $function Function name
      */
-    public function viewJson(string $datasource, string $function, string $address){
+    public function dataSourceJson(string $address, string $blockchain, string $function){
 
-        if($function === 'getBalance'){
-
-            $url = DatasourcesStringController::getDatasourceUrlBalance($datasource);
-
-        }elseif($function === 'TxHistory'){
-
-            $url = DatasourcesStringController::getDatasourceUrlTxHistory($datasource);
-        }
-
-        $urlToCall = str_replace('{address}', $address, $url);
-
-
-        $headers = DatasourcesStringController::findHeader($function, $datasource, $address);
-
-        $curlResult = CurlController::curlCreator($urlToCall, $headers);
-
-
-        return response()->json($curlResult);
-
+        return response()->json(
+            $this->callDatasources($address, $blockchain, $function)
+        );
     }
+
+
 
 }

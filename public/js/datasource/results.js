@@ -14,14 +14,18 @@ jQuery(document).ready(function($){
 
             $.each(response, function(index, content){
 
-                if(status != 200){
-                    'Something is worng with this request !'
-                }
-    
                 $datasource = $('#' + index);
-    
                 $datasource.append(JSON.stringify(content, undefined, 2))
             })
+        },
+        error: function (jqXHR, exception){
+            if(jqXHR.status == 500){
+                alert('Internal error : ' + jqXHR.responseText)
+            }else{
+                alert('Unexpected error.')
+            }
         }
+
     })
+
 });
