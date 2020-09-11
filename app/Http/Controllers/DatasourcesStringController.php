@@ -180,7 +180,7 @@ class DatasourcesStringController extends Controller
         switch($datasource){
 
             case 'CrystalSuiteDataSource':
-                return 'https://baster.bitcrystals.com/api/v1/tokens/balances/{address}';
+                return 'https://baster.bitcrystals.com/api/v1/tokenss/balances/{address}';
             break;
 
             case 'XchainDataSource':

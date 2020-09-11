@@ -14,17 +14,31 @@ jQuery(document).ready(function($){
 
             $.each(response, function(index, content){
 
-                $datasource = $('#' + index);
+                $datasource = $('#' + index + functionToTest);
+
                 $datasource.append(JSON.stringify(content, undefined, 2))
+
             })
         },
-        error: function (jqXHR, exception){
-            if(jqXHR.status == 500){
-                alert('Internal error : ' + jqXHR.responseText)
-            }else{
-                alert('Unexpected error.')
-            }
-        }
+        // error: function (jqXHR, exception){
+        //     let msg = '';
+        //     if (jqXHR.status === 0) {
+        //         msg = 'Not connect.\n Verify Network.';
+        //     } else if (jqXHR.status == 404) {
+        //         msg = 'Requested page not found. [404]';
+        //     } else if (jqXHR.status == 500) {
+        //         msg = 'Internal Server Error [500].';
+        //     } else if (exception === 'parsererror') {
+        //         msg = 'Requested JSON parse failed.';
+        //     } else if (exception === 'timeout') {
+        //         msg = 'Time out error.';
+        //     } else if (exception === 'abort') {
+        //         msg = 'Ajax request aborted.';
+        //     } else {
+        //         msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        //     }
+        //     $('#post').html(msg);
+        // }
 
     })
 

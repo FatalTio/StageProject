@@ -54,11 +54,15 @@ class DatasourceController extends Controller
 
             $endTime = microtime(true);
             $timeForRequest = ['time' => round(($endTime - $startTime), 5)];
+
             
             if(!is_null($result)){
 
                 $datasourceResult[$datasourceName] = $result;
                 $datasourceResult[$datasourceName] = $timeForRequest + $datasourceResult[$datasourceName];
+            }else{
+
+                $datasourceResult[$datasourceName] = 'Something is bad with this request';
             }
 
         }
@@ -92,7 +96,7 @@ class DatasourceController extends Controller
 
     }
 
-    
+
 
     /**
      * Curl request for Ajax
@@ -101,10 +105,10 @@ class DatasourceController extends Controller
      * @param String $blockchain Blockchain name     
      * @param String $function Function name
      */
-    public function dataSourceJson(string $address, string $blockchain, string $function){
-
+    public function dataSourceJson(string $blockchain, string $function, string $address){
+        
         return response()->json(
-            $this->callDatasources($address, $blockchain, $function)
+            $this->callDatasources($address, $blockchain, $function, false)
         );
     }
 

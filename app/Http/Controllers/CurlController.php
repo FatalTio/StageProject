@@ -17,8 +17,13 @@ class CurlController extends Controller
             CURLOPT_HTTPHEADER => $headers,    
             CURLOPT_RETURNTRANSFER => 1   
         ));
-    
+        $error = curl_error($curl);
         $response = curl_exec($curl);
+
+        if(!empty($error)){
+            
+            return $error;
+        }
 
         return json_decode($response, true);
 

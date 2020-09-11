@@ -9,6 +9,7 @@
     display: flex;
     align-items: center;
     min-height: 10vh;
+    padding-left: 5%;
 }
 
 .spinner-border{
