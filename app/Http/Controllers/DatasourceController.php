@@ -108,7 +108,7 @@ class DatasourceController extends Controller
     public function dataSourceJson(string $blockchain, string $function, string $address){
         
         return response()->json(
-            $this->callDatasources($address, $blockchain, $function, false)
+            $this->callDatasources($address, $blockchain, $function)
         );
     }
 
