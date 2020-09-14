@@ -29,7 +29,7 @@ class CscDatasourcesController extends Controller
 
     public function functionsTest(string $howToTest){
 
-        $blockchains = DB::table('blockchain')
+        $blockchains = DB::table('blockchains')
                         ->select()
                         ->get();
 

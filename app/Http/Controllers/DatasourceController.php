@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +22,7 @@ class DatasourceController extends Controller
     public function callDatasources(string $address, string $blockchain, string $function, bool $curlCall = true){
     
         // get the datasources associated at blockchain
-        $datasources = DB::table('blockchain')
+        $datasources = DB::table('blockchains')
                         ->where('blockchain.name', $blockchain)
                         ->join('datasource', 'blockchain_id', '=', 'datasource.blockchain')
                         ->select(['blockchain.name', 'datasource.name'])
@@ -79,6 +80,27 @@ class DatasourceController extends Controller
      */
     public function testCurlDatasources(Request $request){
 
+        $datas = $request->all();
+
+        $validator = Validator::make($datas, [
+            'address'       => 'required|max:255',
+            'blockchain'    => 'required',
+            'function'      => 'required'
+        ]);
+
+        $errors = $validator->messages();
+        // dd($errors);
+        if($validator->fails()){
+
+            return view('blockchain/index', [
+                'howToTest'     => $request->input('howToTest'),
+                'blockchains'   => BlockchainController::getBlockchains()
+            ])
+            ->withErrors($errors)
+            ;
+        }
+
+
         $address = $request->input('address');
         $blockchain = $request->input('blockchain');
         $function = $request->input('function');
@@ -110,6 +132,30 @@ class DatasourceController extends Controller
         return response()->json(
             $this->callDatasources($address, $blockchain, $function)
         );
+    }
+
+
+    public function getNets(string $blockchain){
+
+        $nets = DB::table('blockchains')
+                    ->where('blockchains.name', $blockchain)
+                    ->join('nets', 'nets.nets_blockchain_id', '=', 'blockchains.id')
+                    ->select(['blockchains.name', 'nets.name'])
+                    ->get();
+
+
+        return response()->json($nets);
+    }
+
+    public function getDatasources(string $net){
+
+        $datasources = DB::table('nets')
+                            ->where('nets.name', $net)
+                            ->join('datasources', 'datasources.datasource_net_id', '=', 'nets.net_id')
+                            ->select(['nets.name', 'datasources.name'])
+                            ->get();
+
+        return response()->json($datasources);
     }
 
 

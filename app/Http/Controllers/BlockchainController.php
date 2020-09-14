@@ -9,21 +9,22 @@ class BlockchainController extends Controller
 
     public function index(){
 
-        $blockchain = DB::table('blockchain')->exists();
-        $datasource = DB::table('datasource')->exists();
-
-        if(!$datasource || !$blockchain){
-
-            $init = AppController::init();
-        }
-
-        $datasources = DB::table('datasource')
+        $datasources = DB::table('datasources')
                         ->select()
                         ->get();
 
         return view('index', [
             'datasources'   => $datasources
         ]);
+    }
+
+    public static function getBlockchains(){
+
+        $blockchains = DB::table('blockchains')
+                        ->select()
+                        ->get();
+
+        return $blockchains;
     }
 
     public function getBlockchainsSources($blockchainId){

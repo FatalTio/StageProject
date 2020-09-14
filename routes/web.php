@@ -31,3 +31,7 @@ Route::get('/viewJson/{datasource}/{function}/{address}', 'CscDatasourcesControl
 Route::get('/datasourcesToJson/{datasource}/{function}/{address}', 'DatasourceController@viewJson');
 
 Route::get('/dataSourceJson/{blockchain}/{function}/{address}', 'DatasourceController@dataSourceJson')->name('dataSourceJson');
+
+Route::get('/getNets/{blockchain}', 'DatasourceController@getNets');
+
+Route::get('/getDatasource/{net}', 'DatasourceController@getDatasources');

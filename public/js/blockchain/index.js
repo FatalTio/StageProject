@@ -11,4 +11,53 @@ jQuery(document).ready(function($){
 
     $('.close').popover({ trigger : "hover" });
 
+
+
+    $('#selectBlockchain').change(()=>{
+
+        $blockchain = $('#selectBlockchain option:selected').val()
+
+        $.ajax({
+
+            url: '/getNets/' + $blockchain,
+            type : 'get',
+            beforeSend: function(){
+
+                // $('.spinner-border').show();
+            },
+            success: function(response){
+
+                $('#selectNet').html('<option selected="selected">Select a '+ $blockchain +' net</option>')
+                $('#netGroup').slideDown();
+    
+                $.each(response, function(index, content){
+
+                    $newContent = content.name.replace('_', ' ');
+                    $('#selectNet').append('<option>' + $newContent + '</option>')
+
+                })
+            },
+            error: function (jqXHR, exception){
+
+                let msg = '';
+
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                $('#post').html(msg);
+            }
+        })
+    })
+
+
 });
