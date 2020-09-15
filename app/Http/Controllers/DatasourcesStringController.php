@@ -44,10 +44,12 @@ class DatasourcesStringController extends Controller
 
         $myNet = str_replace(' ', '_', $net);
 
+        // get Datasources from net
         $datasources = json_decode(json_encode(
             BlockchainController::getDatasourcesFromNet($myNet)
         ), true);
 
+        // determine the compatibles datasources
         if($function === 'getBalance'){
 
             $compatibles = self::$getBalanceCompatibles;

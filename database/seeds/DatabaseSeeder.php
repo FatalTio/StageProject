@@ -1,6 +1,5 @@
 <?php
 
-// use Database\Seeds\BlockchainTableSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

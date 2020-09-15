@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use CsCannon\AssetCollectionFactory;
@@ -45,7 +46,7 @@ class CscDatasourcesController extends Controller
     public function testAllDatasources(Request $request){
 
         $datas = $request->all();
-        
+
         // Check the form
         $validator = Validator::make($datas, [
             'address'       => 'required|max:255',
@@ -68,16 +69,15 @@ class CscDatasourcesController extends Controller
         $blockchain = $request->input('blockchain');
         $function = $request->input('function');
         $address = $request->input('address');
+        $net = $request->input('net');
+
+        $netForSearch = str_replace(' ', '_', $net);
 
         $myBlockchain = strtolower($blockchain);
         $blockchain = ucfirst($myBlockchain);
 
         // get the datasources associated at blockchain
-        $blockchains = DB::table('blockchain')
-                        ->where('blockchain.name', $blockchain)
-                        ->join('datasource', 'blockchain_id', '=', 'datasource.blockchain')
-                        ->select(['blockchain.name', 'datasource.name'])
-                        ->get();
+        $blockchains = BlockchainController::getDatasourcesFromNet($netForSearch);
 
         $datasources = json_decode(json_encode($blockchains), true);
 
@@ -110,6 +110,7 @@ class CscDatasourcesController extends Controller
         return view('blockchain/balance_results', [
             'results'       => $results,
             'function'      => $function,
+            'net'           => $net,
             'address'       => $address,
             'howTotest'     => $request->input('howToTest')
         ]);

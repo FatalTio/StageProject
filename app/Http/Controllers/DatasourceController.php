@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Validator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class DatasourceController extends Controller
 {
