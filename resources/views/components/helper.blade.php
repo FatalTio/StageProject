@@ -18,7 +18,6 @@
 
         <a href="#" class="nav-item dopdown-toggle" id="cscDropDown" data-toggle="dropdown"><li>CsCannon</li></a>
 
-            {{-- <div class="dropdown-menu" aria-labelledby="cscDropDown"> --}}
             <div id="cscMenu">
                 <a class="dropdown-item" href="#">What is CsCannon</a>
                 <a class="dropdown-item" href="#">Functions</a>
@@ -29,8 +28,6 @@
         <a href="#"><li class="nav-item">Blockchains</li></a>
         <a href="#"><li class="nav-item">Datasources</li></a>
         <a href="#"><li class="nav-item">About us</li></a>
-        <!-- <li></li>
-        <li></li> -->
 
     </ul>
 

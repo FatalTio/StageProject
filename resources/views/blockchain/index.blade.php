@@ -1,14 +1,16 @@
 
-
 @extends('welcome')
 
 @section('content')
 
-@php
-
-@endphp
 
     <link rel="stylesheet" href="{{ asset('styles/blockchain/index.css') }}">
+
+    <div id="jsonAlert" class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 
     @foreach($errors->all() as $error)
 
@@ -51,7 +53,7 @@
 
                 <select name="blockchain" class="opacityClass form-control font-weight-bold" id="selectBlockchain" required>
 
-                    <option selected="selected">Choose a blockchain</option>
+                    <option id="defaultBlockchainOption" selected="selected">Choose a blockchain</option>
 
                     @foreach ($blockchains as $blockchain)
                         <option id="{{ $blockchain->name }}">{{ $blockchain->name }}</option>

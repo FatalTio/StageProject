@@ -12,6 +12,10 @@
     display: none;
 }
 
+#jsonAlert{
+    display: none;
+}
+
 #selectNet{
     visibility: hidden;
 }
