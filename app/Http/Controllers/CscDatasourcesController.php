@@ -162,8 +162,6 @@ class CscDatasourcesController extends Controller
 
                     $contractArray[$name] = $contract;
                 }
-                // dd($contractArray);
-                // $blockchainArray[$blockchain] = $contractArray;
             }
 
             $result['time'] = $timeForRequest . ' sec';
