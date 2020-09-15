@@ -12,6 +12,17 @@
     display: none;
 }
 
-#netGroup{
+#selectNet{
+    visibility: hidden;
+}
+
+.spinner-grow{
     display: none;
+    margin-left: 45%;
+}
+
+#infoIcon{
+    margin-left: 5%;
+    width: 20px;
+    height: 20px;
 }

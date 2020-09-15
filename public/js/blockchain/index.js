@@ -12,8 +12,9 @@ jQuery(document).ready(function($){
     $('.close').popover({ trigger : "hover" });
 
 
-
     $('#selectBlockchain').change(()=>{
+
+        $('#selectNet').css('visibility', 'hidden');
 
         $blockchain = $('#selectBlockchain option:selected').val()
 
@@ -23,12 +24,14 @@ jQuery(document).ready(function($){
             type : 'get',
             beforeSend: function(){
 
-                // $('.spinner-border').show();
+                $('.spinner-grow').show();
             },
             success: function(response){
 
+                $('.spinner-grow').hide();
+
                 $('#selectNet').html('<option selected="selected">Select a '+ $blockchain +' net</option>')
-                $('#netGroup').slideDown();
+                $('#selectNet').css('visibility', 'visible');
     
                 $.each(response, function(index, content){
 
@@ -58,6 +61,9 @@ jQuery(document).ready(function($){
             }
         })
     })
+
+
+    $('#infoIcon').popover({ trigger : "hover" })
 
 
 });
