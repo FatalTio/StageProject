@@ -40,8 +40,13 @@ class DatasourcesStringController extends Controller
      * 
      * @return Array with the compatibles datasources
      */
-    public static function getCompatiblesDataSources(array $datasources, string $function){
+    public static function getCompatiblesDataSources(string $net, string $function){
 
+        $myNet = str_replace(' ', '_', $net);
+
+        $datasources = json_decode(json_encode(
+            BlockchainController::getDatasourcesFromNet($myNet)
+        ), true);
 
         if($function === 'getBalance'){
 
@@ -180,7 +185,7 @@ class DatasourcesStringController extends Controller
         switch($datasource){
 
             case 'CrystalSuiteDataSource':
-                return 'https://baster.bitcrystals.com/api/v1/tokenss/balances/{address}';
+                return 'https://baster.bitcrystals.com/api/v1/tokens/balances/{address}';
             break;
 
             case 'XchainDataSource':

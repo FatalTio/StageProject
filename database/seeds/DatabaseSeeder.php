@@ -1,6 +1,6 @@
 <?php
 
-
+// use Database\Seeds\BlockchainTableSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,8 +12,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        BlockchainTableSeeder::run();
-        DatasourceTableSeeder::run();
-        NetTableSeeder::run();
+        $this->call(BlockchainTableSeeder::class);
+        $this->call(DatasourceTableSeeder::class);
+        $this->call(NetTableSeeder::class);
     }
 }

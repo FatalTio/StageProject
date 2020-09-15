@@ -29,9 +29,7 @@ class CscDatasourcesController extends Controller
 
     public function functionsTest(string $howToTest){
 
-        $blockchains = DB::table('blockchains')
-                        ->select()
-                        ->get();
+        $blockchains = BlockchainController::getBlockchains();
 
         return view('blockchain/index', [
             'howToTest'     => $howToTest,
@@ -45,6 +43,27 @@ class CscDatasourcesController extends Controller
      * @param Request POST
      */
     public function testAllDatasources(Request $request){
+
+        $datas = $request->all();
+        
+        // Check the form
+        $validator = Validator::make($datas, [
+            'address'       => 'required|max:255',
+            'blockchain'    => 'required',
+            'function'      => 'required'
+        ]);
+
+        $errors = $validator->messages();
+        
+        if($validator->fails()){
+
+            return view('blockchain/index', [
+                'howToTest'     => $request->input('howToTest'),
+                'blockchains'   => BlockchainController::getBlockchains()
+            ])
+            ->withErrors($errors)
+            ->withInput();
+        }
 
         $blockchain = $request->input('blockchain');
         $function = $request->input('function');

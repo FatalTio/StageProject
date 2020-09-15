@@ -30,8 +30,8 @@ Route::post('/testDatasources', 'CscDatasourcesController@testAllDatasources')->
 Route::get('/viewJson/{datasource}/{function}/{address}', 'CscDatasourcesController@viewJson');
 Route::get('/datasourcesToJson/{datasource}/{function}/{address}', 'DatasourceController@viewJson');
 
-Route::get('/dataSourceJson/{blockchain}/{function}/{address}', 'DatasourceController@dataSourceJson')->name('dataSourceJson');
+Route::get('/dataSourceJson/{net}/{function}/{address}', 'DatasourceController@dataSourceJson')->name('dataSourceJson');
 
-Route::get('/getNets/{blockchain}', 'DatasourceController@getNets');
+Route::get('/getNets/{blockchain}', 'BlockchainController@getNetsFromBlockchain');
 
-Route::get('/getDatasource/{net}', 'DatasourceController@getDatasources');
+Route::get('/getDatasource/{net}', 'BlockchainController@getDatasourcesFromNet');

@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{ asset('styles/datasource/results.css') }}">
 
 @php
-    $urlToJson = url('dataSourceJson', ['blockchain' => $blockchain, 'function' => $function, 'address' => $address,]);
+    $urlToJson = url('dataSourceJson', ['net' => $net, 'function' => $function, 'address' => $address,]);
 @endphp
 
 <h1 class="text-center text-success font-weight-bold mt-3">{{ $function }}()</h1>

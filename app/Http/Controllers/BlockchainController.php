@@ -27,21 +27,39 @@ class BlockchainController extends Controller
         return $blockchains;
     }
 
-    public function getBlockchainsSources($blockchainId){
+    /**
+     * find the nets of the blockchain for input
+     * 
+     * @param String $blockchain
+     * @return Json
+     */
+    public static function getNetsFromBlockchain(string $blockchain){
 
-        $myBlockchain = strtolower($blockchainId);
-        $blockchain = ucfirst($myBlockchain);
+        $nets = DB::table('blockchains')
+                    ->where('blockchains.name', $blockchain)
+                    ->join('nets', 'nets.nets_blockchain_id', '=', 'blockchains.id')
+                    ->select(['blockchains.name', 'nets.name'])
+                    ->get();
 
-        $blockchains = DB::table('blockchain')
-                        ->where('blockchain.name', $blockchain)
-                        ->join('datasource', 'blockchain_id', '=', 'datasource.blockchain')
-                        ->select(['blockchain.name', 'datasource.name'])
-                        ->get();
-
-        $result = json_decode(json_encode($blockchains), true);
-
+        return response()->json($nets);
     }
 
+    /**
+     * find the datasources of the net
+     * 
+     * @param String $net
+     * @return Array with datasources
+     */
+    public static function getDatasourcesFromNet(string $net){
+
+        $datasources = DB::table('nets')
+                            ->where('nets.name', $net)
+                            ->join('datasources', 'datasources.datasource_net_id', '=', 'nets.net_id')
+                            ->select(['nets.name', 'datasources.name'])
+                            ->get();
+
+        return $datasources;
+    }
 
 
 

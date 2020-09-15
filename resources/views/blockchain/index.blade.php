@@ -62,7 +62,7 @@
 
                 <label>Select which Net you want</label>
 
-                <select id="selectNet" name="function" class="opacityClass form-control font-weight-bold" required>
+                <select id="selectNet" name="net" class="opacityClass form-control font-weight-bold" required>
                         <option selected="selected">Select a Net</option>
                 </select>
 
