@@ -70,11 +70,9 @@ class CscDatasourcesController extends Controller
         $function = $request->input('function');
         $address = $request->input('address');
         $net = $request->input('net');
+        $howToTest = $request->input('howToTest');
 
         $netForSearch = str_replace(' ', '_', $net);
-
-        $myBlockchain = strtolower($blockchain);
-        $blockchain = ucfirst($myBlockchain);
 
         // get the datasources associated at blockchain
         $blockchains = BlockchainController::getDatasourcesFromNet($netForSearch);
@@ -106,13 +104,15 @@ class CscDatasourcesController extends Controller
             $results[$datasource['name']] = $this->callFunction($addressToQuery, $function);
             
         }
+
         
         return view('blockchain/balance_results', [
             'results'       => $results,
             'function'      => $function,
+            'blockchain'    => $blockchain,
             'net'           => $net,
             'address'       => $address,
-            'howTotest'     => $request->input('howToTest')
+            'howTotest'     => $howToTest
         ]);
 
     }
@@ -154,23 +154,23 @@ class CscDatasourcesController extends Controller
             $endTime = microtime(true);
             $timeForRequest = round(($endTime - $startTime), 5);
 
-            // foreach($cscResponse->contracts as $blockchain){
+            foreach($cscResponse->contracts as $blockchain){
 
-            //     foreach($blockchain as $name => $contract){
+                foreach($blockchain as $name => $contract){
                     
-            //         unset($contract['']['token']);
+                    unset($contract['']['token']);
 
-            //         $contractArray[$name] = $contract;
-            //     }
-            //     $blockchainArray[$blockchain] = $contractArray;
-            // }
+                    $contractArray[$name] = $contract;
+                }
+                // dd($contractArray);
+                // $blockchainArray[$blockchain] = $contractArray;
+            }
 
             $result['time'] = $timeForRequest . ' sec';
-            $result['results'] = $cscResponse->contracts;
+            $result['results'] = $contractArray;
 
         }
 
-        // dd($result);
         return $result;
 
     }

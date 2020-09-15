@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <link rel="stylesheet" href="{{ asset('styles/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/index.css') }}">>
 
     <div class="container text-center mt-5 pt-5 text-warning">
 

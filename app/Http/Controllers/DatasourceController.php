@@ -18,17 +18,11 @@ class DatasourceController extends Controller
      * 
      * @return Array of datasources or curl result
      */
-    public function callDatasources(string $address, string $net, string $function, bool $curlCall = true){
+    public function callDatasources(string $address, string $net, string $function){
 
         // find the url of datasources
         $datasourceUrls = DatasourcesStringController::getCompatiblesDataSources($net, $function);
         
-        // if param $curlCall false, return array of urls and datasources name
-        if($curlCall === false){
-
-            return $datasourceUrls;
-        }
-
         $datasourceResult = array();
 
         foreach($datasourceUrls as $datasourceName => $datasourceUrl){
@@ -91,22 +85,18 @@ class DatasourceController extends Controller
             ->withInput();
         }
 
-
-        $address = $request->input('address');
-        $blockchain = $request->input('blockchain');
         $net = $request->input('net');
         $function = $request->input('function');
-        $howTotest = $request->input('howToTest');
        
-        $datasourceToCall = $this->callDatasources($address, $net, $function, false);
+        $datasourceToCall = DatasourcesStringController::getCompatiblesDataSources($net, $function);
         
         return view('datasource/results', [
             'datasources'   => $datasourceToCall,
             'function'      => $function,
-            'address'       => $address,
-            'blockchain'    => $blockchain,
+            'address'       => $request->input('address'),
+            'blockchain'    => $request->input('blockchain'),
             'net'           => $net,
-            'howToTest'     => $howTotest
+            'howToTest'     => $request->input('howToTest')
         ]);
 
     }

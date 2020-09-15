@@ -36,10 +36,10 @@ class BlockchainController extends Controller
     public static function getNetsFromBlockchain(string $blockchain){
 
         $nets = DB::table('blockchains')
-                    ->where('blockchains.name', $blockchain)
-                    ->join('nets', 'nets.nets_blockchain_id', '=', 'blockchains.id')
-                    ->select(['blockchains.name', 'nets.name'])
-                    ->get();
+                ->where('blockchains.name', $blockchain)
+                ->join('nets', 'nets.nets_blockchain_id', '=', 'blockchains.id')
+                ->select(['blockchains.name', 'nets.name'])
+                ->get();
 
         return response()->json($nets);
     }
@@ -53,10 +53,10 @@ class BlockchainController extends Controller
     public static function getDatasourcesFromNet(string $net){
 
         $datasources = DB::table('nets')
-                            ->where('nets.name', $net)
-                            ->join('datasources', 'datasources.datasource_net_id', '=', 'nets.net_id')
-                            ->select(['nets.name', 'datasources.name'])
-                            ->get();
+                        ->where('nets.name', $net)
+                        ->join('datasources', 'datasources.datasource_net_id', '=', 'nets.net_id')
+                        ->select(['nets.name', 'datasources.name'])
+                        ->get();
 
         return $datasources;
     }

@@ -1,46 +1,43 @@
 html, body {
-    background-color: #fff;
-    color: #636b6f;
     font-family: 'Nunito', sans-serif;
     font-weight: 200;
-    height: 100%;
     margin: 0;
 }
 
 body{
     background: linear-gradient(#000000 50%, #343a40);
-    margin-bottom: 100px;
+    min-height: 100vh;
 }
 
-.full-height {
+/* .full-height {
     min-height: 100%;
-}
+} */
 
-.flex-center {
+/* .flex-center {
     align-items: center;
     display: flex;
     justify-content: center;
-}
+} */
 
-.position-ref {
+/* .position-ref {
     position: relative;
-}
+} */
 
-.top-right {
+/* .top-right {
     position: absolute;
     right: 10px;
     top: 18px;
-}
+} */
 
 .content {
     text-align: center;
 }
 
-.title {
+/* .title {
     font-size: 84px;
-}
+} */
 
-.links > a {
+/* .links > a {
     color: #636b6f;
     padding: 0 25px;
     font-size: 13px;
@@ -48,18 +45,17 @@ body{
     letter-spacing: .1rem;
     text-decoration: none;
     text-transform: uppercase;
-}
+} */
 
-.m-b-md {
+/* .m-b-md {
     margin-bottom: 30px;
-}
+} */
 
 #content{
-    height: 80%;
+    height: 100%;
 }
 
 footer{
-    clear: both;
     bottom: 0;
     color: #fff;
     height: 200px;

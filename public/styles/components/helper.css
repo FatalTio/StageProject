@@ -7,10 +7,15 @@
     border: 2px solid #0275d8;
     border-radius: 50%;
     cursor: pointer;
+    box-sizing: initial;
 }
 
 #helperIcon a{
     color: hsl(211, 10%, 56%);
+}
+
+#helperIcon, #closeMenu{
+    color: #747982;
 }
 
 svg{
@@ -39,6 +44,7 @@ ul{
     right: -85%;
     top: 3px;
     cursor: pointer;
+    border-radius: 50%;
 }
 
 #helperContent a{

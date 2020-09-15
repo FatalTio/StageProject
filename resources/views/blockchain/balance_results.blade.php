@@ -11,7 +11,8 @@
 
         @foreach($results as $name => $result)
 
-            <h3 class="text-center text-warning font-weight-bold mt-3">With the Datasource {{ $name }} :</h3>
+            <h3 class="text-center text-warning font-weight-bold mt-3">Blockchain {{ $blockchain }}</h3>
+            <h3 class="text-center text-warning font-weight-bold mt-3">With {{ $name }} :</h3>
 
             <h2 class="text-center text-warning font-weight-bold mt-3"> {{ $result ? 'This request responds in ' . $result['time'] : 'This request find nothing !' }}</h2>
             
@@ -99,33 +100,29 @@
             {{-- getBalance on Counterparty --}}
             @elseif(isset($result['results']))
 
-                <h5 class="text-center text-warning font-weight-bold mt-3">For {{ count($result['results']) }} blockchain(s) :</h5>
+                <h5 class="text-center text-warning font-weight-bold mt-3">{{ count($result['results']) }} contract(s) :</h5>
 
                 <div id="responseDiv" class="container mt-4 col-6">
 
-                    @foreach($result['results'] as $blockchain => $contracts)
+                    @foreach($result['results'] as $contractName => $contracts)
 
-                        <button data-toggle="popover" data-placement="right" data-content="{{ count($contracts) }} contract(s) }}" 
-                            data-value="{{ $blockchain }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
+                        <button data-toggle="popover" data-placement="right" data-content="{{ count($contracts) }} contract(s)" 
+                            data-value="{{ $contractName }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
 
-                            {{ $blockchain }}
+                            {{ $contractName }}
                         </button>
 
-                        <div id="{{ $blockchain }}" class="contractsList container mt-3 col-6 bg-dark text-success text-center">
+                        {{-- <div id="{{ $contractName }}" class="contractsList container mt-3 col-6 bg-dark text-success text-center">
 
                             <h3 class="text-center text-success font-weight-bold mt-3 mb-2"><ins>{{ count($contracts) }} contract(s) :</ins></h3>
 
                             <ol>
 
-                                @foreach($contracts as $contractName => $contract)
-
-                                    <li>{{ $contractName }}</li>
-
-                                @endforeach
+                                <li>{{ $contractName }}</li>
 
                             </ol>
 
-                        </div>
+                        </div> --}}
 
                     @endforeach
 

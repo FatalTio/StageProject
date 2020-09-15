@@ -31,3 +31,7 @@ ul {
 .buttonShow{
     width: 120%;
 }
+
+footer{
+    display: none;
+}
