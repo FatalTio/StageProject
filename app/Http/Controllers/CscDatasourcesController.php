@@ -39,7 +39,7 @@ class CscDatasourcesController extends Controller
     }
 
     /**
-     * test datasources with CsCannon function
+     * return a view after calling csc functions
      * 
      * @param Request POST
      */
@@ -72,12 +72,28 @@ class CscDatasourcesController extends Controller
         $net = $request->input('net');
         $howToTest = $request->input('howToTest');
 
+        $results = self::calltoArray($net, $address, $function);
+        
+        return view('blockchain/balance_results', [
+            'results'       => $results,
+            'function'      => $function,
+            'blockchain'    => $blockchain,
+            'net'           => $net,
+            'address'       => $address,
+            'howTotest'     => $howToTest
+        ]);
+
+    }
+
+
+    public static function calltoArray(string $net, string $address, string $function){
+
         $netForSearch = str_replace(' ', '_', $net);
 
         // get the datasources associated at blockchain
-        $blockchains = BlockchainController::getDatasourcesFromNet($netForSearch);
+        $datasourcesFromNet = BlockchainController::getDatasourcesFromNet($netForSearch);
 
-        $datasources = json_decode(json_encode($blockchains), true);
+        $datasources = json_decode(json_encode($datasourcesFromNet), true);
 
         // Initialize CsCannon System and populate
         $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
@@ -101,22 +117,12 @@ class CscDatasourcesController extends Controller
             $myDatasource = DatasourcesStringController::getDatasourceClass($datasource['name']);
             $addressToQuery->setDataSource($myDatasource);
             
-            $results[$datasource['name']] = $this->callFunction($addressToQuery, $function);
+            $results[$datasource['name']] = self::callFunction($addressToQuery, $function);
             
         }
 
-        
-        return view('blockchain/balance_results', [
-            'results'       => $results,
-            'function'      => $function,
-            'blockchain'    => $blockchain,
-            'net'           => $net,
-            'address'       => $address,
-            'howTotest'     => $howToTest
-        ]);
-
+        return $results;
     }
-
 
     /**
      * call the function needed with string (input) function
@@ -126,7 +132,7 @@ class CscDatasourcesController extends Controller
      * 
      * @return Array of results
      */
-    private function callFunction(BlockchainAddress $address, string $function){
+    public static function callFunction(BlockchainAddress $address, string $function){
 
         $startTime = microtime(true);
 
@@ -195,13 +201,10 @@ class CscDatasourcesController extends Controller
         $myDatasource = DatasourcesStringController::getDatasourceClass($datasource);
         $addressToQuery->setDataSource($myDatasource);
 
-        $array = $this->callFunction($addressToQuery, $function);
+        $array = self::callFunction($addressToQuery, $function);
 
         return response()->json($array);
     }
-
-
-
 
 
 }

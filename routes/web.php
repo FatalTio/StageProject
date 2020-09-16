@@ -31,3 +31,5 @@ Route::get('/dataSourceJson/{net}/{function}/{address}', 'DatasourceController@d
 Route::get('/getNets/{blockchain}', 'BlockchainController@getNetsFromBlockchain');
 
 Route::get('/getDatasource/{net}', 'BlockchainController@getDatasourcesFromNet');
+
+Route::get('/toCollection/{net}/{address}/{function}', 'CollectionController@cscToCollection');

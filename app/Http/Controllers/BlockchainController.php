@@ -62,6 +62,16 @@ class BlockchainController extends Controller
     }
 
 
+    public static function getBlockchainFromNet(string $net)
+    {
+        $blockchain = DB::table('nets')
+                        ->where('nets.name', $net)
+                        ->join('blockchains', 'blockchains.id', '=', 'nets.nets_blockchain_id')
+                        ->select(['blockchains.name'])
+                        ->get();
+
+        return $blockchain;
+    }
 
 
 }

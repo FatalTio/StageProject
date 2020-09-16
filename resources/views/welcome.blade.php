@@ -16,7 +16,7 @@
         @include('components/header')
     </header>
 
-    <nav>
+    <nav id="helperContent">
         @include('components/helper')
     </nav>
 

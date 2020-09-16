@@ -24,7 +24,17 @@
                         View the Json result
                 </a>
             @else
-                <a href="{{ url('functionsTest', ['howToTest' => $howTotest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">Back to the research</a>
+                <a href="{{ url('functionsTest', ['howToTest' => $howTotest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">
+                    Back to the research
+                </a>
+            @endif
+
+            @if($function == 'returnObsByCollection')
+
+                <a target="_blank" href="{{ url('/toCollection', ['net' => $net, 'address' => $address, 'function' => $function]) }}" class="btn btn-outline-primary font-weight-bold col-4 offset-4 mt-5">
+                    View to Laravel's Collection
+                </a>
+
             @endif
 
             {{-- getBalance on Ethereum --}}
