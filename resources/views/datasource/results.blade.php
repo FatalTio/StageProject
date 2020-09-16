@@ -20,26 +20,32 @@
 
 @else
 
-    <ul class="nav container-fluid col-6 offset-3 nav-tabs" id="myTab" role="tablist">
+    <nav>
+        <div class="nav container-fluid col-6 offset-3 nav-tabs" id="nav-tab" role="tablist">
 
-        @foreach($datasources as $name => $url)
+            @php $i = 0; @endphp
 
-            @php $id = uniqid(); @endphp
+            @foreach($datasources as $name => $url)
 
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active bg-dark text-light" data-toggle="tab" href="#{{ $name }}" role="tab" aria-controls="home"
-                    aria-selected="true">{{ $name }}</a>
-            </li>
+                    <a class="nav-item nav-link {{ $i == 0 ? 'active ' : '' }} navItem text-light" id="{{ 'nav-' . $name . '-tab'}}" 
+                    data-toggle="tab" href="#{{ 'nav-' . $name }}" role="tab" aria-controls="{{ 'nav-' . $name }}" aria-selected="{{ $i == 0 ? 'true' : 'false' }}">
+                        {{ $name }}
+                    </a>
 
-        @endforeach
+                @php $i++; @endphp
 
-    </ul>
+            @endforeach
+
+        </div>
+    </nav>
 
     <div class="tab-content container-fluid col-8 offset-2" id="tabContent">
 
+        @php $i = 0; @endphp
+
         @foreach ($datasources as $name => $url )
 
-            <div class="tab-pane fade show active overflow-auto" id="{{ $name }}" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade {{ $i == 0 ? 'active show ' : '' }}overflow-auto" id="{{ 'nav-' . $name }}" role="tabpanel" aria-labelledby="{{ 'nav-' . $name . '-tab'}}">
             
                 <pre class="jsonContent text-success bg-dark">
 
@@ -50,6 +56,8 @@
 
             </div>
             
+            @php $i ++; @endphp
+
         @endforeach
         
     </div>

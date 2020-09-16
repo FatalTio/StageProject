@@ -15,3 +15,15 @@
 .spinner-border{
     margin: auto;
 }
+
+.navItem{
+    background-color: #717882;
+}
+
+.navItem.active{
+    background-color: #343a40 !important;
+}
+
+.nav-tabs{
+    border-bottom: none !important;
+}
