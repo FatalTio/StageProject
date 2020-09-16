@@ -21,13 +21,19 @@ class DatasourcesStringController extends Controller
     private static $getBalanceCompatibles = [
         'CrystalSuiteDataSource',
         'XchainDataSource',
+        'XchainTestnetDataSource',
         'BlockscoutAPI',
+        'OpenSeaImporter',
+        'OpenSeaRinkebyDatasource',
     ];
 
     // datasources compatibles with TxHistory
     private static $txHistoryCompatibles = [
         'XchainDataSource',
-        'BlockscoutAPI'
+        'XchainTestnetDataSource',
+        'BlockscoutAPI',
+        'OpenSeaImporter',
+        'OpenSeaRinkebyDatasource',
     ];
 
 
@@ -194,9 +200,9 @@ class DatasourcesStringController extends Controller
                 return "https://xchain.io/api/balances/{address}";
             break;
 
-            // case 'BlockscoutAPI':
-            //     return 'https://blockscout.com/eth/mainnet/api?module=account&action=balance&address={address}';
-            // break;
+            case 'XchainTestnetDataSource':
+                return "https://testnet.xchain.io/api/balances/{address}";
+            break;
 
             case 'BlockscoutAPI':
                 return 'https://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock=0&endblock=999999999&sort=desc&apikey='.env('ETHERSCAN_API_KEY');
@@ -214,11 +220,11 @@ class DatasourcesStringController extends Controller
             break;
 
             case 'OpenSeaImporter':
-                return 'https://api.opensea.io/api/v1/';
+                return 'https://api.opensea.io/api/v1/collections/?asset_owner={address}&offset=0&limit=300';
             break;
 
             case 'OpenSeaRinkebyDatasource':
-                return 'https://rinkeby-api.opensea.io/api/v1/';
+                return 'https://rinkeby-api.opensea.io/api/v1/collections/?asset_owner={address}&offset=0&limit=300';
             break;
 
             case 'phpWeb3':
@@ -235,7 +241,7 @@ class DatasourcesStringController extends Controller
 
         }
     }
-
+    
 
     /**
      * find the url for TxHistory
@@ -257,9 +263,9 @@ class DatasourcesStringController extends Controller
                 return "https://xchain.io/api/history/{address}";
             break;
 
-            // case 'BlockscoutAPI':
-            //     return 'https://blockscout.com/eth/mainnet/api?module=account&action=txlist&address={address}';
-            // break;
+            case 'XchainTestnetDataSource':
+                return "https://testnet.xchain.io/api/history/{address}";
+            break;
 
             case 'BlockscoutAPI':
                 return 'https://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock=0&endblock=999999999&sort=desc&apikey='.env('ETHERSCAN_API_KEY');
@@ -278,11 +284,11 @@ class DatasourcesStringController extends Controller
             break;
 
             case 'OpenSeaImporter':
-                return 'https://api.opensea.io/api/v1/';
+                return 'https://api.opensea.io/api/v1/events/?account_address={address}&only_opensea=false&offset=0&limit=20';
             break;
 
             case 'OpenSeaRinkebyDatasource':
-                return 'https://rinkeby-api.opensea.io/api/v1/';
+                return 'https://rinkeby-api.opensea.io/api/v1/events/?account_address={address}&only_opensea=false&offset=0&limit=20';
             break;
 
             case 'phpWeb3':
