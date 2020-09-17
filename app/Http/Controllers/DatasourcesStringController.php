@@ -78,7 +78,7 @@ class DatasourcesStringController extends Controller
 
             }
         }
-        // dd($dataSourcesArray);
+        
         return $dataSourcesArray;
     }
 
@@ -143,11 +143,13 @@ class DatasourcesStringController extends Controller
             break;
 
             case 'BlockscoutAPI':
-                return new BlockscoutAPI;
+                // return new BlockscoutAPI;
+                return null;
             break;
 
             case 'InfuraProvider':
-                return new InfuraProvider();
+                // return new InfuraProvider();
+                return null;
             break;
 
             case 'InfuraProviderRinkeby':

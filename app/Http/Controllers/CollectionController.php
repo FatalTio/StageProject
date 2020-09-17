@@ -26,10 +26,12 @@ class CollectionController extends Controller
 
         // dd($datasources);
 
-        $collections = collect($cscResult);
+        $collections = collect($cscResult)->filter(function($quantity, $key){
+            return $quantity > 10;
+        });
         // dd($collections);
         return view('collection/collection', [
-            'collections'    => $collections,
+            'collections'   => $collections,
             'net'           => $net,
             'datasources'   => $datasources,
             'address'       => $address,
@@ -50,32 +52,5 @@ class CollectionController extends Controller
         ]);
     }
 
-    // public function callCscDatasources(string $datasource, string $net, string $address)
-    // {
-
-    //     $netForDb = str_replace(' ', '_', $net);
-
-    //     $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
-    //     SandraManager::setSandra($sandra);
-
-    //     $assetCollection = new AssetCollectionFactory(SandraManager::getSandra());
-    //     $assetCollection->populateLocal();
-        
-    //     $assetFactory = new AssetFactory();
-    //     $assetFactory->populateLocal();
-
-    //     $contractFactory = new GenericContractFactory;
-    //     $contractFactory->populateLocal();
-
-    //     $addressFactory = BlockchainRouting::getAddressFactory($address);
-    //     $addressToQuery = $addressFactory->get($address);
-
-    //     $objectDatasource = DatasourcesStringController::getDatasourceClass($datasource);
-
-    //     $addressToQuery->setDatasource($objectDatasource);
-
-
-
-    // }
 
 }

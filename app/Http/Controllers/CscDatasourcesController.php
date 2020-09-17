@@ -89,17 +89,17 @@ class CscDatasourcesController extends Controller
     public static function calltoArray(string $net, string $address, string $function){
 
         $netForSearch = str_replace(' ', '_', $net);
-
+        
         // get the datasources associated at blockchain
         $datasourcesFromNet = BlockchainController::getDatasourcesFromNet($netForSearch);
-
+        
         $datasources = json_decode(json_encode($datasourcesFromNet), true);
-
+        
         // Initialize CsCannon System and populate
         $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
         SandraManager::setSandra($sandra);
-
-        $assetCollection = new AssetCollectionFactory(SandraManager::getSandra());
+        
+        $assetCollection = new AssetCollectionFactory($sandra);
         $assetCollection->populateLocal();
         
         $assetFactory = new AssetFactory();
@@ -110,17 +110,32 @@ class CscDatasourcesController extends Controller
 
         $addressFactory = BlockchainRouting::getAddressFactory($address);
         $addressToQuery = $addressFactory->get($address);
+        
+        // foreach($datasources as $datasource){
+
+        //     if($datasource['name'] == 'InfuraProvider' || $datasource['name'] == 'BlockscoutAPI'){
+        //         unset($datasource);
+                
+        //     }else{
+        //         $newdatasources[] = $datasource;
+        //     }
+        // }
+        // dd($datasources);
+
+        $results = array();
 
         // call the differents datasources
         foreach($datasources as $datasource){
 
             $myDatasource = DatasourcesStringController::getDatasourceClass($datasource['name']);
-            $addressToQuery->setDataSource($myDatasource);
             
-            $results[$datasource['name']] = self::callFunction($addressToQuery, $function);
-            
-        }
+            if($myDatasource != null){
 
+                $addressToQuery->setDataSource($myDatasource);
+                $results[$datasource['name']] = self::callFunction($addressToQuery, $function);
+            }
+        }
+       
         return $results;
     }
 
@@ -135,9 +150,9 @@ class CscDatasourcesController extends Controller
     public static function callFunction(BlockchainAddress $address, string $function){
 
         $startTime = microtime(true);
-
-        $cscResponse = $address->getBalance();
         
+        $cscResponse = $address->getBalance();
+
         $result = array();
 
         if($function == 'returnObsByCollection'){
@@ -148,7 +163,7 @@ class CscDatasourcesController extends Controller
 
             $timeForRequest = round(($endTime - $startTime), 5);
         
-
+            
             if(!empty($obsByCollection['collections'])){
 
                 $result['time'] = $timeForRequest . ' sec';
