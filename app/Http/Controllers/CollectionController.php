@@ -2,17 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use CsCannon\AssetCollectionFactory;
-use CsCannon\AssetFactory;
-use CsCannon\BlockchainRouting;
-use CsCannon\Blockchains\Generic\GenericContractFactory;
-use CsCannon\SandraManager;
-use SandraCore\System;
+use Validator;
+use Illuminate\Http\Request;
 
 class CollectionController extends Controller
 {
 
-    
+    public function htmlTableView(Request $request)
+    {
+        $datas = $request->all();
+
+        // Check the form
+        $validator = Validator::make($datas, [
+            'address'       => 'required|max:255',
+            'blockchain'    => 'required',
+            'function'      => 'required'
+        ]);
+
+        $errors = $validator->messages();
+        
+        if($validator->fails()){
+
+            return view('blockchain/index', [
+                'howToTest'     => $request->input('howToTest'),
+                'blockchains'   => BlockchainController::getBlockchains()
+            ])
+            ->withErrors($errors)
+            ->withInput();
+        }
+
+        $blockchain = $request->input('blockchain');
+        $function = $request->input('function');
+        $address = $request->input('address');
+        $net = $request->input('net');
+        $howToTest = $request->input('howToTest');
+        
+        return view('collection/collection_display', [
+            'blockchain'    => $blockchain,
+            'function'      => $function, 
+            'address'       => $address,
+            'net'           => $net,
+            'howToTest'     => $howToTest
+        ]);
+    }
+
+
+
 
     public function cscToCollection(string $net, string $address, string $function)
     {
@@ -34,10 +69,10 @@ class CollectionController extends Controller
         // dd($collections);
         return view('collection/collections', [
             'collections'   => $collections,
-            'net'           => $net,
+            // 'net'           => $net,
             'datasources'   => $datasources,
-            'address'       => $address,
-            'function'      => $function
+            // 'address'       => $address,
+            // 'function'      => $function
         ]);
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\CscDatasourcesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,3 +35,11 @@ Route::get('/getNets/{blockchain}', 'BlockchainController@getNetsFromBlockchain'
 Route::get('/getDatasource/{net}', 'BlockchainController@getDatasourcesFromNet');
 
 Route::get('/toCollection/{net}/{address}/{function}', 'CollectionController@cscToCollection');
+
+Route::get('/htmlTableView', 'CollectionController@htmlTableView');
+
+Route::get('/csCannonFunctions/{net}/{address}/{function}', function($net, $address, $function){
+    return response()->json(
+        CscDatasourcesController::calltoArray($net, $address, $function)
+    );
+});

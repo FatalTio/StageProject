@@ -73,7 +73,7 @@
                             {{-- <div class="tab-pane fade {{ $countContent == 0 ? 'show active' : '' }}" id="{{ 'nav-' . $collectionId }}" role="tabpanel" 
                             aria-labelledby="{{ 'nav-' . $collectionId . '-tab' }}"> --}}
 
-                                @if($collectionInfo != 'orbs')
+                                @if(!is_array($collectionData))
                                         
                                     <h5 class="text-warning"><strong><ins>{{ $collectionInfo }}</ins></strong> : {{ $collectionData }}</h5>
                                     

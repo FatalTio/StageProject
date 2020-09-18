@@ -27,7 +27,16 @@
 
 
     <h1 class="text-center text-warning font-weight-bold mt-3">
-        {{ $howToTest == 'CsCannon' ? 'Here we test the CsCannon functions' : 'Here we test the differents Datasources' }} 
+
+        @if($howToTest == 'CsCannon')
+            Here we test the CsCannon functions
+        @elseif($howToTest == 'datasources')
+            Here we test the differents Datasources
+        @elseif($howToTest == 'htmlTables')
+            Enter the parameters for your tables <br> 
+            <small>(called with CsCannon functions)</small>
+        @endif
+
     </h1>
 
     <h2 class="text-center text-warning font-weight-bold mt-3"> Enter your address and choose your blockchain</h2>
@@ -35,7 +44,13 @@
     <div id="blockchain_choose" class="rounded text-light container col-6 mt-5 pt-5 pb-5">
 
         <form class="container text-center col-6 font-weight-bold" 
-            action={{ $howToTest == 'CsCannon' ? url('/testDatasources') : url('/dataSourceTests') }} 
+                @if($howToTest == 'CsCannon')
+                    action={{ url('/testDatasources') }}
+                @elseif($howToTest == 'datasources')
+                    action={{ url('/dataSourceTests') }}
+                @elseif($howToTest == 'htmlTables')
+                    action={{ url('/htmlTableView') }}
+                @endif
             method="POST">
 
             <input type="hidden" name="howToTest" value="{{ $howToTest }}">
@@ -96,9 +111,9 @@
                     <option selected="selected">Action to do</option>
                     <option data-alert="getBalanceAlert">getBalance</option>
 
-                    @if($howToTest == 'CsCannon')
+                    @if($howToTest == 'CsCannon' || $howToTest == 'htmlTables')
                         <option data-alert="obsByCollectionAlert">returnObsByCollection</option>
-                    @else
+                    @elseif($howToTest == 'datasources')
                         <option data-alert="txHistoryAlert">TxHistory</option>
                     @endif
                         
