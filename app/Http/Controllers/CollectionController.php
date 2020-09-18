@@ -12,6 +12,8 @@ use SandraCore\System;
 class CollectionController extends Controller
 {
 
+    
+
     public function cscToCollection(string $net, string $address, string $function)
     {
         $netToDb = str_replace(' ', '_', $net);
@@ -30,7 +32,7 @@ class CollectionController extends Controller
             return $quantity > 10;
         });
         // dd($collections);
-        return view('collection/collection', [
+        return view('collection/collections', [
             'collections'   => $collections,
             'net'           => $net,
             'datasources'   => $datasources,
