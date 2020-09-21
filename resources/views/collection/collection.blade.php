@@ -40,7 +40,7 @@
                         <h5 class="text-warning"><strong><ins>{{ $collectionInfo }}</ins></strong> : {{ $collectionData }}</h5>
                     @else
 
-                    <table id="{{ 'table_'. $collectionId }}" class="table table-striped table-dark">
+                        <table id="{{ 'table_'. $collectionId }}" class="table table-striped table-dark">
 
                         @php $count = 0; @endphp
                         @foreach($collectionData as $contracts)
@@ -114,7 +114,7 @@
 
                             @php $count ++; @endphp
                         @endforeach
-                    </table>
+                        </table>
                     @endif
                 @endforeach
             @endforeach

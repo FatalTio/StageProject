@@ -36,6 +36,13 @@
         </div>
 
 
+        <div class="col-2 offset-5 mt-5">
+            <a href="{{ url('functionsTest', ['howToTest' => 'htmlTables']) }}" id="functions" type="button"
+                class="buttonShow mainPage btn btn-outline-primary">
+                HTML Tables
+            </a>
+        </div>
+
         <div class="container-fluid mt-3">
 
             <div id="cscFunctions" class="col-6 offset-3 alertFunctions alert alert-primary text-center font-weight-bold overflow-auto">
