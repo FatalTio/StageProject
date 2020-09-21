@@ -34,8 +34,8 @@ jQuery(document).ready(function($){
                     let datasources = '<li class="nav-item" id='+ datasource 
                     +'><a class="nav-link datasources'+ active 
                     +' id="pills-'+ datasource +'-tab" data-toggle="pill" href="#pills-'+datasource
-                    +'" role="tab" aria-controls="pills-'+datasource
-                    +'" aria-selected='+ selected +'>'+
+                    +'_table" role="tab" aria-controls="pills-'+datasource
+                    +'_table" aria-selected='+ selected +'>'+
                      datasource 
                      +'</a></li>';
                     
@@ -111,7 +111,11 @@ jQuery(document).ready(function($){
                 data: arrayToDisplay,
                 columns: columnDatas.reverse()
             }) 
+
+            $('.row').addClass('col-6 offset-3');
         })
+
+        
 
     }
 
