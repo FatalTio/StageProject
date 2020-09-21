@@ -36,7 +36,7 @@ Route::get('/getDatasource/{net}', 'BlockchainController@getDatasourcesFromNet')
 
 Route::get('/toCollection/{net}/{address}/{function}', 'CollectionController@cscToCollection');
 
-Route::get('/htmlTableView', 'CollectionController@htmlTableView');
+Route::post('/htmlTableView', 'CollectionController@htmlTableView');
 
 Route::get('/csCannonFunctions/{net}/{address}/{function}', function($net, $address, $function){
     return response()->json(
