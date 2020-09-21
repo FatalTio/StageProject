@@ -65,21 +65,6 @@ jQuery(document).ready(function($){
             document.getElementsByClassName(htmlContent[i].tbody)[i].innerHTML = htmlToInsert;
         }
 
-        // htmlContent.sort();
-
-        
-
-        // console.log(myArray);
-
-        // $allDatas = $.each($('.' + $myString), function() {
-        //     return $(this).innerHTML;
-        // }).get().join();
-
-        // $.each($allDatas, function (index, data){
-        //     console.log(data);
-        // })
-
-        // console.log($allDatas);
     })
 
 })
