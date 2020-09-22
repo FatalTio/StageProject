@@ -2,6 +2,7 @@
 
 @section('content')
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="{{ asset('styles/collection/collection_display.css') }}">
 
     @php 
@@ -25,35 +26,15 @@
 
     @endforeach
 
+    <div class="spinner-grow" role="status">
+        <span class="sr-only"></span>
+    </div>
+
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 
     </ul>
 
-
     <div class="tab-content" id="pills-tabContent">
-
-        <div class="tab-pane fade show active" id="pills-{datasourceName}" role="tabpanel"
-            aria-labelledby="pills-{datasourceName}-tab">
-
-            <nav aria-label="Page navigation">
-
-                <ul class="pagination col-10 offset-1">
-                    <li class="page-item">
-                    </li>
-                </ul>
-
-            </nav>
-
-            <div class="col-10 offset-1" id="datasTable">
-
-                <h5 class="text-warning"></h5>
-
-                <div class="spinner-grow" role="status">
-                    <span class="sr-only"></span>
-                </div>
-
-            </div>
-        </div>
     </div>
 
 <script>

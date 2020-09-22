@@ -1,5 +1,6 @@
 jQuery(document).ready(function($){
 
+
     document.addEventListener('DOMContentLoaded', getDatas(urlToCall));
 
 
@@ -22,53 +23,45 @@ jQuery(document).ready(function($){
         
                     let active = '';
                     let selected = '';
+                    let show = '';
         
                     if(countDatasources == 0){
                         active = 'active';
                         selected = 'true';
+                        show = 'show';
                     }else{
                         active = '';
                         selected = 'false';
+                        show = '';
                     }
         
                     let datasources = '<li class="nav-item" id='+ datasource 
-                    +'><a class="nav-link datasources'+ active 
+                    +' role="presentation"><a class="nav-link datasources '+ active 
                     +' id="pills-'+ datasource +'-tab" data-toggle="pill" href="#pills-'+datasource
-                    +'_table" role="tab" aria-controls="pills-'+datasource
-                    +'_table" aria-selected='+ selected +'>'+
+                    +'" role="tab" aria-controls="pills-'+datasource
+                    +'_table'+ countDatasources +'" aria-selected='+ selected +'>'+
                      datasource 
                      +'</a></li>';
                     
                     $('#pills-tab').append(datasources);
+
+                    const tableId = datasource + '_table' + countDatasources;
         
-                    let tableCreate = '<table id="'+ datasource + '_table" class="datasourceTable table table-striped table-dark"><thead><tr id="'+ datasource +'Scope"></tr></thead></table>';
-        
-                    $('#datasTable').html(tableCreate)
+                    const tableCreate = '<table id='+ tableId +' class="datasourceTable table table-dark"></table>';
+
+                    $('#pills-tabContent').append('<div class="tab-pane fade '+ show + ' ' + active +'" id="pills-'+ datasource 
+                    +'" role="tabpanel" aria-labelledby="pills-'+ datasource +'-tab">');
+
+                    $('#pills-'+ datasource).prepend('<div class="col-10 offset-1" id="'+ datasource +'-content"></div>');
+
+                    $('#pills-'+ datasource).append(tableCreate);
         
                     countDatasources ++;
-        
-                    let datasToDisplay = [];
 
-                    $.each(content, function(name, datas){
-        
-                        if($.type(datas) == 'object'){
-                            $.each(datas, function(info, data){
-
-                                if($.type(data) == 'string'){
-        
-                                    $('#datasTable').prepend('<h5 class="text-warning">'+ data +'</h5>');
-                                }else{
-
-                                    $.each(data, function(string, metaDatas){
-                                        metaDatas.name = info;
-                                        datasToDisplay.push(metaDatas);
-                                    })
-                                }
-                            })
-                        }
-                    })
-                    initDataTable(datasToDisplay);
+                    dataTableInit(tableId, content);
+                    
                 })
+                
             },
     
             error: function (jqXHR, exception){
@@ -94,30 +87,53 @@ jQuery(document).ready(function($){
     }
 
 
-    function initDataTable(arrayToDisplay){
 
-        let columnDatas = [];
 
-        $.each(arrayToDisplay[0], function(name){
-            columnDatas.push({ title: name, data: name});
-        })
-        
-        const myTables = $('.datasourceTable');
+    function dataTableInit(tableId, datasArray){
 
-        $.each(myTables, function(index, table){
+        const content = getContent(datasArray);
 
-            $('#' + table.id).DataTable({
+        const columnsToDisplay = [];
 
-                data: arrayToDisplay,
-                columns: columnDatas.reverse()
-            }) 
-
-            $('.row').addClass('col-6 offset-3');
+        $.each(content.shift(), function(name, datas){
+            columnsToDisplay.unshift({ title: name, data: name });
         })
 
-        
+        $('#'+ tableId).DataTable({
+            "pagingType": "full_numbers",
+            data: content,
+            columns: columnsToDisplay
+        }) 
 
+        $('.row').addClass('col-6 offset-3 text-warning');
+        $('.dataTables_paginate').parent().removeClass('col-sm-7').addClass('col8 offset-2');
     }
 
+
+
+
+    function getContent(array){
+
+        const datasToDisplay = [];
+
+        $.each(array, function(name, datas){
+                
+            if($.type(datas) == 'object'){
+                $.each(datas, function(info, data){
+                    
+                    if($.type(data) == 'object'){
+                        $.each(data, function(string, metaDatas){
+
+                            metaDatas.name = info;
+                            datasToDisplay.push(metaDatas);
+                        })
+                    }
+                })
+            }
+        })
+
+        return datasToDisplay;
+    }
+    
 
 })

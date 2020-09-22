@@ -34,7 +34,7 @@ class CollectionController extends Controller
         $blockchain = $request->input('blockchain');
         $function = $request->input('function');
         $address = $request->input('address');
-        $net = $request->input('net');
+        $net = str_replace(' ', '_', $request->input('net'));
         $howToTest = $request->input('howToTest');
         
         return view('collection/collection_display', [
