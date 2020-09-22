@@ -31,7 +31,6 @@
     </div>
 
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-
     </ul>
 
     <div class="tab-content" id="pills-tabContent">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use CsCannon\AssetCollection;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,6 +39,8 @@ class CscDatasourcesController extends Controller
         ]);
     }
 
+
+    
     /**
      * return a view after calling csc functions
      * 
@@ -110,6 +113,8 @@ class CscDatasourcesController extends Controller
 
         $addressFactory = BlockchainRouting::getAddressFactory($address);
         $addressToQuery = $addressFactory->get($address);
+
+        // AssetCollection->getEntities
         
         // foreach($datasources as $datasource){
 

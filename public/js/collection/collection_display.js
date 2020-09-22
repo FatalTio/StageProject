@@ -36,12 +36,12 @@ jQuery(document).ready(function($){
                     }
         
                     let datasources = '<li class="nav-item" id='+ datasource 
-                    +' role="presentation"><a class="nav-link datasources '+ active 
-                    +' id="pills-'+ datasource +'-tab" data-toggle="pill" href="#pills-'+datasource
-                    +'" role="tab" aria-controls="pills-'+datasource
-                    +'_table'+ countDatasources +'" aria-selected='+ selected +'>'+
-                     datasource 
-                     +'</a></li>';
+                        +' role="presentation"><a class="nav-link datasources '+ active 
+                        +' id="pills-'+ datasource +'-tab" data-toggle="pill" href="#pills-'+datasource
+                        +'" role="tab" aria-controls="pills-'+datasource
+                        +'_table'+ countDatasources +'" aria-selected='+ selected +'>'+
+                        datasource 
+                        +'</a></li>';
                     
                     $('#pills-tab').append(datasources);
 
