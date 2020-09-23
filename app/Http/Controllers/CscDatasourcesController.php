@@ -104,7 +104,7 @@ class CscDatasourcesController extends Controller
         
         $assetCollection = new AssetCollectionFactory($sandra);
         $assetCollection->populateLocal();
-        
+
         $assetFactory = new AssetFactory();
         $assetFactory->populateLocal();
 

@@ -47,3 +47,5 @@ Route::get('/csCannonFunctions/{net}/{address}/{function}', function($net, $addr
 Route::get('/testFactory/{entity}', 'CollectionController@factoryToTableView');
 
 Route::get('/factoryJson/{entity}', 'CollectionController@makeJsonForTable');
+
+Route::get('/dbToJson/{tableName}', 'CollectionController@dbToJson');

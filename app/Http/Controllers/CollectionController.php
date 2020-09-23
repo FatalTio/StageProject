@@ -8,14 +8,13 @@ use CsCannon\AssetFactory;
 use CsCannon\SandraManager;
 use Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use ReflectionClass;
 use SandraCore\EntityFactory;
 use SandraCore\System;
 
 class CollectionController extends Controller
 {
-
-    private $numberDatasToDisplay = 500;
 
     // private function __autoload($className){
     //     if(file_exists($className . '.php')){
@@ -67,22 +66,26 @@ class CollectionController extends Controller
         $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
         SandraManager::setSandra($sandra);
 
-        dd(file_exists($entity.'.php'));
 
         // $class = new ReflectionClass($entity);
         // dd($class->getParentClass());
 
-        // $classToFind = "CsCannon'";
-        // $string = addslashes($classToFind) . $entity;
-        // $factory = str_replace("'", "", $string);
+        $classToFind = "CsCannon'";
+        $string = addslashes($classToFind) . $entity;
+        $factory = str_replace("'", "", $string);
 
         if($entity == 'CsCannon\AssetCollectionFactory'){
             $entityFactory = new AssetCollectionFactory(SandraManager::getSandra());
         }else{
-            $entityFactory = new $entity;
+            $entityFactory = new $factory;
         }
 
+        
         $entityFactory->populateLocal();
+        $entityFactory->createViewTable($entity . '_view');
+        // die;
+
+
 
         foreach($entityFactory->sandraReferenceMap as $concept){
 
@@ -95,6 +98,13 @@ class CollectionController extends Controller
             'entity'    => get_class($entityFactory)
         ]);
 
+    }
+
+    public function dbToJson(string $tableName){
+
+        $myDatas = DB::table( env('DB_SANDRA') . '.' . $tableName)->select('*')->get();
+
+        return $myDatas;
     }
 
 
