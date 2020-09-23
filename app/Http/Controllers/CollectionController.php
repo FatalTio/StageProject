@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use CsCannon\AssetFactory;
+use CsCannon\SandraManager;
 use Validator;
 use Illuminate\Http\Request;
+use SandraCore\EntityFactory;
+use SandraCore\System;
 
 class CollectionController extends Controller
 {
@@ -31,14 +35,12 @@ class CollectionController extends Controller
             ->withInput();
         }
 
-        $blockchain = $request->input('blockchain');
         $function = $request->input('function');
         $address = $request->input('address');
         $net = str_replace(' ', '_', $request->input('net'));
         $howToTest = $request->input('howToTest');
         
         return view('collection/collection_display', [
-            'blockchain'    => $blockchain,
             'function'      => $function, 
             'address'       => $address,
             'net'           => $net,
@@ -47,46 +49,42 @@ class CollectionController extends Controller
     }
 
 
+    public function factoryToTableView(string $entity){
 
+        $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
+        SandraManager::setSandra($sandra);
 
-    public function cscToCollection(string $net, string $address, string $function)
-    {
-        $netToDb = str_replace(' ', '_', $net);
+        $classToFind = "CsCannon'";
 
-        $cscResult = CscDatasourcesController::calltoArray($netToDb, $address, $function);
+        $string = addslashes($classToFind) . $entity;
 
-        foreach($cscResult as $datasource => $datas){
-            $datasources[] = $datasource;
+        $factory = str_replace("'", "", $string);
+
+        $entityFactory = new $factory;
+        
+        $entityFactory->populateLocal();
+
+        foreach($entityFactory->sandraReferenceMap as $concept){
+
+            /** @var \SandraCore\Concept $concept  */
+            $columnArray[] = $concept->getShortname();
         }
 
-        // $datasourceToDisplay[array_key_first($cscResult)] = array_shift($cscResult);
-
-        // dd($datasources);
-
-        $collections = collect($cscResult)->filter(function($quantity, $key){
-            return $quantity > 10;
-        });
-        // dd($collections);
-        return view('collection/collections', [
-            'collections'   => $collections,
-            // 'net'           => $net,
-            'datasources'   => $datasources,
-            // 'address'       => $address,
-            // 'function'      => $function
+        return view('collection/collection_display', [
+            'refMap'    => $columnArray,
+            'entity'    => get_class($entityFactory)
         ]);
+
     }
 
 
+    public function makeJsonForTable(string $entity){
 
-    public static function makeCollection(array $array, string $net = '')
-    {
-        $collection = collect($array);
-        // dd($collection);
-        return view('collection/collection', [
-            'collection'    => $collection,
-            'net'           => $net
-            // 'datasources'   => $datasources
-        ]);
+        $entityFactory = new $entity;
+
+        $content = $entityFactory->getDisplay();
+
+        return response()->json($content);
     }
 
 

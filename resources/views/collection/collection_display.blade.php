@@ -6,11 +6,13 @@
     <link rel="stylesheet" href="{{ asset('styles/collection/collection_display.css') }}">
 
     @php 
-        $urlToCall = url('/csCannonFunctions', [
-            'net' => $net, 
-            'address' => $address, 
-            'function' => $function
-        ]); 
+        if(isset($howToTest)){
+            $urlToCall = url('/csCannonFunctions', [
+                'net' => $net, 
+                'address' => $address, 
+                'function' => $function
+            ]); 
+        }
     @endphp
 
     @foreach($errors->all() as $error)
@@ -26,22 +28,39 @@
 
     @endforeach
 
+
     <div class="spinner-grow" role="status">
         <span class="sr-only"></span>
     </div>
 
-    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-    </ul>
 
-    <div class="tab-content" id="pills-tabContent">
-    </div>
+    @if(isset($urlToCall))
 
-<script>
-    const urlToCall = "<?php print_r($urlToCall) ?>"
-</script>
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        </ul>
+
+        <div class="tab-content" id="pills-tabContent">
+        </div>
+
+    @else
+        <table id="factoryTable"></table>
+    @endif
+
 
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript" src="{{ asset('js/collection/collection_display.js') }}"></script>
+
+@if(isset($urlToCall))
+    <script>
+        const urlToCall = "<?php print_r($urlToCall) ?>";
+    </script>
+    <script type="text/javascript" src="{{ asset('js/collection/collection_display.js') }}"></script>
+@else
+    <script>
+        const refMap = '<?php print_r(json_encode($refMap)) ?>';
+        const entity = '<?php print_r(json_encode($entity)) ?>';
+    </script>
+    <script type="text/javascript" src="{{ asset('js/collection/factory.js') }}"></script>
+@endif
 
 @endsection

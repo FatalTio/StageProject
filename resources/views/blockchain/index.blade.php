@@ -111,7 +111,7 @@
                     <option selected="selected">Action to do</option>
                     <option data-alert="getBalanceAlert">getBalance</option>
 
-                    @if($howToTest == 'CsCannon' || $howToTest == 'htmlTables')
+                    @if($howToTest == 'CsCannon')
                         <option data-alert="obsByCollectionAlert">returnObsByCollection</option>
                     @elseif($howToTest == 'datasources')
                         <option data-alert="txHistoryAlert">TxHistory</option>

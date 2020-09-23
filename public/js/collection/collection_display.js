@@ -1,8 +1,8 @@
 jQuery(document).ready(function($){
 
-
-    document.addEventListener('DOMContentLoaded', getDatas(urlToCall));
-
+    if(urlToCall != 'null'){
+        document.addEventListener('DOMContentLoaded', getDatas(urlToCall));
+    }
 
     function getDatas(myUrl){
 
