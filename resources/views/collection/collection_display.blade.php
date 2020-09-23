@@ -43,7 +43,10 @@
         </div>
 
     @else
-        <table id="factoryTable"></table>
+        <table class="text-light table table-dark" id="factoryTable">
+            <thead></thead>
+            <tbody></tbody>
+        </table>
     @endif
 
 
