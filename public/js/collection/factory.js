@@ -13,27 +13,39 @@ jQuery(document).ready(function($){
 
     refColumns.forEach(element => {
         str = element.replace(/^"(.*)"$/, '$1');
-        columnsArray.push({ searchable: true, title: str, data: str })
+        if(str != 'creationTimestamp'){
+            columnsArray.push({ title: str, data: str })
+        }
     });
 
-    const entityFactory = entity.replace(/^"(.*)"$/, '$1').replace('CsCannon', '').replace(/\\/g, '');
-    const host = window.location.host;
 
-    const myUrl = 'http://' + host + '/factoryJson/' + entityFactory;
+    // const entityFactory = entity.replace(/^"(.*)"$/, '$1').replace('CsCannon', '').replace(/\\/g, '');
+    // const host = window.location.host;
 
+    // const myUrl = 'http://' + host + '/factoryJson/' + entityFactory;
+
+    const loc = window.location;
+    // loc.protocol + loc.host + 
+    const myUrl = '/dbToJson/' + table;
+
+    console.log(myUrl);
+
+    console.log(columnsArray);
 
     $('#factoryTable').DataTable({
         // processing: true,
         // serverSide: true,
-        ajax: {
-            url: myUrl,
-            dataSrc: 'data',
-        },
         columns: columnsArray,
-        paging: true,
-        searching: {'regex': true},
-        lengthMenu: [ [10,25,50,100,-1], [10,25,50,100, 'All'] ],
-        pageLength: 10,
+        ajax: myUrl,
+        // ajax: {
+            // url: '/dbToJson/' + table,
+            // dataSrc: 'data',
+        // },
+        
+        // paging: true,
+        // searching: {'regex': true},
+        // lengthMenu: [ [10,25,50,100,-1], [10,25,50,100, 'All'] ],
+        // pageLength: 10,
     })
 
 })

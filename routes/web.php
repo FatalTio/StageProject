@@ -49,3 +49,5 @@ Route::get('/testFactory/{entity}', 'CollectionController@factoryToTableView');
 Route::get('/factoryJson/{entity}', 'CollectionController@makeJsonForTable');
 
 Route::get('/dbToJson/{tableName}', 'CollectionController@dbToJson');
+
+Route::get('/getWithPagination/{table}/{nbPerPage}/{pagination}', 'TableViewController@getWithPagination');

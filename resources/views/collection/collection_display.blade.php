@@ -43,10 +43,12 @@
         </div>
 
     @else
-        <table class="text-light table table-dark" id="factoryTable">
-            <thead></thead>
-            <tbody></tbody>
-        </table>
+        <div class="container-fluid">
+            <table class="text-light table table-dark" id="factoryTable">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
     @endif
 
 
@@ -61,7 +63,7 @@
 @else
     <script>
         const refMap = '<?php print_r(json_encode($refMap)) ?>';
-        const entity = '<?php print_r(json_encode($entity)) ?>';
+        const table = '<?php print_r($table) ?>';
     </script>
     <script type="text/javascript" src="{{ asset('js/collection/factory.js') }}"></script>
 @endif

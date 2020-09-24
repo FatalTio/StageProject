@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Ressources\TableView;
 use CsCannon\AssetCollectionFactory;
 use CsCannon\Blockchains\Generic\GenericContractFactory;
 use CsCannon\AssetFactory;
@@ -16,13 +17,6 @@ use SandraCore\System;
 class CollectionController extends Controller
 {
 
-    // private function __autoload($className){
-    //     if(file_exists($className . '.php')){
-    //         require_once $className . '.php';
-    //         return true;
-    //     }
-    //     return false;
-    // }
 
     public function htmlTableView(Request $request)
     {
@@ -61,14 +55,12 @@ class CollectionController extends Controller
     }
 
 
-    public function factoryToTableView(string $entity){
 
+
+    public static function createViewTable(string $entity)
+    {
         $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
         SandraManager::setSandra($sandra);
-
-
-        // $class = new ReflectionClass($entity);
-        // dd($class->getParentClass());
 
         $classToFind = "CsCannon'";
         $string = addslashes($classToFind) . $entity;
@@ -80,12 +72,20 @@ class CollectionController extends Controller
             $entityFactory = new $factory;
         }
 
-        
+        /** @var \SandraCore\EntityFactory $entityFactory */
+
         $entityFactory->populateLocal();
-        $entityFactory->createViewTable($entity . '_view');
-        // die;
+        $entityFactory->createViewTable($entity . '_cscview');
+
+        return $entityFactory;
+    }
 
 
+
+    public function factoryToTableView(string $entity){
+
+        
+        $entityFactory = self::createViewTable($entity);
 
         foreach($entityFactory->sandraReferenceMap as $concept){
 
@@ -95,60 +95,29 @@ class CollectionController extends Controller
 
         return view('collection/collection_display', [
             'refMap'    => $columnArray,
-            'entity'    => get_class($entityFactory)
+            'table'     => $entity
         ]);
 
     }
+    
+
+
 
     public function dbToJson(string $tableName){
 
-        $myDatas = DB::table( env('DB_SANDRA') . '.' . $tableName)->select('*')->get();
+        $myDatas = TableViewController::getWithPagination($tableName, 500);
 
-        return $myDatas;
+        if(!$myDatas){
+            return [];
+        }
+
+        $response['draw'] = 1;
+        $response['recordsTotal'] = count($myDatas);
+        $response['data'] = $myDatas;
+
+        return $response;
     }
 
-
-    public function makeJsonForTable(string $entity){
-
-        $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
-        SandraManager::setSandra($sandra);
-
-        $classToFind = "CsCannon'";
-        $string = addslashes($classToFind) . $entity;
-        $factory = str_replace("'", "", $string);
-
-
-        if($factory == 'CsCannon\AssetCollectionFactory'){
-            $entityFactory = new AssetCollectionFactory(SandraManager::getSandra());
-        }else{
-            $entityFactory = new $factory;
-        }
-
-        $entityFactory->populateLocal();
-        $content = $entityFactory->getDisplay('array');
-
-
-        foreach($entityFactory->sandraReferenceMap as $concept){
-            $columnArray[] = $concept->getShortname();
-        }
-
-
-        foreach($content as $myContent){
-            foreach($columnArray as $collumnTitle){
-                if(!array_key_exists($collumnTitle, $myContent)){
-                    $myContent[$collumnTitle] = null;
-                }
-            }
-            $newResponse[] = $myContent;
-        }
-
-        $jsonContent['draw'] = 1;
-        $jsonContent['recordsTotal'] = count($newResponse);
-        $jsonContent['recordsFiltered'] = count($newResponse);
-        $jsonContent['data'] = $newResponse;
-
-        return response()->json($jsonContent);
-    }
 
 
 }
