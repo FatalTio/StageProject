@@ -2,16 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Ressources\TableView;
 use CsCannon\AssetCollectionFactory;
-use CsCannon\Blockchains\Generic\GenericContractFactory;
-use CsCannon\AssetFactory;
 use CsCannon\SandraManager;
 use Validator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use ReflectionClass;
-use SandraCore\EntityFactory;
 use SandraCore\System;
 use DataTables;
 
@@ -99,8 +93,9 @@ class CollectionController extends Controller
     }
 
 
-    public function factoryToTableView(string $entity){
+    public function factoryToTableView(Request $request){
 
+        $entity = $request->input('factory');
         
         $entityFactory = self::createViewTable($entity);
 
