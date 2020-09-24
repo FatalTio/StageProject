@@ -114,19 +114,6 @@ class CscDatasourcesController extends Controller
         $addressFactory = BlockchainRouting::getAddressFactory($address);
         $addressToQuery = $addressFactory->get($address);
 
-        // AssetCollection->getEntities
-        
-        // foreach($datasources as $datasource){
-
-        //     if($datasource['name'] == 'InfuraProvider' || $datasource['name'] == 'BlockscoutAPI'){
-        //         unset($datasource);
-                
-        //     }else{
-        //         $newdatasources[] = $datasource;
-        //     }
-        // }
-        // dd($datasources);
-
         $results = array();
 
         // call the differents datasources

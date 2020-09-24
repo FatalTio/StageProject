@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use ReflectionClass;
 use SandraCore\EntityFactory;
 use SandraCore\System;
+use DataTables;
 
 class CollectionController extends Controller
 {
@@ -81,6 +82,22 @@ class CollectionController extends Controller
     }
 
 
+    public function countDatas(string $table)
+    {
+        return TableViewController::countTable($table);
+    }
+
+
+    public function tableAjax(string $table)
+    {
+
+        $datas = TableViewController::get($table);
+
+        return DataTables::of($datas)
+            ->addIndexColumn()
+            ->make(true);
+    }
+
 
     public function factoryToTableView(string $entity){
 
@@ -105,13 +122,12 @@ class CollectionController extends Controller
 
     public function dbToJson(string $tableName){
 
-        $myDatas = TableViewController::getWithPagination($tableName, 500);
+        $myDatas = TableViewController::get($tableName);
 
         if(!$myDatas){
             return [];
         }
 
-        $response['draw'] = 1;
         $response['recordsTotal'] = count($myDatas);
         $response['data'] = $myDatas;
 

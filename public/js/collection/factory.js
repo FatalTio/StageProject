@@ -1,51 +1,115 @@
 jQuery(document).ready(function($){
 
-    if(refMap != 'null' && content != 'null'){
+    // limit for automatically switch to serverSide
+    const limitRowsForClient = 5000;
+
+    // for switch client or serverSide DataTable
+    let server = false;
+
+
+    // check if the client don't call table of getBalance
+    if(refMap != 'null' && table != 'null'){
+
+        const references = refMap.replace('[', '').replace(']', '');
+
+        const refColumns = references.split(',');
+    
+        let columnsArray = [];
+        
+        // create array with all columns, from refMap
+        refColumns.forEach(element => {
+            str = element.replace(/^"(.*)"$/, '$1');
+            if(str != 'creationTimestamp'){
+                columnsArray.push({ title: str, data: str })
+            }
+        });
+    
+        // Ajax for have count of db table and determine client or server side
+        $.ajax({
+            url: '/count/' + table,
+            type: 'get',
+            success: function(response){
+
+                // if count(response) bigger than limit, table switch on server side
+                if(response > limitRowsForClient){
+                    ajaxServerSide();
+                    server = true;
+                }else{
+                    ajaxClientSide();
+                    server = false;
+                }
+            },
+            error: function (jqXHR, exception){
+    
+                $msg = '';
+    
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                $('#jsonAlert').slideDown(500).html($msg);
+            }
+        })
+    
+    
+        // Manually switch client or server side
+        $('.switchTables').on('click', (e)=>{
+    
+            const buttonId = $(e.currentTarget).attr('id');
+    
+            if(buttonId == 'serverSide' && server === false){
+    
+                createNewTable();
+                ajaxServerSide();
+                server = true;
+    
+            }else if(buttonId == 'clientSide' && server === true){
+                
+                createNewTable();
+                ajaxClientSide();
+                server = false;
+            }
+        })
+
+
+        // reinitialize the <table> for creating a new
+        function createNewTable(){
+            $('#factoryTable').remove();
+            $('#tableContainer').html('<table class="text-light table table-dark" id="factoryTable"><thead></thead><tbody></tbody></table>');
+        }
+
+        // switch to server side
+        function ajaxServerSide(){
+
+            $('#factoryTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '/view/' + table,
+                columns: columnsArray,
+            })
+        }
+
+        // switch to client side
+        function ajaxClientSide(){
+
+            $('#factoryTable').DataTable({
+                ajax: '/dbToJson/' + table,
+                columns: columnsArray,
+            })
+        }
 
 
     }
 
-    const references = refMap.replace('[', '').replace(']', '');
 
-    const refColumns = references.split(',');
-
-    let columnsArray = [];
-
-    refColumns.forEach(element => {
-        str = element.replace(/^"(.*)"$/, '$1');
-        if(str != 'creationTimestamp'){
-            columnsArray.push({ title: str, data: str })
-        }
-    });
-
-
-    // const entityFactory = entity.replace(/^"(.*)"$/, '$1').replace('CsCannon', '').replace(/\\/g, '');
-    // const host = window.location.host;
-
-    // const myUrl = 'http://' + host + '/factoryJson/' + entityFactory;
-
-    const loc = window.location;
-    // loc.protocol + loc.host + 
-    const myUrl = '/dbToJson/' + table;
-
-    console.log(myUrl);
-
-    console.log(columnsArray);
-
-    $('#factoryTable').DataTable({
-        // processing: true,
-        // serverSide: true,
-        columns: columnsArray,
-        ajax: myUrl,
-        // ajax: {
-            // url: '/dbToJson/' + table,
-            // dataSrc: 'data',
-        // },
-        
-        // paging: true,
-        // searching: {'regex': true},
-        // lengthMenu: [ [10,25,50,100,-1], [10,25,50,100, 'All'] ],
-        // pageLength: 10,
-    })
 
 })

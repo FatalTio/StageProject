@@ -9,13 +9,14 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "everdreamsoft/crystal-spark-cannon": "dev-master",
+        "everdreamsoft/sandra": "dev-master",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.24",
-        "everdreamsoft/crystal-spark-cannon": "dev-master",
-        "everdreamsoft/sandra": "dev-master",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "yajra/laravel-datatables-oracle": "^9.11"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
@@ -36,10 +37,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/",
-            "CsCannon\\": "CsCannon/",
-            "CsCannon\\Blockchains": "CsCannon/Blockchains/",
-            "CsCannon\\Blockchains\\Generic": "CsCannon/Blockchains/Generic"
+            "App\\": "app/"
         },
         "classmap": [
             "database/seeds",

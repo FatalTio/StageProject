@@ -50,8 +50,7 @@ jQuery(document).ready(function($){
                     } else {
                         msg = 'Uncaught Error.\n' + jqXHR.responseText;
                     }
-                    $('#jsonAlert').slideDown(500);
-                    $('#jsonAlert').html($msg);
+                    $('#jsonAlert').slideDown(500).html($msg);
                 }
             })
 

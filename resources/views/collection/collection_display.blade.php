@@ -43,7 +43,11 @@
         </div>
 
     @else
-        <div class="container-fluid">
+    
+        <button id="serverSide" class="btn btn-outline-success switchTables">Table Server Side</button>
+        <button id="clientSide" class="btn btn-outline-primary switchTables">Table Client Side</button>
+
+        <div class="container-fluid" id="tableContainer">
             <table class="text-light table table-dark" id="factoryTable">
                 <thead></thead>
                 <tbody></tbody>
