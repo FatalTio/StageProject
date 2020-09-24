@@ -43,3 +43,9 @@ Route::get('/csCannonFunctions/{net}/{address}/{function}', function($net, $addr
         CscDatasourcesController::calltoArray($net, $address, $function)
     );
 });
+
+Route::get('/testFactory/{entity}', 'CollectionController@factoryToTableView');
+
+Route::get('/factoryJson/{entity}', 'CollectionController@makeJsonForTable');
+
+Route::get('/dbToJson/{tableName}', 'CollectionController@dbToJson');

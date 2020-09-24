@@ -36,7 +36,10 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "CsCannon\\": "CsCannon/",
+            "CsCannon\\Blockchains": "CsCannon/Blockchains/",
+            "CsCannon\\Blockchains\\Generic": "CsCannon/Blockchains/Generic"
         },
         "classmap": [
             "database/seeds",
