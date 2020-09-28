@@ -52,7 +52,7 @@
             </div>
             <button type="submit" class="btn btn-primary col-6 offset-3">Submit</button>
         </form>
-    <div>
+    </div>
 
         <div class="container-fluid mt-3">
 

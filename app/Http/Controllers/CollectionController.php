@@ -8,6 +8,7 @@ use Validator;
 use Illuminate\Http\Request;
 use SandraCore\System;
 use DataTables;
+use CsCannon\AssetFactory;
 
 class CollectionController extends Controller
 {
@@ -60,12 +61,14 @@ class CollectionController extends Controller
         $classToFind = "CsCannon'";
         $string = addslashes($classToFind) . $entity;
         $factory = str_replace("'", "", $string);
+        
 
-        if($entity == 'CsCannon\AssetCollectionFactory'){
+        if(strtolower($factory) == strtolower('CsCannon\AssetCollectionFactory')){
             $entityFactory = new AssetCollectionFactory(SandraManager::getSandra());
         }else{
             $entityFactory = new $factory;
         }
+
 
         /** @var \SandraCore\EntityFactory $entityFactory */
 

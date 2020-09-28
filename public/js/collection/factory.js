@@ -11,7 +11,6 @@ jQuery(document).ready(function($){
     if(refMap != 'null' && table != 'null'){
 
         const references = refMap.replace('[', '').replace(']', '');
-
         const refColumns = references.split(',');
     
         let columnsArray = [];
@@ -28,8 +27,11 @@ jQuery(document).ready(function($){
         $.ajax({
             url: '/count/' + table,
             type: 'get',
+            beforeSend:function(){
+                $('.spinner-grow').show();
+            },
             success: function(response){
-
+                $('.spinner-grow').hide()
                 // if count(response) bigger than limit, table switch on server side
                 if(response > limitRowsForClient){
                     ajaxServerSide();
@@ -67,13 +69,11 @@ jQuery(document).ready(function($){
             const buttonId = $(e.currentTarget).attr('id');
     
             if(buttonId == 'serverSide' && server === false){
-    
                 createNewTable();
                 ajaxServerSide();
                 server = true;
     
             }else if(buttonId == 'clientSide' && server === true){
-                
                 createNewTable();
                 ajaxClientSide();
                 server = false;
@@ -110,6 +110,6 @@ jQuery(document).ready(function($){
 
     }
 
-
+    
 
 })
