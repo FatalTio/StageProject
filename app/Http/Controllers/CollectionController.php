@@ -87,7 +87,6 @@ class CollectionController extends Controller
 
     public function tableAjax(string $table)
     {
-
         $datas = TableViewController::get($table);
 
         return DataTables::of($datas)
@@ -96,7 +95,8 @@ class CollectionController extends Controller
     }
 
 
-    public function factoryToTableView(Request $request){
+    public function factoryToTableView(Request $request)
+    {
 
         $entity = $request->input('factory');
         
@@ -118,7 +118,8 @@ class CollectionController extends Controller
 
 
 
-    public function dbToJson(string $tableName){
+    public function dbToJson(string $tableName)
+    {
 
         $myDatas = TableViewController::get($tableName);
 

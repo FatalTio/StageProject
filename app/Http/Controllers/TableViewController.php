@@ -25,8 +25,6 @@ class TableViewController extends Controller
 
         if($tableExists){
 
-            dd(DB::table(self::getTableName($table))->count());
-
             return DB::table(self::getTableName($table))
                 ->count();
         }

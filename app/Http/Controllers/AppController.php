@@ -44,6 +44,9 @@ class AppController extends Controller
                     DB::statement('INSERT INTO `datasource`(name, blockchain)
                         VALUES
                             (`CrystalSuiteDataSource`, 1),
+                            (`CrystalSuiteDataSource`, 5),
+                            (`CrystalSuiteDataSource`, 3),
+                            (`CrystalSuiteDataSource`, 2),
                             (`XchainDataSource`, 2),
                             (`BlockscoutAPI`, 3),
                             (`InfuraProvider`, 3),
@@ -53,6 +56,8 @@ class AppController extends Controller
                             (`OpenSeaRinkebyDatasource`, 3)
                             (`phpWeb3`, 3)
                             (`BaobabProvider`, 4)
+                            (`BlockchainInfo`, 1)
+                            (`CryptoApis`, 1)
                             (`OfficialProvider`, null);'
                         );
 

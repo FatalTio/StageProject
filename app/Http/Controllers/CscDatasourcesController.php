@@ -29,8 +29,8 @@ class CscDatasourcesController extends Controller
 {
 
 
-    public function functionsTest(string $howToTest){
-
+    public function functionsTest(string $howToTest)
+    {
         $blockchains = BlockchainController::getBlockchains();
 
         return view('blockchain/index', [
@@ -46,7 +46,8 @@ class CscDatasourcesController extends Controller
      * 
      * @param Request POST
      */
-    public function testAllDatasources(Request $request){
+    public function testAllDatasources(Request $request)
+    {
 
         $datas = $request->all();
 
@@ -89,7 +90,8 @@ class CscDatasourcesController extends Controller
     }
 
 
-    public static function calltoArray(string $net, string $address, string $function){
+    public static function calltoArray(string $net, string $address, string $function)
+    {
 
         $netForSearch = str_replace(' ', '_', $net);
         
@@ -139,7 +141,8 @@ class CscDatasourcesController extends Controller
      * 
      * @return Array of results
      */
-    public static function callFunction(BlockchainAddress $address, string $function){
+    public static function callFunction(BlockchainAddress $address, string $function)
+    {
 
         $startTime = microtime(true);
         
@@ -195,7 +198,8 @@ class CscDatasourcesController extends Controller
      * 
      * @return Json of results
      */
-    public function viewJson(string $datasource, string $function, string $address){
+    public function viewJson(string $datasource, string $function, string $address)
+    {
 
         // $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
         // SandraManager::setSandra($sandra);

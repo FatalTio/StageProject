@@ -25,6 +25,8 @@ class DatasourcesStringController extends Controller
         'BlockscoutAPI',
         'OpenSeaImporter',
         'OpenSeaRinkebyDatasource',
+        'BlockchainInfo',
+        'CryptoApis',
     ];
 
     // datasources compatibles with TxHistory
@@ -34,6 +36,8 @@ class DatasourcesStringController extends Controller
         'BlockscoutAPI',
         'OpenSeaImporter',
         'OpenSeaRinkebyDatasource',
+        'BlockchainInfo',
+        'CryptoApis',
     ];
 
 
@@ -95,26 +99,34 @@ class DatasourcesStringController extends Controller
      */
     public static function findHeader(string $function, string $datasource, string $address){
 
-        if(strstr($datasource, 'Infura')){
+        // if(strstr($datasource, 'Infura')){
 
-            if($function === 'getBalance'){
+        //     if($function === 'getBalance'){
 
-                return [
-                    'Content-Type : application/json',
-                    'jsonrpc'   => '2.0',
-                    'method'    => 'eth_getBalance',
-                    'params'    => [
-                        $address,
-                        'latest'
-                    ]
-                ];
+        //         return [
+        //             'Content-Type : application/json',
+        //             'jsonrpc'   => '2.0',
+        //             'method'    => 'eth_getBalance',
+        //             'params'    => [
+        //                 $address,
+        //                 'latest'
+        //             ]
+        //         ];
 
-            }elseif($function === 'TxHistory'){
+        //     }elseif($function === 'TxHistory'){
 
-                return [
-                    'Accepts: application/json'
-                ];
-            }
+        //         return [
+        //             'Accepts: application/json'
+        //         ];
+        //     }
+
+        // }else
+        if($datasource == 'CryptoApis'){
+
+            return [
+                'Accepts: application/json',
+                'X-API-Key: '.env('CRYPTO_API_KEY')
+            ];
 
         }else{
 
@@ -241,6 +253,14 @@ class DatasourcesStringController extends Controller
                 return null;
             break;
 
+            case 'BlockchainInfo':
+                return 'https://blockchain.info/balance?active={address}';
+            break;
+
+            case 'CryptoApis':
+                return 'https://api.cryptoapis.io/v1/bc/btc/mainnet/address/{address}';
+            break;
+
         }
     }
     
@@ -303,6 +323,14 @@ class DatasourcesStringController extends Controller
 
             case 'OfficialProvider':
                 return null;
+            break;
+
+            case 'BlockchainInfo':
+                return 'https://blockchain.info/rawaddr/{address}';
+            break;
+
+            case 'CryptoApis':
+                return 'https://api.cryptoapis.io/v1/bc/btc/mainnet/address/{address}/transactions';
             break;
         }
 
