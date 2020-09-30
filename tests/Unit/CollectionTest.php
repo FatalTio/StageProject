@@ -16,6 +16,12 @@ class CollectionTest extends TestCase
 
         $tableView = $collection->createViewTable($tableToTest);
         $this->assertIsObject($tableView, 'CsCannon\AssetFactory');
+
+        $falseTable = $collection->createViewTable('falseTable');
+        $this->assertFalse($falseTable);
+
+        $blockchainTable = $collection->createViewTable('BlockchainEventFactory');
+        $this->assertIsObject($blockchainTable, 'CsCannon\Blockchains\BlockchainBlockFactory');
         
         $table = TableViewController::get($tableToTest);
         $this->assertIsObject($table, '\Illuminate\Support\Collection');

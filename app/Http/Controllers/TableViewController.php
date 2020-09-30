@@ -55,7 +55,8 @@ class TableViewController extends Controller
 
         if(!$checkExists){
             try{
-                $createTable = CollectionController::createViewTable($table);
+                $collectionController = new CollectionController;
+                $collectionController->createEntityAndViewTable($table);
 
             }catch(PDOException $e){
 

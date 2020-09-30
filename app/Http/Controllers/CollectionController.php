@@ -10,6 +10,8 @@ use SandraCore\System;
 use DataTables;
 use CsCannon\AssetFactory;
 use Exception;
+use ReflectionClass;
+use SandraCore\EntityFactory;
 
 class CollectionController extends Controller
 {
@@ -52,15 +54,71 @@ class CollectionController extends Controller
     }
 
 
-
-
-    public static function createViewTable(string $entity)
+    /**
+     * count number of rows on db table
+     * 
+     * @param String $table
+     * @return Int|false
+     */
+    public function countDatas(string $table)
     {
+        return TableViewController::countTable($table);
+    }
+
+
+    /**
+     * Ajax from DataTables with db view
+     * 
+     * @param String $table
+     * @return DataTables
+     */
+    public function tableAjax(string $table)
+    {
+        $datas = TableViewController::get($table);
+
+        return DataTables::of($datas)
+            ->addIndexColumn()
+            ->make(true);
+    }
+
+
+    /**
+     * From request, call Entity creation and return error if class doesn't exists
+     * 
+     * @param Request $request
+     */
+    public function factoryToTableView(Request $request)
+    {
+
+        $searchedEntity = $request->input('factory');
+        
+        $entityFactory = $this->createEntityAndViewTable($searchedEntity);
+
+        if(!$entityFactory){
+            return view('collection/collection_display', [
+                'error' => 'Class "'.$searchedEntity.'" not found'
+            ]);
+        }
+
+        return $this->viewFromObject($entityFactory);
+    }
+
+
+
+    /**
+     * create an Entity from a string
+     * 
+     * @param String $entity
+     * @return EntityFactory|false
+     */
+    private function createEntityAndViewTable(string $entity)
+    {
+
         $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
         SandraManager::setSandra($sandra);
 
-        $classToFind = "CsCannon'";
-        $string = addslashes($classToFind) . $entity;
+        $namespace = "CsCannon'";
+        $string = addslashes($namespace) . $entity;
         $factory = str_replace("'", "", $string);
         
         
@@ -93,51 +151,39 @@ class CollectionController extends Controller
     }
 
 
-    public function countDatas(string $table)
-    {
-        return TableViewController::countTable($table);
-    }
 
 
-    public function tableAjax(string $table)
-    {
-        $datas = TableViewController::get($table);
+    /**
+     * create Table from object EntityFactory
+     * 
+     * @param EntityFactory $entity
+     * @return View
+     */
+    public function viewFromObject(EntityFactory $entity){
 
-        return DataTables::of($datas)
-            ->addIndexColumn()
-            ->make(true);
-    }
+        $class = new ReflectionClass($entity);
+        $className = $class->getShortName();
 
-
-    public function factoryToTableView(Request $request)
-    {
-
-        $entity = $request->input('factory');
-        
-        $entityFactory = self::createViewTable($entity);
-
-        if(!$entityFactory){
-            return view('collection/collection_display', [
-                'error' => 'Class "'. $entity. '" not found'
-            ]);
-        }
-
-        foreach($entityFactory->sandraReferenceMap as $concept){
-
+        foreach($entity->sandraReferenceMap as $concept){
+            
             /** @var \SandraCore\Concept $concept  */
             $columnArray[] = $concept->getShortname();
         }
 
         return view('collection/collection_display', [
             'refMap'    => $columnArray,
-            'table'     => $entity
+            'table'     => $className
         ]);
-
     }
     
 
 
-
+    /**
+     * return Json for client side DataTables
+     * 
+     * @param String $tableName
+     * @return Array
+     */
     public function dbToJson(string $tableName)
     {
 
