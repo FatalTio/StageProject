@@ -28,6 +28,19 @@
 
     @endforeach
 
+    @if(isset($error))
+
+        <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+
+            <span class="font-weight-bold">Oops, we have a problem !</span> {{ $error }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+        </div>
+
+    @endif
+
 
     <div class="spinner-grow" role="status">
         <span class="sr-only"></span>
@@ -64,7 +77,7 @@
         const urlToCall = "<?php print_r($urlToCall) ?>";
     </script>
     <script type="text/javascript" src="{{ asset('js/collection/collection_display.js') }}"></script>
-@else
+@elseif(isset($refMap) && isset($table))
     <script>
         const refMap = '<?php print_r(json_encode($refMap)) ?>';
         const table = '<?php print_r($table) ?>';

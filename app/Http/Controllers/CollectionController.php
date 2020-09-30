@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use SandraCore\System;
 use DataTables;
 use CsCannon\AssetFactory;
+use Exception;
 
 class CollectionController extends Controller
 {
@@ -62,11 +63,24 @@ class CollectionController extends Controller
         $string = addslashes($classToFind) . $entity;
         $factory = str_replace("'", "", $string);
         
+        
+        if(is_subclass_of($factory, 'SandraCore\EntityFactory')){
 
-        if(strtolower($factory) == strtolower('CsCannon\AssetCollectionFactory')){
-            $entityFactory = new AssetCollectionFactory(SandraManager::getSandra());
+            if(strtolower($factory) == strtolower('CsCannon\AssetCollectionFactory')){
+                $entityFactory = new AssetCollectionFactory(SandraManager::getSandra());
+            }else{
+                $entityFactory = new $factory;
+            }
+
         }else{
-            $entityFactory = new $factory;
+
+            $factory = str_replace('CsCannon', 'CsCannon\Blockchains', $factory);
+
+            if(is_subclass_of($factory, 'SandraCore\EntityFactory')){
+                $entityFactory = new $factory;
+            }else{
+                return false;
+            }
         }
 
 
@@ -101,6 +115,12 @@ class CollectionController extends Controller
         $entity = $request->input('factory');
         
         $entityFactory = self::createViewTable($entity);
+
+        if(!$entityFactory){
+            return view('collection/collection_display', [
+                'error' => 'Class "'. $entity. '" not found'
+            ]);
+        }
 
         foreach($entityFactory->sandraReferenceMap as $concept){
 

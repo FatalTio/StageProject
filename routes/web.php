@@ -54,7 +54,6 @@ Route::get('/csCannonFunctions/{net}/{address}/{function}', function($net, $addr
 
 
 // HTML Table view
-
 Route::get('/factoryJson', [
     'uses'  => 'CollectionController@factoryToTableView',
     'as'    => 'factoryJson'
@@ -70,3 +69,6 @@ Route::get('/view/{table}', [
 ]);
 
 Route::get('count/{table}', 'CollectionController@countDatas');
+
+// TEST
+Route::get('/createViewTable/{entity}', 'CollectionController@createViewTable');
