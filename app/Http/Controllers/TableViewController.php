@@ -45,6 +45,7 @@ class TableViewController extends Controller
                 ->select('*')
                 ->get();
         }
+
         return $tableExists;
     }
 

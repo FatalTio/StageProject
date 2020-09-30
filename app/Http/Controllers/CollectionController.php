@@ -111,7 +111,7 @@ class CollectionController extends Controller
      * @param String $entity
      * @return EntityFactory|false
      */
-    private function createEntityAndViewTable(string $entity)
+    public function createEntityAndViewTable(string $entity)
     {
 
         $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
@@ -165,7 +165,7 @@ class CollectionController extends Controller
         $className = $class->getShortName();
 
         foreach($entity->sandraReferenceMap as $concept){
-            
+
             /** @var \SandraCore\Concept $concept  */
             $columnArray[] = $concept->getShortname();
         }
@@ -187,7 +187,7 @@ class CollectionController extends Controller
     public function dbToJson(string $tableName)
     {
 
-        $myDatas = TableViewController::get($tableName);
+        $myDatas = TableViewController::get($tableName)->toArray();
 
         if(!$myDatas){
             return [];

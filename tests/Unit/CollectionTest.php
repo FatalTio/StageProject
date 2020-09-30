@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\TableViewController;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class CollectionTest extends TestCase
 {
@@ -14,20 +14,27 @@ class CollectionTest extends TestCase
         $tableToTest = 'assetFactory';
         $collection = new CollectionController;
 
-        $tableView = $collection->createViewTable($tableToTest);
-        $this->assertIsObject($tableView, 'CsCannon\AssetFactory');
 
-        $falseTable = $collection->createViewTable('falseTable');
+        $tableView = $collection->createEntityAndViewTable($tableToTest);
+        $this->assertIsObject($tableView, 'SandraCore\EntityFactory');
+
+        $dbTable = json_decode(TableViewController::get($tableToTest), true);
+        $this->assertIsArray($dbTable);
+        $this->assertArrayHasKey('assetId', $dbTable[0]);
+        $this->assertArrayHasKey('imgURL', $dbTable[0]);
+        $this->assertArrayHasKey('assetName', $dbTable[0]);
+        
+        
+        $blockchainTable = $collection->createEntityAndViewTable('BlockchainEventFactory');
+        $this->assertIsObject($blockchainTable, 'CsCannon\Blockchains\BlockchainBlockFactory');
+
+        $falseTable = $collection->createEntityAndViewTable('falseTable');
         $this->assertFalse($falseTable);
 
-        $blockchainTable = $collection->createViewTable('BlockchainEventFactory');
-        $this->assertIsObject($blockchainTable, 'CsCannon\Blockchains\BlockchainBlockFactory');
-        
-        $table = TableViewController::get($tableToTest);
-        $this->assertIsObject($table, '\Illuminate\Support\Collection');
 
         $count = $collection->countDatas($tableToTest);
         $this->assertIsInt($count);
+
 
         $tableJson = $collection->dbToJson($tableToTest);
         $this->assertArrayHasKey('recordsTotal', $tableJson);
