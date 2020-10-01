@@ -24,7 +24,7 @@ class CollectionTest extends TestCase
         $this->assertArrayHasKey('imgURL', $dbTable[0]);
         $this->assertArrayHasKey('assetName', $dbTable[0]);
         
-        
+
         $blockchainTable = $collection->createEntityAndViewTable('BlockchainEventFactory');
         $this->assertIsObject($blockchainTable, 'CsCannon\Blockchains\BlockchainBlockFactory');
 
@@ -39,7 +39,6 @@ class CollectionTest extends TestCase
         $tableJson = $collection->dbToJson($tableToTest);
         $this->assertArrayHasKey('recordsTotal', $tableJson);
         $this->assertArrayHasKey('data', $tableJson);
-
 
     }
 
