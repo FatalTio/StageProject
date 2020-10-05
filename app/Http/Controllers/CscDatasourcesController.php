@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use CsCannon\AssetCollection;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -40,10 +41,10 @@ class CscDatasourcesController extends Controller
     }
 
 
-    
+
     /**
      * return a view after calling csc functions
-     * 
+     *
      * @param Request POST
      */
     public function testAllDatasources(Request $request)
@@ -59,15 +60,14 @@ class CscDatasourcesController extends Controller
         ]);
 
         $errors = $validator->messages();
-        
+
         if($validator->fails()){
 
             return view('blockchain/index', [
                 'howToTest'     => $request->input('howToTest'),
                 'blockchains'   => BlockchainController::getBlockchains()
             ])
-            ->withErrors($errors)
-            ->withInput();
+            ->withErrors($errors);
         }
 
         $blockchain = $request->input('blockchain');
@@ -77,7 +77,7 @@ class CscDatasourcesController extends Controller
         $howToTest = $request->input('howToTest');
 
         $results = self::calltoArray($net, $address, $function);
-        
+
         return view('blockchain/balance_results', [
             'results'       => $results,
             'function'      => $function,
@@ -94,16 +94,16 @@ class CscDatasourcesController extends Controller
     {
 
         $netForSearch = str_replace(' ', '_', $net);
-        
+
         // get the datasources associated at blockchain
-        $datasourcesFromNet = BlockchainController::getDatasourcesFromNet($netForSearch);
-        
-        $datasources = json_decode(json_encode($datasourcesFromNet), true);
-        
+        $datasources = BlockchainController::getDatasourcesFromNet($netForSearch);
+
+        // $datasources = json_decode(json_encode($datasourcesFromNet), true);
+
         // Initialize CsCannon System and populate
         $sandra = new System('', true, env('DB_HOST').':'.env('DB_PORT'), env('DB_SANDRA'), env('DB_USERNAME'), env('DB_PASSWORD'));
         SandraManager::setSandra($sandra);
-        
+
         $assetCollection = new AssetCollectionFactory($sandra);
         $assetCollection->populateLocal();
 
@@ -122,30 +122,30 @@ class CscDatasourcesController extends Controller
         foreach($datasources as $datasource){
 
             $myDatasource = DatasourcesStringController::getDatasourceClass($datasource['name']);
-            
+
             if($myDatasource != null){
 
                 $addressToQuery->setDataSource($myDatasource);
                 $results[$datasource['name']] = self::callFunction($addressToQuery, $function);
             }
         }
-       
+
         return $results;
     }
 
     /**
      * call the function needed with string (input) function
-     * 
+     *
      * @param BlockchainAddress $address
      * @param String $function
-     * 
-     * @return Array of results
+     *
+     * @return array of results
      */
     public static function callFunction(BlockchainAddress $address, string $function)
     {
 
         $startTime = microtime(true);
-        
+
         $cscResponse = $address->getBalance();
 
         $result = array();
@@ -157,8 +157,8 @@ class CscDatasourcesController extends Controller
             $endTime = microtime(true);
 
             $timeForRequest = round(($endTime - $startTime), 5);
-        
-            
+
+
             if(!empty($obsByCollection['collections'])){
 
                 $result['time'] = $timeForRequest . ' sec';
@@ -173,7 +173,7 @@ class CscDatasourcesController extends Controller
             foreach($cscResponse->contracts as $blockchain){
 
                 foreach($blockchain as $name => $contract){
-                    
+
                     unset($contract['']['token']);
 
                     $contractArray[$name] = $contract;
@@ -191,12 +191,12 @@ class CscDatasourcesController extends Controller
 
     /**
      * create a Json
-     * 
+     *
      * @param String $datasource
      * @param String $function
      * @param String $address
-     * 
-     * @return Json of results
+     *
+     * @return JsonResponse of results
      */
     public function viewJson(string $datasource, string $function, string $address)
     {

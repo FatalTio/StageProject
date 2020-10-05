@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class BlockchainController extends Controller
 {
@@ -30,9 +31,9 @@ class BlockchainController extends Controller
 
     /**
      * find the nets of the blockchain for input
-     * 
+     *
      * @param String $blockchain
-     * @return Json
+     * @return JsonResponse
      */
     public static function getNetsFromBlockchain(string $blockchain){
 
@@ -47,9 +48,9 @@ class BlockchainController extends Controller
 
     /**
      * find the datasources of the net
-     * 
+     *
      * @param String $net
-     * @return Array with datasources
+     * @return array with datasources
      */
     public static function getDatasourcesFromNet(string $net){
 
@@ -59,7 +60,7 @@ class BlockchainController extends Controller
                         ->select(['nets.name', 'datasources.name'])
                         ->get();
 
-        return $datasources;
+        return $datasources->toArray();
     }
 
 
@@ -71,7 +72,7 @@ class BlockchainController extends Controller
                         ->select(['blockchains.name'])
                         ->get();
 
-        return $blockchain;
+        return $blockchain->toArray();
     }
 
 
