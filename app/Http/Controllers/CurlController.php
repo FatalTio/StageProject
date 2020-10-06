@@ -2,30 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Http;
+
 class CurlController extends Controller
 {
 
     public static function curlCreator(string $url, array $headers)
     {
 
-        $request = "{$url}";
-    
-        $curl = curl_init();
+        $response = Http::withHeaders($headers)
+            ->timeout(60)
+            ->get($url);
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $request,     
-            CURLOPT_HTTPHEADER => $headers,    
-            CURLOPT_RETURNTRANSFER => 1   
-        ));
-        $error = curl_error($curl);
-        $response = curl_exec($curl);
+        return $response->throw()->json();
 
-        if(!empty($error)){
-            
-            return $error;
-        }
-
-        return json_decode($response, true);
 
     }
 
