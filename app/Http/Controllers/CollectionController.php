@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use CsCannon\AssetCollectionFactory;
 use CsCannon\SandraManager;
+use Illuminate\View\View;
 use Validator;
 use Illuminate\Http\Request;
 use SandraCore\System;
@@ -29,24 +30,23 @@ class CollectionController extends Controller
         ]);
 
         $errors = $validator->messages();
-        
+
         if($validator->fails()){
 
             return view('blockchain/index', [
                 'howToTest'     => $request->input('howToTest'),
                 'blockchains'   => BlockchainController::getBlockchains()
             ])
-            ->withErrors($errors)
-            ->withInput();
+            ->withErrors($errors);
         }
 
         $function = $request->input('function');
         $address = $request->input('address');
         $net = str_replace(' ', '_', $request->input('net'));
         $howToTest = $request->input('howToTest');
-        
+
         return view('collection/collection_display', [
-            'function'      => $function, 
+            'function'      => $function,
             'address'       => $address,
             'net'           => $net,
             'howToTest'     => $howToTest
@@ -56,7 +56,7 @@ class CollectionController extends Controller
 
     /**
      * count number of rows on db table
-     * 
+     *
      * @param String $table
      * @return Int|false
      */
@@ -68,7 +68,7 @@ class CollectionController extends Controller
 
     /**
      * Ajax from DataTables with db view
-     * 
+     *
      * @param String $table
      * @return DataTables
      */
@@ -84,14 +84,14 @@ class CollectionController extends Controller
 
     /**
      * From request, call Entity creation and return error if class doesn't exists
-     * 
+     *
      * @param Request $request
      */
     public function factoryToTableView(Request $request)
     {
 
         $searchedEntity = $request->input('factory');
-        
+
         $entityFactory = $this->createEntityAndViewTable($searchedEntity);
 
         if(!$entityFactory){
@@ -107,7 +107,7 @@ class CollectionController extends Controller
 
     /**
      * create an Entity from a string
-     * 
+     *
      * @param String $entity
      * @return EntityFactory|false
      */
@@ -120,8 +120,8 @@ class CollectionController extends Controller
         $namespace = "CsCannon'";
         $string = addslashes($namespace) . $entity;
         $factory = str_replace("'", "", $string);
-        
-        
+
+
         if(is_subclass_of($factory, 'SandraCore\EntityFactory')){
 
             if(strtolower($factory) == strtolower('CsCannon\AssetCollectionFactory')){
@@ -155,7 +155,7 @@ class CollectionController extends Controller
 
     /**
      * create Table from object EntityFactory
-     * 
+     *
      * @param EntityFactory $entity
      * @return View
      */
@@ -175,14 +175,14 @@ class CollectionController extends Controller
             'table'     => $className
         ]);
     }
-    
+
 
 
     /**
      * return Json for client side DataTables
-     * 
+     *
      * @param String $tableName
-     * @return Array
+     * @return array
      */
     public function dbToJson(string $tableName)
     {

@@ -44,20 +44,18 @@ class DatasourcesStringController extends Controller
 
     /**
      * Find the compatibles datasources depend of function
-     * 
-     * @param Array $datasources
+     *
+     * @param array $datasources
      * @param String $function
-     * 
-     * @return Array with the compatibles datasources
+     *
+     * @return array with the compatibles datasources
      */
     public static function getCompatiblesDataSources(string $net, string $function){
 
         $myNet = str_replace(' ', '_', $net);
 
         // get Datasources from net
-        $datasources = json_decode(json_encode(
-            BlockchainController::getDatasourcesFromNet($myNet)
-        ), true);
+        $datasources = BlockchainController::getDatasourcesFromNet($myNet);
 
         // determine the compatibles datasources
         if($function === 'getBalance'){
@@ -72,17 +70,17 @@ class DatasourcesStringController extends Controller
         }
 
         $dataSourcesArray = array();
-        
+
         // return an array datasource => url
         foreach($datasources as $datasource){
-            
+
             if(in_array($datasource['name'], $compatibles)){
-                
+
                 $dataSourcesArray[$datasource['name']] = self::$functionToCall($datasource['name']);
 
             }
         }
-        
+
         return $dataSourcesArray;
     }
 
@@ -90,12 +88,12 @@ class DatasourcesStringController extends Controller
 
     /**
      * return the good header for the curl request
-     * 
+     *
      * @param String $function
      * @param String $datasource
      * @param String $address
-     * 
-     * @return Array header
+     *
+     * @return array header
      */
     public static function findHeader(string $function, string $datasource, string $address){
 
@@ -139,7 +137,7 @@ class DatasourcesStringController extends Controller
 
     /**
      * return datasource object for CsCannon functions
-     * 
+     *
      * @param String $datasource
      */
     public static function getDatasourceClass(string $datasource){
@@ -199,7 +197,7 @@ class DatasourcesStringController extends Controller
 
     /**
      * find the url for getBalance
-     * 
+     *
      * @param String $datasource
      */
     public static function getDatasourceUrlBalance(string $datasource){
@@ -263,14 +261,14 @@ class DatasourcesStringController extends Controller
 
         }
     }
-    
+
 
     /**
      * find the url for TxHistory
-     * 
+     *
      * @param String $datasource
-     * 
-     * @return Url
+     *
+     * @return String
      */
     public static function getDatasourceUrlTxHistory(string $datasource){
 

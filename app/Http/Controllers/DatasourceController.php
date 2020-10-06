@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Validator;
 use Illuminate\Http\Request;
 
@@ -10,29 +11,28 @@ class DatasourceController extends Controller
 
     /**
      * Find the compatibles datasources and url, can make a curl request
-     * 
+     *
      * @param String $address Blockchain address
-     * @param String $blockchain Blockchain name     
+     * @param String $net Net name
      * @param String $function Function name
-     * @param Bool $curlCall True for curl request, false for have only datasources names
-     * 
-     * @return Array of datasources or curl result
+     *
+     * @return array of datasources or curl result
      */
     public function callDatasources(string $address, string $net, string $function){
 
         // find the url of datasources
         $datasourceUrls = DatasourcesStringController::getCompatiblesDataSources($net, $function);
-        
+
         $datasourceResult = array();
 
         foreach($datasourceUrls as $datasourceName => $datasourceUrl){
-            
+
             // add $address in url
             $urlToCall = str_replace('{address}', $address, $datasourceUrl);
             // header for curl
             $headers = DatasourcesStringController::findHeader($function, $datasourceName, $address);
 
-            
+
             $startTime = microtime(true);
 
             $result = CurlController::curlCreator($urlToCall, $headers);
@@ -40,7 +40,7 @@ class DatasourceController extends Controller
             $endTime = microtime(true);
             $timeForRequest = ['time' => round(($endTime - $startTime), 5)];
 
-            
+
             if(!is_null($result)){
 
                 $datasourceResult[$datasourceName] = $result;
@@ -49,19 +49,14 @@ class DatasourceController extends Controller
 
                 $datasourceResult[$datasourceName] = 'Something is bad with this request';
             }
-            
+
         }
-        
+
         return $datasourceResult;
     }
 
 
 
-    /**
-     * call each datasources compatibles with curl
-     * 
-     * @param Request POST
-     */
     public function testCurlDatasources(Request $request){
 
         $datas = $request->all();
@@ -74,22 +69,21 @@ class DatasourceController extends Controller
         ]);
 
         $errors = $validator->messages();
-        
+
         if($validator->fails()){
 
             return view('blockchain/index', [
                 'howToTest'     => $request->input('howToTest'),
                 'blockchains'   => BlockchainController::getBlockchains()
             ])
-            ->withErrors($errors)
-            ->withInput();
+            ->withErrors($errors);
         }
 
         $net = $request->input('net');
         $function = $request->input('function');
-       
+
         $datasourceToCall = DatasourcesStringController::getCompatiblesDataSources($net, $function);
-        
+
         return view('datasource/results', [
             'datasources'   => $datasourceToCall,
             'function'      => $function,
@@ -105,10 +99,11 @@ class DatasourceController extends Controller
 
     /**
      * Curl request for Ajax
-     * 
-     * @param String $address Blockchain address
-     * @param String $blockchain Blockchain name     
-     * @param String $function Function name
+     * @param String $net
+     * @param String $function
+     * @param String $address
+     *
+     * @return JsonResponse
      */
     public function dataSourceJson(string $net, string $function, string $address){
 
