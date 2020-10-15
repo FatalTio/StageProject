@@ -27,7 +27,7 @@
 
             @foreach($datasources as $name => $url)
 
-                    <a class="nav-item nav-link {{ $i == 0 ? 'active ' : '' }} navItem text-light" id="{{ 'nav-' . $name . '-tab'}}" 
+                    <a class="nav-item nav-link {{ $i == 0 ? 'active ' : '' }} navItem text-light" id="{{ 'nav-' . $name . '-tab'}}"
                     data-toggle="tab" href="#{{ 'nav-' . $name }}" role="tab" aria-controls="{{ 'nav-' . $name }}" aria-selected="{{ $i == 0 ? 'true' : 'false' }}">
                         {{ $name }}
                     </a>
@@ -41,12 +41,12 @@
 
     <div class="tab-content container-fluid col-8 offset-2" id="tabContent">
 
-        @php $i = 0; @endphp
+        @php $count = 0; @endphp
 
         @foreach ($datasources as $name => $url )
 
-            <div class="tab-pane fade {{ $i == 0 ? 'active show ' : '' }}overflow-auto" id="{{ 'nav-' . $name }}" role="tabpanel" aria-labelledby="{{ 'nav-' . $name . '-tab'}}">
-            
+            <div class="tab-pane fade {{ $count == 0 ? 'active show ' : '' }}overflow-auto" id="{{ 'nav-' . $name }}" role="tabpanel" aria-labelledby="{{ 'nav-' . $name . '-tab'}}">
+
                 <pre class="jsonContent text-success bg-dark">
 
                     <div class="spinner-border text-success"></div>
@@ -55,11 +55,10 @@
                 </pre>
 
             </div>
-            
-            @php $i ++; @endphp
+            @php $count ++; @endphp
 
         @endforeach
-        
+
     </div>
 
 

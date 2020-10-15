@@ -1,7 +1,7 @@
 jQuery(document).ready(function($){
 
     // limit for automatically switch to serverSide
-    const limitRowsForClient = 5000;
+    const limitRowsForClient = 5;
 
     // for switch client or serverSide DataTable
     let server = false;
@@ -12,9 +12,9 @@ jQuery(document).ready(function($){
 
         const references = refMap.replace('[', '').replace(']', '');
         const refColumns = references.split(',');
-    
+
         let columnsArray = [];
-        
+
         // create array with all columns, from refMap
         refColumns.forEach(element => {
             str = element.replace(/^"(.*)"$/, '$1');
@@ -22,7 +22,7 @@ jQuery(document).ready(function($){
                 columnsArray.push({ title: str, data: str })
             }
         });
-    
+
         // Ajax for have count of db table and determine client or server side
         $.ajax({
             url: '/count/' + table,
@@ -42,9 +42,9 @@ jQuery(document).ready(function($){
                 }
             },
             error: function (jqXHR, exception){
-    
+
                 $msg = '';
-    
+
                 if (jqXHR.status === 0) {
                     msg = 'Not connect.\n Verify Network.';
                 } else if (jqXHR.status == 404) {
@@ -61,18 +61,18 @@ jQuery(document).ready(function($){
                 $('#jsonAlert').slideDown(500).html($msg);
             }
         })
-    
-    
+
+
         // Manually switch client or server side
         $('.switchTables').on('click', (e)=>{
-    
+
             const buttonId = $(e.currentTarget).attr('id');
-    
+
             if(buttonId == 'serverSide' && server === false){
                 createNewTable();
                 ajaxServerSide();
                 server = true;
-    
+
             }else if(buttonId == 'clientSide' && server === true){
                 createNewTable();
                 ajaxClientSide();
@@ -93,6 +93,7 @@ jQuery(document).ready(function($){
             $('#factoryTable').DataTable({
                 processing: true,
                 serverSide: true,
+                paging: true,
                 ajax: '/view/' + table,
                 columns: columnsArray,
             })
@@ -110,6 +111,6 @@ jQuery(document).ready(function($){
 
     }
 
-    
+
 
 })

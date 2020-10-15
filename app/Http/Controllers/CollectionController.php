@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use CsCannon\AssetCollectionFactory;
 use CsCannon\SandraManager;
 use Illuminate\View\View;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use SandraCore\System;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 use CsCannon\AssetFactory;
 use Exception;
 use ReflectionClass;
@@ -16,6 +16,16 @@ use SandraCore\EntityFactory;
 
 class CollectionController extends Controller
 {
+
+    public function testView()
+    {
+
+        $assetFactory = new AssetFactory();
+        $assetFactory->populateLocal();
+
+        return $this->viewFromObject($assetFactory);
+
+    }
 
 
     public function htmlTableView(Request $request)
@@ -70,7 +80,7 @@ class CollectionController extends Controller
      * Ajax from DataTables with db view
      *
      * @param String $table
-     * @return DataTables
+     * @return \Yajra\DataTables\Facades\DataTables
      */
     public function tableAjax(string $table)
     {
