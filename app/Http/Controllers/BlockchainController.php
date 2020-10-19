@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -14,6 +15,7 @@ class BlockchainController extends Controller
         $datasources = DB::table('datasources')
                         ->select()
                         ->get();
+
 
         return view('index', [
             'datasources'   => $datasources
@@ -74,6 +76,8 @@ class BlockchainController extends Controller
 
         return $blockchain->toArray();
     }
+
+
 
 
 }

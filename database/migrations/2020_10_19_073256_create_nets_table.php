@@ -15,8 +15,8 @@ class CreateNetsTable extends Migration
     {
         Schema::create('nets', function (Blueprint $table) {
             $table->id('net_id');
-            $table->char('name', 100);
-            $table->integer('nets_blockchain_id')->unsigned();
+            $table->string('name');
+            $table->integer('nets_blockchain_id');
         });
     }
 

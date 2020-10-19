@@ -15,8 +15,8 @@ class CreateDatasourcesTable extends Migration
     {
         Schema::create('datasources', function (Blueprint $table) {
             $table->id('datasource_id');
-            $table->char('name', 100);
-            $table->integer('datasource_net_id')->unsigned();
+            $table->string('name');
+            $table->integer('datasource_net_id');
         });
     }
 

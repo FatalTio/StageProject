@@ -14,8 +14,8 @@ class CreateBlockchainsTable extends Migration
     public function up()
     {
         Schema::create('blockchains', function (Blueprint $table) {
-            $table->id('id');
-            $table->char('name', 100);
+            $table->id('blockchain_id');
+            $table->string('name');
         });
     }
 

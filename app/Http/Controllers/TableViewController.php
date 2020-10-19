@@ -43,6 +43,7 @@ class TableViewController extends Controller
 
             return DB::table(self::getTableName($table))
                 ->select('*')
+//                ->paginate(10)
                 ->get();
         }
 

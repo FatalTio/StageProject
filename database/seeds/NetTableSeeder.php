@@ -25,6 +25,7 @@ class NetTableSeeder extends Seeder
             ['net_id' => 8, 'name' => 'Klaytn_mainnet', 'nets_blockchain_id' => 4]
         ];
 
+
         DB::table('nets')->insert($nets);
     }
 }

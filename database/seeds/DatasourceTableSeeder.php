@@ -26,6 +26,7 @@ class DatasourceTableSeeder extends Seeder
             ['datasource_id' => 9, 'name' => 'BaobabProvider', 'datasource_net_id' => 8]
         ];
 
+
         DB::table('datasources')->insert($datasources);
     }
 }

@@ -15,10 +15,10 @@ class BlockchainTableSeeder extends Seeder
         DB::table('blockchains')->delete();
 
         $blockchains = [
-            ['id' => 1 ,'name' => 'Bitcoin'],
-            ['id' => 2 ,'name' => 'Ethereum'],
-            ['id' => 3 ,'name' => 'Counterparty'],
-            ['id' => 4 ,'name' => 'Klaytn']
+            ['blockchain_id' => 1 ,'name' => 'Bitcoin'],
+            ['blockchain_id' => 2 ,'name' => 'Ethereum'],
+            ['blockchain_id' => 3 ,'name' => 'Counterparty'],
+            ['blockchain_id' => 4 ,'name' => 'Klaytn']
         ];
 
         DB::table('blockchains')->insert($blockchains);
