@@ -121,12 +121,12 @@ class CscDatasourcesController extends Controller
         // call the differents datasources
         foreach($datasources as $datasource){
 
-            $myDatasource = DatasourcesStringController::getDatasourceClass($datasource['name']);
+            $myDatasource = DatasourcesStringController::getDatasourceClass($datasource->name);
 
             if($myDatasource != null){
 
                 $addressToQuery->setDataSource($myDatasource);
-                $results[$datasource['name']] = self::callFunction($addressToQuery, $function);
+                $results[$datasource->name] = self::callFunction($addressToQuery, $function);
             }
         }
 

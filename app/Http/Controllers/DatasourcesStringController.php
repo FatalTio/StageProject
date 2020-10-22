@@ -74,9 +74,9 @@ class DatasourcesStringController extends Controller
         // return an array datasource => url
         foreach($datasources as $datasource){
 
-            if(in_array($datasource['name'], $compatibles)){
+            if(in_array($datasource->name, $compatibles)){
 
-                $dataSourcesArray[$datasource['name']] = self::$functionToCall($datasource['name']);
+                $dataSourcesArray[$datasource->name] = self::$functionToCall($datasource->name);
 
             }
         }
