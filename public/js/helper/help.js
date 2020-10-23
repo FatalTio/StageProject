@@ -1,5 +1,8 @@
 jQuery(document).ready(function($){
 
+    $divsToShow = $('#guideDiv, #greyBgc');
+    $closeGuide = $('#closeGuide');
+
     function getCookiesArray(){
 
         let cookies = [];
@@ -27,19 +30,12 @@ jQuery(document).ready(function($){
 
     function showDiv(bool){
         if(bool === false){
-            console.log('false');
-            setTimeout(function(e){
-                $('#greyBgc, #guideDiv').fadeIn(500);
-            },1000);
+            $divsToShow.fadeIn(500);
         }else{
-            console.log('true');
-            $('#greyBgc, #guideDiv').fadeOut(500);
+            $divsToShow.fadeOut(500);
         }
     }
 
-
-    $divsToShow = $('#guideDiv, #greyBgc');
-    $closeGuide = $('#closeGuide');
 
     $closeGuide.mouseover(()=>{
         $closeGuide.addClass('rotateCross');
@@ -60,6 +56,8 @@ jQuery(document).ready(function($){
             document.cookie = 'no_message=true';
             $divsToShow.fadeOut(500);
             showDiv(true);
+        }else{
+            $divsToShow.fadeOut(500);
         }
     })
 
