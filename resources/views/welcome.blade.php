@@ -12,6 +12,11 @@
 
 <body>
 
+{{--    @if(Cookie::get('dontShow') != 'true')--}}
+{{--        @include('components/guide')--}}
+{{--    @endif--}}
+    @include('components/guide')
+
     <header>
         @include('components/header')
     </header>

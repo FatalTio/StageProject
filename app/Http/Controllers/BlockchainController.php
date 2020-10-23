@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,10 +28,7 @@ class BlockchainController extends Controller
 
     public function dontShowGuide(string $dontShow){
 
-        if($dontShow == 'true'){
-            return response('true')->withCookie(cookie('dontShow', 'true'));
-        }
-        return response('false');
+        return response($dontShow)->withCookie(cookie('dontShow', $dontShow));
     }
 
 

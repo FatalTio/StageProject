@@ -2,11 +2,7 @@
 
 @section('content')
 
-    <link rel="stylesheet" href="{{ asset('styles/index.css') }}">>
-
-    @if(Cookie::get('dontShow') != 'true')
-        @include('components/guide')
-    @endif
+    <link rel="stylesheet" href="{{ asset('styles/index.css') }}">
 
     <div class="container text-center mt-5 pt-5 text-warning">
 
