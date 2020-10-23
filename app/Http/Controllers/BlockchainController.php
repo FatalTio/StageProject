@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class BlockchainController extends Controller
 {
@@ -21,6 +22,18 @@ class BlockchainController extends Controller
             'datasources'   => $datasources
         ]);
     }
+
+
+
+    public function dontShowGuide(string $dontShow){
+
+        if($dontShow == 'true'){
+            return response('true')->withCookie(cookie('dontShow', 'true'));
+        }
+        return response('false');
+    }
+
+
 
     public static function getBlockchains(){
 

@@ -41,7 +41,13 @@
         La partie "HTML Tables" vous permet de visualiser sous forme de table HTML vos views en database
     </p>
 
+    <div id="inputDiv" class="container">
+        <div class="col-6 offset-3">
+            <input type="radio" name="dontShow" id="dontShow" value="dontShow">
+            <label for="dontShow">Ne plus afficher ce message</label>
+        </div>
 
-    <button id="acceptButton" class="btn btn-success col-4">J'ai compris !</button>
+        <button id="acceptButton" class="btn btn-success col-6">J'ai compris !</button>
+    </div>
 
 </div>

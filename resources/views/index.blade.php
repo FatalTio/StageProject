@@ -4,7 +4,9 @@
 
     <link rel="stylesheet" href="{{ asset('styles/index.css') }}">>
 
-    @include('components/guide')
+    @if(Cookie::get('dontShow') != 'true')
+        @include('components/guide')
+    @endif
 
     <div class="container text-center mt-5 pt-5 text-warning">
 

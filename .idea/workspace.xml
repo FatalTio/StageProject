@@ -20,13 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f84d57c-5eb0-4f4c-8a6a-579681c7c35a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/components/guide.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CscDatasourcesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CscDatasourcesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BlockchainController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BlockchainController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/styles/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/styles/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/blockchain/balance_results.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/blockchain/balance_results.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/guide.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/guide.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,7 +193,7 @@
       <workItem from="1602677618373" duration="8011000" />
       <workItem from="1602745584544" duration="3965000" />
       <workItem from="1603092352164" duration="3821000" />
-      <workItem from="1603437292556" duration="5677000" />
+      <workItem from="1603437292556" duration="9002000" />
     </task>
     <task id="LOCAL-00001" summary="change curl request">
       <created>1601997881913</created>
@@ -216,7 +216,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603361340746</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="add guide div to index">
+      <created>1603443074113</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1603443074113</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,7 +246,8 @@
     <MESSAGE value="change curl request" />
     <MESSAGE value="add yajra/DataTables" />
     <MESSAGE value="fix bug and change form picture" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix bug and change form picture" />
+    <MESSAGE value="add guide div to index" />
+    <option name="LAST_COMMIT_MESSAGE" value="add guide div to index" />
   </component>
   <component name="WindowStateProjectService">
     <state x="841" y="439" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1603095237065">
@@ -259,11 +267,11 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="503" height="446" key="SwitcherDM/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1603438587034" />
-    <state x="2472" y="253" key="Vcs.Push.Dialog.v2" timestamp="1603361348295">
+    <state x="2472" y="253" key="Vcs.Push.Dialog.v2" timestamp="1603443078799">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.-128.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1602746356427" />
-    <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1603361348295" />
+    <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1603443078799" />
     <state x="2697" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603360974339">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>

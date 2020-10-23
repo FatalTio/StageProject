@@ -27,8 +27,24 @@ jQuery(document).ready(function($){
         $('#closeGuide').removeClass('rotateCross');
     })
 
-    $('#closeGuide, #acceptButton').on('click', ()=>{
+    $('#closeGuide').on('click', () => {
         $('#guideDiv, #greyBgc').fadeOut(500);
+    })
+
+    $('#acceptButton').on('click', () => {
+        if($('#dontShow').is(':checked')){
+
+            $.ajax({
+                url: '/dontShow/true',
+                type: 'get',
+                success: function(response){
+                    $('#guideDiv, #greyBgc').fadeOut(500);
+                    console.log(response);
+                },
+            })
+        }else{
+            $('#guideDiv, #greyBgc').fadeOut(500);
+        }
     })
 
 });
