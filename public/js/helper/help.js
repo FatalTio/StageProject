@@ -10,6 +10,7 @@ jQuery(document).ready(function($){
         if(document.cookie && document.cookie != ''){
             const split = document.cookie.split(';');
             for(i=0; i<split.length; i++){
+
                 const newSplit = split[i].split('=');
                 newSplit[0] = newSplit[0].replace(/^ /, '')
                 cookies[newSplit[0]] = newSplit[1];

@@ -19,8 +19,6 @@ Route::get('/init', 'AppController@init');
 
 Route::get('/index', 'BlockchainController@index');
 
-Route::get('/dontShow/{dontShow}', 'BlockchainController@dontShowGuide');
-
 
 // POST for the form
 Route::post('/dataSourceTests', 'DatasourceController@testCurlDatasources');

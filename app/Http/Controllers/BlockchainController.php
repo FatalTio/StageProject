@@ -25,14 +25,6 @@ class BlockchainController extends Controller
     }
 
 
-
-    public function dontShowGuide(string $dontShow){
-
-        return response($dontShow)->withCookie(cookie('dontShow', $dontShow));
-    }
-
-
-
     public static function getBlockchains(){
 
         $blockchains = DB::table('blockchains')
