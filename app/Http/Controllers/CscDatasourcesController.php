@@ -170,6 +170,8 @@ class CscDatasourcesController extends Controller
             $endTime = microtime(true);
             $timeForRequest = round(($endTime - $startTime), 5);
 
+            $contractArray = [];
+
             foreach($cscResponse->contracts as $blockchain){
 
                 foreach($blockchain as $name => $contract){

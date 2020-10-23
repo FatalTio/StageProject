@@ -4,13 +4,15 @@
 
     <link rel="stylesheet" href="{{ asset('styles/index.css') }}">>
 
+    @include('components/guide')
+
     <div class="container text-center mt-5 pt-5 text-warning">
 
         <h1 class="mainPage">Welcome to CsCannon Test</h1>
 
         <h3 class="mainPage">Here you can determine which Datasource or CsCannon's function to use</h3>
 
-        <h5 class="mainPage mt-5">Select an option for start the test<h5>
+        <h5 class="mainPage mt-5">Select an option for start the test</h5>
 
     </div>
 

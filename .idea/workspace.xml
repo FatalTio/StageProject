@@ -19,21 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="184e903b-413b-4f70-97d6-fb558e40bbe3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Blockchain.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Datasource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Net.php" afterDir="false" />
+    <list default="true" id="2f84d57c-5eb0-4f4c-8a6a-579681c7c35a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/views/components/guide.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AppController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BlockchainController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BlockchainController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TableViewController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TableViewController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_14_071355_create_blockchains_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_10_19_072847_create_blockchains_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_14_071411_create_nets_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_10_19_073256_create_nets_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_14_071425_create_datasources_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_10_19_073007_create_datasources_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/BlockchainTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/BlockchainTableSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/DatasourceTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatasourceTableSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/NetTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/NetTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CscDatasourcesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CscDatasourcesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/styles/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/styles/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/blockchain/balance_results.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/blockchain/balance_results.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,7 +178,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="184e903b-413b-4f70-97d6-fb558e40bbe3" name="Default Changelist" comment="" />
+      <changelist id="2f84d57c-5eb0-4f4c-8a6a-579681c7c35a" name="Default Changelist" comment="" />
       <created>1601882929727</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -200,6 +193,7 @@
       <workItem from="1602677618373" duration="8011000" />
       <workItem from="1602745584544" duration="3965000" />
       <workItem from="1603092352164" duration="3821000" />
+      <workItem from="1603437292556" duration="5677000" />
     </task>
     <task id="LOCAL-00001" summary="change curl request">
       <created>1601997881913</created>
@@ -215,7 +209,14 @@
       <option name="project" value="LOCAL" />
       <updated>1602746343537</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="fix bug and change form picture">
+      <created>1603361340746</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1603361340746</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,7 +238,8 @@
     <MESSAGE value="commit before pull" />
     <MESSAGE value="change curl request" />
     <MESSAGE value="add yajra/DataTables" />
-    <option name="LAST_COMMIT_MESSAGE" value="add yajra/DataTables" />
+    <MESSAGE value="fix bug and change form picture" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug and change form picture" />
   </component>
   <component name="WindowStateProjectService">
     <state x="841" y="439" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1603095237065">
@@ -253,13 +255,23 @@
     </state>
     <state x="686" y="211" key="FileChooserDialogImpl/-1920.-128.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1601997753978" />
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1601987440698" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1602746356427">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="503" height="446" key="SwitcherDM" timestamp="1603438587034">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="503" height="446" key="SwitcherDM/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1603438587034" />
+    <state x="2472" y="253" key="Vcs.Push.Dialog.v2" timestamp="1603361348295">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.-128.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1602746356427" />
-    <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1602748399845">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1603361348295" />
+    <state x="2697" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603360974339">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/-1920.-128.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1602748399845" />
+    <state x="2697" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1603360974339" />
+    <state x="2536" y="240" key="run.anything.popup" timestamp="1603437950439">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2536" y="240" key="run.anything.popup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1603437950439" />
   </component>
 </project>

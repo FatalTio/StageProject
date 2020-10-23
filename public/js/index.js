@@ -1,5 +1,8 @@
-// $.noConflict();
 jQuery(document).ready(function($){
+
+    setTimeout(function(e){
+        $('#greyBgc, #guideDiv').fadeIn(500);
+    },1000);
 
     $('.buttonShow').mouseover(display = (e)=>{
 
@@ -15,4 +18,17 @@ jQuery(document).ready(function($){
         $('.buttonShow').attr('data-open', $divToShow);
 
     })
+
+    $('#closeGuide').mouseover(()=>{
+        $('#closeGuide').addClass('rotateCross');
+    })
+
+    $('#closeGuide').mouseleave(()=>{
+        $('#closeGuide').removeClass('rotateCross');
+    })
+
+    $('#closeGuide, #acceptButton').on('click', ()=>{
+        $('#guideDiv, #greyBgc').fadeOut(500);
+    })
+
 });

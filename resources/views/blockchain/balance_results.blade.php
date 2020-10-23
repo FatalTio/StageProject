@@ -15,14 +15,14 @@
             <h3 class="text-center text-warning font-weight-bold mt-3">With {{ $name }} :</h3>
 
             <h2 class="text-center text-warning font-weight-bold mt-3"> {{ $result ? 'This request responds in ' . $result['time'] : 'This request find nothing !' }}</h2>
-            
+
 
             @if($result)
 
-                <a href="{{ url('/viewJson', ['datasource' => $name, 'function' => $function, 'address' => $address]) }}" target="_blank" type="button" 
-                    class="btn btn-outline-success font-weight-bold col-4 offset-4 mt-3">
-                        View the Json result
-                </a>
+{{--                <a href="{{ url('/viewJson', ['datasource' => $name, 'function' => $function, 'address' => $address]) }}" target="_blank" type="button" --}}
+{{--                    class="btn btn-outline-success font-weight-bold col-4 offset-4 mt-3">--}}
+{{--                        View the Json result--}}
+{{--                </a>--}}
             @else
                 <a href="{{ url('functionsTest', ['howToTest' => $howTotest]) }}" class="btn btn-outline-danger font-weight-bold col-4 offset-4 mt-5">
                     Back to the research
@@ -46,7 +46,7 @@
 
                     @foreach($result['contracts'] as $index => $contracts)
 
-                        <button data-toggle="popover" data-placement="right" data-content="{{ count($contracts) }} contract(s) }}" 
+                        <button data-toggle="popover" data-placement="right" data-content="{{ count($contracts) }} contract(s) }}"
                             data-value="{{ $index }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
 
                             {{ $index }}
@@ -81,7 +81,7 @@
 
                     @foreach($result['collections'] as $collection)
 
-                        <button data-toggle="popover" data-placement="right" data-content="{{ count($collection['orbs']) }} contract(s)" 
+                        <button data-toggle="popover" data-placement="right" data-content="{{ count($collection['orbs']) }} contract(s)"
                             data-value="{{ $collection['id'] }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
 
                             {{ $collection['id'] }}
@@ -116,7 +116,7 @@
 
                     @foreach($result['results'] as $contractName => $contracts)
 
-                        <button data-toggle="popover" data-placement="right" data-content="{{ count($contracts) }} contract(s)" 
+                        <button data-toggle="popover" data-placement="right" data-content="{{ count($contracts) }} contract(s)"
                             data-value="{{ $contractName }}" class="contractButton btn btn-outline-warning font-weight-bold col-6 offset-3 mt-3">
 
                             {{ $contractName }}
