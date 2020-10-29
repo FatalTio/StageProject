@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class BlockchainController extends Controller
 {

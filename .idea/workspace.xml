@@ -23,7 +23,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BlockchainController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BlockchainController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/helper/help.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/helper/help.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +190,9 @@
       <workItem from="1602677618373" duration="8011000" />
       <workItem from="1602745584544" duration="3965000" />
       <workItem from="1603092352164" duration="3821000" />
-      <workItem from="1603437292556" duration="18337000" />
+      <workItem from="1603437292556" duration="18967000" />
+      <workItem from="1603699334553" duration="3127000" />
+      <workItem from="1603978971748" duration="786000" />
     </task>
     <task id="LOCAL-00001" summary="change curl request">
       <created>1601997881913</created>
@@ -242,7 +243,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603460948567</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="delete useless function in BlockchainController.php">
+      <created>1603461659770</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1603461659770</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -269,7 +277,8 @@
     <MESSAGE value="add cookie for show guide.blade.php or not" />
     <MESSAGE value="change gestion of cookies for help content" />
     <MESSAGE value="light fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="light fix" />
+    <MESSAGE value="delete useless function in BlockchainController.php" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete useless function in BlockchainController.php" />
   </component>
   <component name="WindowStateProjectService">
     <state x="841" y="439" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1603095237065">
@@ -289,11 +298,11 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="503" height="446" key="SwitcherDM/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1603438587034" />
-    <state x="2472" y="253" key="Vcs.Push.Dialog.v2" timestamp="1603460953812">
+    <state x="2472" y="253" key="Vcs.Push.Dialog.v2" timestamp="1603461663944">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.-128.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1602746356427" />
-    <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1603460953812" />
+    <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1603461663944" />
     <state x="2697" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603360974339">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>

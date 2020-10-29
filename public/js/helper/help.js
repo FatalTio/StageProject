@@ -3,6 +3,8 @@ jQuery(document).ready(function($){
     $divsToShow = $('#guideDiv, #greyBgc');
     $closeGuide = $('#closeGuide');
 
+    showDiv(false);
+
     function getCookiesArray(){
 
         let cookies = [];
